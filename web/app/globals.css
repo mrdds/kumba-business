@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #4f46e5;
+  /* Indigo 600 */
+  --color-primary-light: #6366f1;
+  /* Indigo 500 */
+  --color-primary-dark: #4338ca;
+  /* Indigo 700 */
+
+  --color-background: #f8fafc;
+  /* Slate 50 */
+  --color-surface: #ffffff;
+  /* White */
+
+  --color-text-main: #0f172a;
+  /* Slate 900 */
+  --color-text-muted: #64748b;
+  /* Slate 500 */
+  --color-text-light: #94a3b8;
+  /* Slate 400 */
+
+  --color-border: #e2e8f0;
+  /* Slate 200 */
+  --color-border-light: #f1f5f9;
+  /* Slate 100 */
+
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  --font-sans: 'Outfit', 'Inter', system-ui, sans-serif;
+}
+
+/* Base Styles */
+body {
+  background-color: var(--color-background);
+  color: var(--color-text-main);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Utility Components via @layer utilities is not standard in v4 explicit layers but classes work */
+.card {
+  @apply bg-white rounded-xl border border-slate-100 shadow-sm transition-all duration-200;
+}
+
+.btn-primary {
+  @apply bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 transition shadow-sm shadow-indigo-100;
+}
+
+.btn-secondary {
+  @apply bg-white border border-slate-200 text-slate-700 px-4 py-2 rounded-lg font-medium hover:bg-slate-50 transition;
+}
+
+.input-field {
+  @apply w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition outline-none;
+}

@@ -1,0 +1,56 @@
+services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=kumba_businessdb
+      - POSTGRES_USER=kumba_user
+      - POSTGRES_PASSWORD=kumba_password
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kumba_user -d kumba_businessdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  backend:
+    build: ./backend
+    command: /entrypoint.sh daphne -b 0.0.0.0 -p 8000 kumba_backend.asgi:application
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_DB=kumba_businessdb
+      - POSTGRES_USER=kumba_user
+      - POSTGRES_PASSWORD=kumba_password
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - REDIS_HOST=redis
+      - DJANGO_SETTINGS_MODULE=kumba_backend.settings
+      - SECRET_KEY=kumba-insecure-secret-key-dev
+      - DEBUG=1
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  web:
+    build: ./web
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

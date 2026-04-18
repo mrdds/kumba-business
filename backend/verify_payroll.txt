@@ -1,0 +1,62 @@
+Logging in...
+Checking User Profile...
+Me: 200
+{'id': 2, 'email': 'hr_test@demo.com', 'first_name': 'HR', 'last_name': 'Manager', 'phone': '9999999999', 'role': 'OWNER', 'company_name': 'HR Corp', 'company_sector': ''}
+Creating Employee...
+Create Employee: 200
+{'id': 2, 'first_name': 'John', 'last_name': 'Doe', 'email': 'john.doe@company.com', 'phone': '+1234567890', 'position': 'Software Engineer', 'department': 'Engineering', 'hire_date': '2023-01-15', 'base_salary': 75000.0}
+Listing Employees...
+List Employees: 200
+[{'id': 1, 'first_name': 'John', 'last_name': 'Doe', 'email': 'john.doe@company.com', 'phone': '+1234567890', 'position': 'Software Engineer', 'department': 'Engineering', 'hire_date': '2023-01-15', 'base_salary': 75000.0}, {'id': 2, 'first_name': 'John', 'last_name': 'Doe', 'email': 'john.doe@company.com', 'phone': '+1234567890', 'position': 'Software Engineer', 'department': 'Engineering', 'hire_date': '2023-01-15', 'base_salary': 75000.0}]
+Creating Payroll Run...
+Failed to create payroll: 500
+Traceback (most recent call last):
+  File "/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/venv/lib/python3.13/site-packages/ninja_extra/operation.py", line 214, in run
+    _processed_results = self._result_to_response(
+        request, result, ctx.response
+    )
+  File "/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/venv/lib/python3.13/site-packages/ninja/operation.py", line 280, in _result_to_response
+    validated_object = response_model.model_validate(
+        resp_object, context={"request": request, "response_status": status}
+    )
+  File "/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/venv/lib/python3.13/site-packages/pydantic/main.py", line 716, in model_validate
+    return cls.__pydantic_validator__.validate_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        obj,
+        ^^^^
+    ...<5 lines>...
+        by_name=by_name,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+pydantic_core._pydantic_core.ValidationError: 1 validation error for NinjaResponseSchema
+response.created_at
+  Datetimes provided to dates should have zero time - e.g. be exact dates [type=date_from_datetime_inexact, input_value=datetime.datetime(2026, 1...o=datetime.timezone.utc), input_type=datetime]
+    For further information visit https://errors.pydantic.dev/2.12/v/date_from_datetime_inexact
+
+Listing Payrolls...
+Failed to list payrolls: 500
+Traceback (most recent call last):
+  File "/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/venv/lib/python3.13/site-packages/ninja_extra/operation.py", line 214, in run
+    _processed_results = self._result_to_response(
+        request, result, ctx.response
+    )
+  File "/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/venv/lib/python3.13/site-packages/ninja/operation.py", line 280, in _result_to_response
+    validated_object = response_model.model_validate(
+        resp_object, context={"request": request, "response_status": status}
+    )
+  File "/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/venv/lib/python3.13/site-packages/pydantic/main.py", line 716, in model_validate
+    return cls.__pydantic_validator__.validate_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        obj,
+        ^^^^
+    ...<5 lines>...
+        by_name=by_name,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+pydantic_core._pydantic_core.ValidationError: 1 validation error for NinjaResponseSchema
+response.0.created_at
+  Datetimes provided to dates should have zero time - e.g. be exact dates [type=date_from_datetime_inexact, input_value=datetime.datetime(2026, 1...o=datetime.timezone.utc), input_type=datetime]
+    For further information visit https://errors.pydantic.dev/2.12/v/date_from_datetime_inexact
+

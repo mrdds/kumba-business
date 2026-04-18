@@ -1,0 +1,745 @@
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/local/Cellar/python@3.13/3.13.11/Frameworks/Python.framework/Versions/3.13/lib/python3.13/threading.py", line 1044, in _bootstrap_inner
+    self.run()
+    ~~~~~~~~^^
+  File "/usr/local/Cellar/python@3.13/3.13.11/Frameworks/Python.framework/Versions/3.13/lib/python3.13/threading.py", line 995, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/venv/lib/python3.13/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+    ~~^^^^^^^^^^^^^^^^^
+  File "/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/venv/lib/python3.13/site-packages/daphne/management/commands/runserver.py", line 109, in inner_run
+    self.check(display_num_errors=True)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/venv/lib/python3.13/site-packages/django/core/management/base.py", line 496, in check
+    all_issues = checks.run_checks(
+        app_configs=app_configs,
+    ...<2 lines>...
+        databases=databases,
+    )
+  File "/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/venv/lib/python3.13/site-packages/django/core/checks/registry.py", line 89, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+  File "/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/venv/lib/python3.13/site-packages/django/core/checks/urls.py", line 136, in check_custom_error_handlers
+    handler = resolver.resolve_error_handler(status_code)
+  File "/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 732, in resolve_error_handler
+    callback = getattr(self.urlconf_module, "handler%s" % view_type, None)
+                       ^^^^^^^^^^^^^^^^^^^
+  File "/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/venv/lib/python3.13/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 711, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/local/Cellar/python@3.13/3.13.11/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/kumba_backend/urls.py", line 19, in <module>
+    from notifications.api import NotificationController
+  File "/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/notifications/api.py", line 10, in <module>
+    class NotificationOutSchema(Schema):
+    ...<6 lines>...
+        created_at: datetime
+  File "/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/notifications/api.py", line 17, in NotificationOutSchema
+    created_at: datetime
+                ^^^^^^^^
+NameError: name 'datetime' is not defined. Did you forget to import 'datetime'?
+/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/notifications/api.py changed, reloading.
+Performing system checks...
+
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+accounting.Account: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.BankAccount: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.FiscalYear: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.JournalEntry: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.JournalEntryLine: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.TaxRate: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.Transaction: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalDefinition: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalLog: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalRequest: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalStep: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+budgets.Budget: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the BudgetsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+companies.Company: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CompaniesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+crm.Customer: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CrmConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+crm.Supplier: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CrmConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+debts.Debt: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DebtsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.CompanyBranding: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.CreditNote: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.DocumentItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.DocumentTemplate: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.Invoice: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.PurchaseOrder: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.Quote: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.Employee: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.LeaveRequest: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.PayrollRun: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.Payslip: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.SalaryAdvance: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.WorkSite: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.Invoice: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.InvoiceItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.InvoicePayment: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.Quote: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.QuoteItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.RecurringInvoice: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+notifications.Notification: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the NotificationsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+notifications.PushToken: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the NotificationsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+purchasing.PurchaseItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the PurchasingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+purchasing.PurchaseOrder: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the PurchasingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+purchasing.PurchasePayment: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the PurchasingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+tontines.Contribution: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the TontinesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+tontines.TontineGroup: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the TontinesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+tontines.TontineMember: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the TontinesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+users.CustomUser: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the UsersConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+users.PasswordResetToken: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the UsersConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+
+System check identified 45 issues (0 silenced).
+"GET - ConnectController[list_meetings] /api/connect/meetings" 0.06534099578857422
+"GET - HRController[current_employee] /api/hr/me" 0.07249879837036133
+"GET - AuthController[me] /api/auth/me" 0.06890082359313965
+HTTP GET /api/connect/meetings 200 [0.15, 192.168.1.64:61901]
+HTTP GET /api/auth/me 200 [0.15, 192.168.1.64:61903]
+HTTP GET /api/hr/me 200 [0.16, 192.168.1.64:61900]
+"GET - ConnectController[list_conversations] /api/connect/conversations" 0.10330486297607422
+HTTP GET /api/connect/conversations 200 [0.18, 192.168.1.64:61902]
+"GET - ConnectController[list_meetings] /api/connect/meetings" 0.01779794692993164
+"GET - ConnectController[list_meetings] /api/connect/meetings" 0.017016887664794922
+HTTP GET /api/connect/meetings 200 [0.03, 192.168.1.64:61900]
+HTTP GET /api/connect/meetings 200 [0.03, 192.168.1.64:61901]
+"GET - HRController[current_employee] /api/hr/me" 0.009437084197998047
+HTTP GET /api/hr/me 200 [0.02, 192.168.1.64:61900]
+"GET - ConnectController[list_meetings] /api/connect/meetings" 0.017799854278564453
+HTTP GET /api/connect/meetings 200 [0.03, 192.168.1.64:61901]
+"GET - ConnectController[list_conversations] /api/connect/conversations" 0.042868852615356445
+HTTP GET /api/connect/conversations 200 [0.05, 192.168.1.64:61902]
+"GET - ConnectController[list_meetings] /api/connect/meetings" 0.007623910903930664
+HTTP GET /api/connect/meetings 200 [0.01, 192.168.1.64:61900]
+"GET - HRController[get_my_leaves] /api/hr/leaves/me" 0.022792816162109375
+"GET - HRController[get_my_payslips] /api/hr/payslips/me" 0.030427217483520508
+"GET - HRController[current_employee] /api/hr/me" 0.028864145278930664
+HTTP GET /api/hr/leaves/me 200 [0.04, 192.168.1.64:61902]
+HTTP GET /api/hr/payslips/me 200 [0.04, 192.168.1.64:61901]
+HTTP GET /api/hr/me 200 [0.04, 192.168.1.64:61900]
+"GET - HRController[current_employee] /api/hr/me" 0.011774063110351562
+HTTP GET /api/hr/me 200 [0.02, 192.168.1.64:61904]
+"GET - ConnectController[list_meetings] /api/connect/meetings" 0.013233184814453125
+HTTP GET /api/connect/meetings 200 [0.03, 192.168.1.64:61905]
+"GET - ConnectController[list_conversations] /api/connect/conversations" 0.0483241081237793
+HTTP GET /api/connect/conversations 200 [0.06, 192.168.1.64:61906]
+Performing system checks...
+
+March 04, 2026 - 11:36:34
+Django version 5.2.10, using settings 'kumba_backend.settings'
+Starting ASGI/Daphne version 4.2.1 development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}"GET - ConnectController[list_meetings] /api/connect/meetings" 0.05028128623962402
+"GET - HRController[current_employee] /api/hr/me" 0.05861473083496094
+HTTP GET /api/connect/meetings 200 [0.08, 192.168.1.64:61909]
+HTTP GET /api/hr/me 200 [0.09, 192.168.1.64:61908]
+"GET - ConnectController[list_conversations] /api/connect/conversations" 0.08441305160522461
+HTTP GET /api/connect/conversations 200 [0.11, 192.168.1.64:61910]
+"GET - HRController[get_my_leaves] /api/hr/leaves/me" 0.012042999267578125
+"GET - HRController[current_employee] /api/hr/me" 0.015482902526855469
+HTTP GET /api/hr/leaves/me 200 [0.03, 192.168.1.64:61908]
+HTTP GET /api/hr/me 200 [0.03, 192.168.1.64:61909]
+"GET - HRController[current_employee] /api/hr/me" 0.03954505920410156
+"GET - ConnectController[list_meetings] /api/connect/meetings" 0.039041996002197266
+HTTP GET /api/hr/me 200 [0.06, 192.168.1.64:61908]
+HTTP GET /api/connect/meetings 200 [0.06, 192.168.1.64:61909]
+"GET - ConnectController[list_conversations] /api/connect/conversations" 0.07248711585998535
+HTTP GET /api/connect/conversations 200 [0.08, 192.168.1.64:61910]
+"GET - HRController[get_my_payslips] /api/hr/payslips/me" 0.006855964660644531
+HTTP GET /api/hr/payslips/me 200 [0.01, 192.168.1.64:61908]
+"GET - ConnectController[list_meetings] /api/connect/meetings" 0.02611684799194336
+"GET - HRController[current_employee] /api/hr/me" 0.028095006942749023
+HTTP GET /api/connect/meetings 200 [0.04, 192.168.1.64:61909]
+HTTP GET /api/hr/me 200 [0.05, 192.168.1.64:61908]
+"GET - ConnectController[list_conversations] /api/connect/conversations" 0.057367801666259766
+HTTP GET /api/connect/conversations 200 [0.07, 192.168.1.64:61910]
+"GET - HRController[current_employee] /api/hr/me" 0.010977029800415039
+HTTP GET /api/hr/me 200 [0.02, 192.168.1.64:61908]
+"GET - ConnectController[list_meetings] /api/connect/meetings" 0.015733003616333008
+HTTP GET /api/connect/meetings 200 [0.04, 192.168.1.64:61909]
+"GET - ConnectController[list_conversations] /api/connect/conversations" 0.04415583610534668
+HTTP GET /api/connect/conversations 200 [0.06, 192.168.1.64:61910]
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com"GET - HRController[current_employee] /api/hr/me" 0.022841691970825195
+"GET - ConnectController[list_meetings] /api/connect/meetings" 0.022783994674682617
+HTTP GET /api/hr/me 200 [0.04, 192.168.1.64:61911]
+HTTP GET /api/connect/meetings 200 [0.04, 192.168.1.64:61912]
+"GET - ConnectController[list_conversations] /api/connect/conversations" 0.054302215576171875
+HTTP GET /api/connect/conversations 200 [0.06, 192.168.1.64:61913]
+HTTP GET /api/notifications 301 [0.09, 192.168.1.64:61911]
+"GET - NotificationController[list_notifications] /api/notifications/" 0.0050013065338134766
+Unauthorized: /api/notifications/
+HTTP GET /api/notifications/ 401 [0.03, 192.168.1.64:61911]
+"GET - HRController[current_employee] /api/hr/me" 0.018572092056274414
+HTTP GET /api/hr/me 200 [0.02, 192.168.1.64:61918]
+"POST - ConnectController[update_public_key] /api/connect/keys" 0.027675151824951172
+HTTP POST /api/connect/keys 200 [0.04, 192.168.1.64:61918]
+"POST - NotificationController[register_push_token] /api/notifications/push-token" 0.010653972625732422
+HTTP POST /api/notifications/push-token 200 [0.02, 192.168.1.64:61918]
+/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/kumba_id/models.py changed, reloading.
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775088255, 'iat': 1772496255, 'jti': '889cba4d772f47e8ad71e92494920f10', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775217134, 'iat': 1772625134, 'jti': 'bfe981f1a4c54afe9b6a719ff4b968b0', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775217134, 'iat': 1772625134, 'jti': 'bfe981f1a4c54afe9b6a719ff4b968b0', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775217134, 'iat': 1772625134, 'jti': 'bfe981f1a4c54afe9b6a719ff4b968b0', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+accounting.Account: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.BankAccount: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.FiscalYear: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.JournalEntry: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.JournalEntryLine: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.TaxRate: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.Transaction: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalDefinition: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalLog: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalRequest: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalStep: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+budgets.Budget: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the BudgetsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+companies.Company: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CompaniesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+crm.Customer: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CrmConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+crm.Supplier: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CrmConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+debts.Debt: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DebtsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.CompanyBranding: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.CreditNote: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.DocumentItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.DocumentTemplate: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.Invoice: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.PurchaseOrder: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.Quote: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.Employee: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.LeaveRequest: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.PayrollRun: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.Payslip: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.SalaryAdvance: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.WorkSite: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.Invoice: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.InvoiceItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.InvoicePayment: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.Quote: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.QuoteItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.RecurringInvoice: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+notifications.Notification: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the NotificationsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+notifications.PushToken: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the NotificationsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+purchasing.PurchaseItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the PurchasingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+purchasing.PurchaseOrder: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the PurchasingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+purchasing.PurchasePayment: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the PurchasingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+tontines.Contribution: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the TontinesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+tontines.TontineGroup: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the TontinesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+tontines.TontineMember: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the TontinesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+users.CustomUser: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the UsersConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+users.PasswordResetToken: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the UsersConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+
+System check identified 45 issues (0 silenced).
+/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/users/api.py changed, reloading.
+Performing system checks...
+
+March 04, 2026 - 12:17:37
+Django version 5.2.10, using settings 'kumba_backend.settings'
+Starting ASGI/Daphne version 4.2.1 development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+accounting.Account: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.BankAccount: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.FiscalYear: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.JournalEntry: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.JournalEntryLine: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.TaxRate: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.Transaction: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalDefinition: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalLog: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalRequest: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalStep: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+budgets.Budget: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the BudgetsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+companies.Company: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CompaniesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+crm.Customer: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CrmConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+crm.Supplier: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CrmConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+debts.Debt: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DebtsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.CompanyBranding: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.CreditNote: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.DocumentItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.DocumentTemplate: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.Invoice: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.PurchaseOrder: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.Quote: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.Employee: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.LeaveRequest: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.PayrollRun: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.Payslip: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.SalaryAdvance: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.WorkSite: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.Invoice: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.InvoiceItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.InvoicePayment: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.Quote: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.QuoteItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.RecurringInvoice: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+notifications.Notification: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the NotificationsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+notifications.PushToken: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the NotificationsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+purchasing.PurchaseItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the PurchasingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+purchasing.PurchaseOrder: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the PurchasingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+purchasing.PurchasePayment: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the PurchasingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+tontines.Contribution: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the TontinesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+tontines.TontineGroup: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the TontinesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+tontines.TontineMember: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the TontinesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+users.CustomUser: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the UsersConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+users.PasswordResetToken: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the UsersConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+
+System check identified 45 issues (0 silenced).
+"GET - AuthController[me] /api/auth/me" 0.024991989135742188
+HTTP GET /api/auth/me 200 [0.05, 192.168.1.64:61925]
+"GET - HRController[current_employee] /api/hr/me" 0.013176918029785156
+HTTP GET /api/hr/me 200 [0.03, 192.168.1.64:61925]
+"GET - ConnectController[list_meetings] /api/connect/meetings" 0.021265745162963867
+HTTP GET /api/connect/meetings 200 [0.05, 192.168.1.64:61926]
+"GET - ConnectController[list_conversations] /api/connect/conversations" 0.060254812240600586
+HTTP GET /api/connect/conversations 200 [0.08, 192.168.1.64:61927]
+HTTP GET /api/notifications 301 [0.03, 192.168.1.64:61925]
+"GET - NotificationController[list_notifications] /api/notifications/" 0.0003046989440917969
+Unauthorized: /api/notifications/
+HTTP GET /api/notifications/ 401 [0.01, 192.168.1.64:61925]
+/Users/mr.dds/.gemini/antigravity/scratch/kumba-business/backend/notifications/api.py changed, reloading.
+Performing system checks...
+
+March 04, 2026 - 12:17:59
+Django version 5.2.10, using settings 'kumba_backend.settings'
+Starting ASGI/Daphne version 4.2.1 development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775217134, 'iat': 1772625134, 'jti': 'bfe981f1a4c54afe9b6a719ff4b968b0', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775217134, 'iat': 1772625134, 'jti': 'bfe981f1a4c54afe9b6a719ff4b968b0', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+DEBUG: super().authenticate returned: sanogo@webkingholdings.com
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1775217134, 'iat': 1772625134, 'jti': 'bfe981f1a4c54afe9b6a719ff4b968b0', 'user_id': 'sanogo@webkingholdings.com', 'kumba_id': 'KMB385245', 'first_name': 'Sanogo', 'last_name': 'Daouda'}
+DEBUG: user_id_claim (user_id) => sanogo@webkingholdings.com
+DEBUG: KumbaJWTAuth returning user: sanogo@webkingholdings.com
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+accounting.Account: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.BankAccount: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.FiscalYear: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.JournalEntry: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.JournalEntryLine: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.TaxRate: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.Transaction: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalDefinition: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalLog: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalRequest: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalStep: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+budgets.Budget: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the BudgetsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+companies.Company: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CompaniesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+crm.Customer: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CrmConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+crm.Supplier: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CrmConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+debts.Debt: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DebtsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.CompanyBranding: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.CreditNote: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.DocumentItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.DocumentTemplate: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.Invoice: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.PurchaseOrder: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.Quote: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.Employee: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.LeaveRequest: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.PayrollRun: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.Payslip: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.SalaryAdvance: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.WorkSite: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.Invoice: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.InvoiceItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.InvoicePayment: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.Quote: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.QuoteItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.RecurringInvoice: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+notifications.Notification: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the NotificationsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+notifications.PushToken: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the NotificationsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+purchasing.PurchaseItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the PurchasingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+purchasing.PurchaseOrder: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the PurchasingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+purchasing.PurchasePayment: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the PurchasingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+tontines.Contribution: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the TontinesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+tontines.TontineGroup: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the TontinesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+tontines.TontineMember: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the TontinesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+users.CustomUser: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the UsersConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+users.PasswordResetToken: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the UsersConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+
+System check identified 45 issues (0 silenced).

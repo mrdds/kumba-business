@@ -1,0 +1,437 @@
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+accounting.Account: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.BankAccount: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.FiscalYear: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.JournalEntry: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.JournalEntryLine: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.TaxRate: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounting.Transaction: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalDefinition: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalLog: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalRequest: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+approvals.ApprovalStep: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the ApprovalsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+budgets.Budget: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the BudgetsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+companies.Company: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CompaniesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+crm.Customer: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CrmConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+crm.Supplier: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CrmConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+debts.Debt: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DebtsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.CompanyBranding: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.CreditNote: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.DocumentItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.DocumentTemplate: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.Invoice: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.PurchaseOrder: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+documents.Quote: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the DocumentsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.Employee: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.Information: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.LeaveRequest: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.PayrollRun: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.Payslip: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.SalaryAdvance: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+hr.WorkSite: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the HrConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.Invoice: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.InvoiceItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.InvoicePayment: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.Quote: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.QuoteItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+invoicing.RecurringInvoice: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the InvoicingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+notifications.Notification: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the NotificationsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+notifications.PushToken: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the NotificationsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+purchasing.PurchaseItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the PurchasingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+purchasing.PurchaseOrder: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the PurchasingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+purchasing.PurchasePayment: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the PurchasingConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+tontines.Contribution: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the TontinesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+tontines.TontineGroup: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the TontinesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+tontines.TontineMember: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the TontinesConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+users.CustomUser: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the UsersConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+users.PasswordResetToken: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the UsersConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+
+System check identified 46 issues (0 silenced).
+HTTP OPTIONS /api/auth/pair 200 [0.02, 172.20.10.2:56401]
+"POST - KumbaAuthController[obtain_token] /api/auth/pair" 0.5674319267272949
+HTTP POST /api/auth/pair 200 [0.59, 172.20.10.2:56401]
+HTTP OPTIONS /api/auth/me 200 [0.00, 172.20.10.2:56401]
+"GET - AuthController[me] /api/auth/me" 0.010621070861816406
+HTTP GET /api/auth/me 200 [0.02, 172.20.10.2:56401]
+"GET - AuthController[me] /api/auth/me" 0.0063228607177734375
+HTTP GET /api/auth/me 200 [0.02, 172.20.10.2:56401]
+"GET - AuthController[me] /api/auth/me" 0.007339000701904297
+HTTP GET /api/auth/me 200 [0.01, 172.20.10.2:56401]
+"GET - AuthController[me] /api/auth/me" 0.00558781623840332
+HTTP GET /api/auth/me 200 [0.01, 172.20.10.2:56401]
+"GET - AuthController[me] /api/auth/me" 0.00700688362121582
+HTTP GET /api/auth/me 200 [0.01, 172.20.10.2:56401]
+"GET - AuthController[me] /api/auth/me" 0.03711724281311035
+HTTP GET /api/auth/me 200 [0.07, 172.20.10.2:56557]
+"GET - KumbaIDController[ms_me] /api/id/me" 0.07302117347717285
+HTTP GET /api/id/me 200 [0.08, 127.0.0.1:56565]
+"GET - AccountingController[get_dashboard_summary] /api/accounting/dashboard" 0.03874993324279785
+HTTP GET /api/accounting/dashboard 200 [0.06, 127.0.0.1:56566]
+HTTP GET /api/approvals/pending 200 [0.05, 127.0.0.1:56572]
+HTTP GET /api/approvals/pending 200 [0.05, 127.0.0.1:56573]
+"GET - InvoiceController[list_invoices] /api/invoices" 0.024705171585083008
+"GET - InvoiceController[list_invoices] /api/invoices" 0.022156238555908203
+HTTP GET /api/invoices 200 [0.04, 127.0.0.1:56581]
+HTTP GET /api/invoices 200 [0.04, 127.0.0.1:56582]
+"GET - CRMController[list_customers] /api/crm/customers" 0.013958930969238281
+"GET - CRMController[list_customers] /api/crm/customers" 0.012974023818969727
+HTTP GET /api/crm/customers 200 [0.03, 127.0.0.1:56586]
+HTTP GET /api/crm/customers 200 [0.03, 127.0.0.1:56587]
+"GET - CRMController[list_customers] /api/crm/customers" 0.0079498291015625
+"GET - CRMController[list_customers] /api/crm/customers" 0.01045680046081543
+HTTP GET /api/crm/customers 200 [0.02, 127.0.0.1:56594]
+HTTP GET /api/crm/customers 200 [0.02, 127.0.0.1:56595]
+"GET - PurchaseOrderController[list_purchase_orders] /api/purchasing/orders" 0.023356914520263672
+"GET - PurchaseOrderController[list_purchase_orders] /api/purchasing/orders" 0.020972251892089844
+HTTP GET /api/purchasing/orders 200 [0.04, 127.0.0.1:56600]
+HTTP GET /api/purchasing/orders 200 [0.04, 127.0.0.1:56601]
+"GET - CRMController[list_suppliers] /api/crm/suppliers" 0.019975900650024414
+"GET - CRMController[list_suppliers] /api/crm/suppliers" 0.02307415008544922
+HTTP GET /api/crm/suppliers 200 [0.04, 127.0.0.1:56605]
+HTTP GET /api/crm/suppliers 200 [0.04, 127.0.0.1:56604]
+"GET - PurchaseOrderController[list_purchase_orders] /api/purchasing/orders" 0.007534027099609375
+HTTP GET /api/purchasing/orders 200 [0.01, 127.0.0.1:56615]
+"GET - PurchaseOrderController[list_purchase_orders] /api/purchasing/orders" 0.010884284973144531
+HTTP GET /api/purchasing/orders 200 [0.02, 127.0.0.1:56617]
+"GET - HRController[list_work_sites] /api/hr/work-sites" 0.017800331115722656
+"GET - HRController[list_work_sites] /api/hr/work-sites" 0.014742136001586914
+HTTP GET /api/hr/work-sites 200 [0.04, 127.0.0.1:56622]
+HTTP GET /api/hr/work-sites 200 [0.04, 127.0.0.1:56623]
+"GET - AccountingController[get_dashboard_summary] /api/accounting/dashboard" 0.027284860610961914
+HTTP GET /api/accounting/dashboard 200 [0.04, 127.0.0.1:56625]
+"GET - AccountingController[get_dashboard_summary] /api/accounting/dashboard" 0.020607948303222656
+HTTP GET /api/accounting/dashboard 200 [0.03, 127.0.0.1:56627]
+"GET - HRController[list_employees] /api/hr/employees" 0.026887178421020508
+"GET - HRController[list_employees] /api/hr/employees" 0.03153800964355469
+HTTP GET /api/hr/employees 200 [0.04, 127.0.0.1:56636]
+HTTP GET /api/hr/employees 200 [0.04, 127.0.0.1:56635]
+Performing system checks...
+
+March 14, 2026 - 17:22:40
+Django version 5.2.10, using settings 'kumba_backend.settings'
+Starting ASGI/Daphne version 4.2.1 development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds"GET - HRController[list_employees] /api/hr/employees" 0.02733922004699707
+"GET - HRController[list_employees] /api/hr/employees" 0.03190922737121582
+HTTP GET /api/hr/employees 200 [0.05, 127.0.0.1:56640]
+HTTP GET /api/hr/employees 200 [0.04, 127.0.0.1:56641]
+"GET - CRMController[list_customers] /api/crm/customers" 0.020726919174194336
+"GET - CRMController[list_customers] /api/crm/customers" 0.022294044494628906
+HTTP GET /api/crm/customers 200 [0.03, 127.0.0.1:56650]
+HTTP GET /api/crm/customers 200 [0.04, 127.0.0.1:56649]
+"GET - CRMController[list_customers] /api/crm/customers" 0.008420944213867188
+"GET - CRMController[list_customers] /api/crm/customers" 0.010860204696655273
+HTTP GET /api/crm/customers 200 [0.02, 127.0.0.1:56654]
+HTTP GET /api/crm/customers 200 [0.02, 127.0.0.1:56655]
+"GET - PurchaseOrderController[list_purchase_orders] /api/purchasing/orders" 0.008770227432250977
+HTTP GET /api/purchasing/orders 200 [0.02, 127.0.0.1:56657]
+"GET - PurchaseOrderController[list_purchase_orders] /api/purchasing/orders" 0.008658885955810547
+HTTP GET /api/purchasing/orders 200 [0.02, 127.0.0.1:56659]
+"GET - QuoteController[list_quotes] /api/quotes" 0.040766000747680664
+"GET - QuoteController[list_quotes] /api/quotes" 0.04551506042480469
+HTTP GET /api/quotes 200 [0.08, 127.0.0.1:56808]
+HTTP GET /api/quotes 200 [0.08, 127.0.0.1:56807]
+"GET - CRMController[list_customers] /api/crm/customers" 0.009073734283447266
+HTTP GET /api/crm/customers 200 [0.03, 127.0.0.1:56811]
+"GET - CRMController[list_customers] /api/crm/customers" 0.009276866912841797
+HTTP GET /api/crm/customers 200 [0.03, 127.0.0.1:56812]
+"GET - PurchaseOrderController[list_purchase_orders] /api/purchasing/orders" 0.01674509048461914
+"GET - PurchaseOrderController[list_purchase_orders] /api/purchasing/orders" 0.017518281936645508
+HTTP GET /api/purchasing/orders 200 [0.03, 127.0.0.1:56822]
+HTTP GET /api/purchasing/orders 200 [0.03, 127.0.0.1:56823]
+"GET - CRMController[list_suppliers] /api/crm/suppliers" 0.01091623306274414
+HTTP GET /api/crm/suppliers 200 [0.02, 127.0.0.1:56827]
+"GET - CRMController[list_suppliers] /api/crm/suppliers" 0.010155200958251953
+HTTP GET /api/crm/suppliers 200 [0.02, 127.0.0.1:56828]
+"GET - PurchaseOrderController[list_purchase_orders] /api/purchasing/orders" 0.013510942459106445
+"GET - PurchaseOrderController[list_purchase_orders] /api/purchasing/orders" 0.011281967163085938
+HTTP GET /api/purchasing/orders 200 [0.03, 127.0.0.1:56836]
+HTTP GET /api/purchasing/orders 200 [0.02, 127.0.0.1:56837]
+"GET - InvoiceController[list_invoices] /api/invoices" 0.008709907531738281
+HTTP GET /api/invoices 200 [0.02, 127.0.0.1:56839]
+"GET - InvoiceController[list_invoices] /api/invoices" 0.00789499282836914
+HTTP GET /api/invoices 200 [0.02, 127.0.0.1:56841]
+HTTP GET /api/approvals/pending 200 [0.02, 127.0.0.1:56843]
+HTTP GET /api/approvals/pending 200 [0.02, 127.0.0.1:56845]
+"GET - AccountingController[get_dashboard_summary] /api/accounting/dashboard" 0.01556706428527832
+HTTP GET /api/accounting/dashboard 200 [0.02, 127.0.0.1:56847]
+
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}
+DEBUG: user_id_claim (user_id) => sano.daouda96@gmail.com
+DEBUG: KumbaJWTAuth returning user: mrdds
+DEBUG: KumbaJWTAuth.authenticate called with token type: <class 'str'>
+DEBUG: super().authenticate returned: mrdds
+DEBUG: Token payload decoded: {'token_type': 'access', 'exp': 1776101091, 'iat': 1773509091, 'jti': 'f3afeba085794385a1539a93772d85d1', 'user_id': 'sano.daouda96@gmail.com'}"GET - AccountingController[get_dashboard_summary] /api/accounting/dashboard" 0.015362977981567383
+HTTP GET /api/accounting/dashboard 200 [0.02, 127.0.0.1:56849]
+"GET - DebtController[list_debts] /api/debts" 0.038108110427856445
+"GET - DebtController[list_debts] /api/debts" 0.03467202186584473
+HTTP GET /api/debts?type=SUPPLIER 200 [0.06, 127.0.0.1:56857]
+HTTP GET /api/debts?type=SUPPLIER 200 [0.06, 127.0.0.1:56858]
+"GET - DebtController[list_debts] /api/debts" 0.01046895980834961
+HTTP GET /api/debts?type=CLIENT 200 [0.02, 127.0.0.1:56861]
+"GET - DebtController[list_debts] /api/debts" 0.0067577362060546875
+HTTP GET /api/debts?type=SUPPLIER 200 [0.01, 127.0.0.1:56862]
+"GET - CRMController[list_suppliers] /api/crm/suppliers" 0.006874799728393555
+HTTP GET /api/crm/suppliers 200 [0.01, 127.0.0.1:56864]
+Not Found: /api/auth/pair/
+HTTP POST /api/auth/pair/ 404 [0.07, 127.0.0.1:56918]
+HTTP OPTIONS /api/auth/pair 200 [0.01, 172.20.10.2:57022]
+"POST - KumbaAuthController[obtain_token] /api/auth/pair" 401
+Unauthorized: /api/auth/pair
+HTTP POST /api/auth/pair 401 [1.11, 172.20.10.2:57029]
+Not Found: /api/auth/pair/
+HTTP POST /api/auth/pair/ 404 [0.03, 127.0.0.1:57048]
+"GET - KumbaIDController[ms_me] /api/id/me" 0.11628127098083496
+"GET - DebtController[list_debts] /api/debts" 0.13922834396362305
+HTTP GET /api/id/me 200 [0.18, 127.0.0.1:63699]
+HTTP GET /api/debts?type=SUPPLIER 200 [0.20, 127.0.0.1:63698]

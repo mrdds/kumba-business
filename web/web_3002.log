@@ -1,0 +1,58 @@
+
+> web@0.1.0 dev
+> next dev -H 0.0.0.0 -p 3002
+
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/mr.dds/.gemini/antigravity/scratch/kumba-business/package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * /Users/mr.dds/.gemini/antigravity/scratch/kumba-business/web/package-lock.json
+
+▲ Next.js 16.1.4 (Turbopack)
+- Local:         http://localhost:3002
+- Network:       http://0.0.0.0:3002
+
+✓ Starting...
+✓ Ready in 3.8s
+ GET / 200 in 2.8s (compile: 2.4s, render: 367ms)
+⚠ Cross origin request detected from 172.20.10.2 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+ GET / 200 in 177ms (compile: 15ms, render: 162ms)
+ GET / 200 in 107ms (compile: 7ms, render: 100ms)
+ GET / 200 in 96ms (compile: 9ms, render: 87ms)
+✓ Compiled in 290ms
+✓ Compiled in 157ms
+⚠ Fast Refresh had to perform a full reload when ./web/context/AuthContext.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET / 200 in 320ms (compile: 104ms, render: 215ms)
+ GET /dashboard?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2MTAxMDkxLCJpYXQiOjE3NzM1MDkwOTEsImp0aSI6ImYzYWZlYmEwODU3OTQzODVhMTUzOWE5Mzc3MmQ4NWQxIiwidXNlcl9pZCI6InNhbm8uZGFvdWRhOTZAZ21haWwuY29tIn0.rX32AaP4yD8iFE_Yp_k6g50nSoIBf2O_nw42fOaA9kg&refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3NDExMzg5MSwiaWF0IjoxNzczNTA5MDkxLCJqdGkiOiI3YjUwNGQyNDRlYWY0YWMzYmQyNWZlMDBjOWRkYjE1NCIsInVzZXJfaWQiOiJzYW5vLmRhb3VkYTk2QGdtYWlsLmNvbSJ9.6c7GqoTJJIxmeF5XLsrhT3Fwk0qml-hAbrWqoN5vgLA&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2MTAxMDkxLCJpYXQiOjE3NzM1MDkwOTEsImp0aSI6ImYzYWZlYmEwODU3OTQzODVhMTUzOWE5Mzc3MmQ4NWQxIiwidXNlcl9pZCI6InNhbm8uZGFvdWRhOTZAZ21haWwuY29tIn0.rX32AaP4yD8iFE_Yp_k6g50nSoIBf2O_nw42fOaA9kg 200 in 319ms (compile: 143ms, render: 176ms)
+(node:58118) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ GET /approvals 200 in 489ms (compile: 462ms, render: 27ms)
+ GET /invoices 200 in 76ms (compile: 54ms, render: 22ms)
+ GET /invoices/create 200 in 66ms (compile: 42ms, render: 24ms)
+ GET /crm/customers/create 200 in 162ms (compile: 126ms, render: 36ms)
+ GET /crm/customers 200 in 92ms (compile: 58ms, render: 34ms)
+ GET /purchases 200 in 77ms (compile: 49ms, render: 29ms)
+ GET /purchases/create 200 in 68ms (compile: 42ms, render: 25ms)
+ GET /hr/work-sites 200 in 82ms (compile: 51ms, render: 31ms)
+ GET /dashboard 200 in 30ms (compile: 7ms, render: 24ms)
+ GET /hr/employees 200 in 72ms (compile: 45ms, render: 27ms)
+ GET /hr/employees/create 200 in 144ms (compile: 121ms, render: 23ms)
+ GET /hr/employees 200 in 25ms (compile: 6ms, render: 19ms)
+ GET /crm/customers 200 in 23ms (compile: 5ms, render: 18ms)
+ GET /crm/customers/create 200 in 26ms (compile: 4ms, render: 21ms)
+ GET /crm/customers 200 in 26ms (compile: 6ms, render: 21ms)
+ GET /purchases 200 in 27ms (compile: 7ms, render: 20ms)
+ GET /quotes 200 in 145ms (compile: 99ms, render: 46ms)
+ GET /quotes/create 200 in 831ms (compile: 786ms, render: 45ms)
+ GET /bills 200 in 84ms (compile: 55ms, render: 30ms)
+ GET /bills/create 200 in 214ms (compile: 183ms, render: 32ms)
+ GET /purchases 200 in 31ms (compile: 6ms, render: 25ms)
+ GET /invoices 200 in 28ms (compile: 7ms, render: 21ms)
+ GET /approvals 200 in 25ms (compile: 7ms, render: 18ms)
+ GET /dashboard 200 in 27ms (compile: 9ms, render: 19ms)
+ GET /debts 200 in 122ms (compile: 100ms, render: 21ms)
+✓ Compiled in 990ms
+⚠ Fast Refresh had to perform a full reload when ./web/services/api.ts changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /debts 200 in 791ms (compile: 294ms, render: 497ms)
