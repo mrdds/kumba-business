@@ -6,6 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from users.permissions import UserRole
+from users.models import Role
 
 class KumbaUser(AbstractUser):
     class Types(models.TextChoices):
@@ -38,12 +39,13 @@ class KumbaUser(AbstractUser):
     # Business-related fields (ported from CustomUser for compatibility)
     company = models.ForeignKey('companies.Company', on_delete=models.CASCADE, null=True, related_name='kumba_users')
     role = models.CharField(max_length=50, choices=UserRole.choices, default=UserRole.SUPER_ADMIN)
+    custom_role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True, blank=True, related_name='kumba_users')
     job_title = models.CharField(max_length=100, blank=True, null=True)
     permissions = models.JSONField(default=dict, blank=True)
     # Security and Onboarding
     is_activated = models.BooleanField(default=True)
     must_change_password = models.BooleanField(default=False)
-    employee_id = models.CharField(max_length=20, unique=True, null=True, blank=True)
+    employee_id = models.CharField(max_length=50, unique=True, null=True, blank=True)
 
     # Avoid clashes with existing 'users.CustomUser' if we were to coexist, 
     # but the plan is to eventually replace. For now, we point related_names to avoid issues.
@@ -72,7 +74,7 @@ class KumbaUser(AbstractUser):
             # Generate KMB + 6 random digits
             while True:
                 new_id = f"KMB{''.join(secrets.choice('0123456789') for _ in range(6))}"
-                if not KumbaUser.objects.filter(kumba_id=new_id).exists():
+                if not KumbaUser.objects.filter(models.Q(kumba_id=new_id) | models.Q(employee_id=new_id)).exists():
                     self.kumba_id = new_id
                     # Also sync to employee_id for compatibility
                     if not self.employee_id:
@@ -88,8 +90,11 @@ def sync_user_to_employee(sender, instance, **kwargs):
     """
     from hr.models import Employee
     
-    # Try to find existing employee
-    employee = Employee.objects.filter(email=instance.email).first()
+    # Try to find existing employee by Kumba ID or Email
+    employee = Employee.objects.filter(
+        models.Q(kumba_id=instance.kumba_id) | 
+        (models.Q(email=instance.email) if instance.email else models.Q(id=-1))
+    ).first()
     
     if not employee and instance.company:
         # Auto-provision employee for new business users
@@ -112,6 +117,31 @@ def sync_user_to_employee(sender, instance, **kwargs):
         employee.position = instance.job_title or employee.position
         employee.photo = instance.avatar or employee.photo
         employee.save()
+
+@receiver(post_save, sender=KumbaUser)
+def send_welcome_notification(sender, instance, created, **kwargs):
+    """
+    Sends a welcome notification to the user upon account creation.
+    """
+    if created:
+        from notifications.utils import send_email_notification
+        from notifications.models import Notification
+        
+        title = "Bienvenue sur Kumba !"
+        body = f"Bonjour {instance.first_name or instance.username}, votre compte a été créé avec succès. Bienvenue dans votre espace de travail."
+        
+        # 1. Internal System Notification
+        Notification.objects.create(
+            user=instance,
+            title=title,
+            body=body,
+            type='SYSTEM',
+            status='SENT'
+        )
+        
+        # 2. Email Notification
+        if instance.email:
+            send_email_notification(instance, title, body)
 
     def __str__(self):
         return f"{self.username} ({self.kumba_uid})"

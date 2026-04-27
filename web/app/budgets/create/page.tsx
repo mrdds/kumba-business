@@ -54,7 +54,7 @@ export default function CreateBudget() {
                         <ArrowLeft size={20} className="mr-2" />
                         Back to Budgets
                     </Link>
-                    <h1 className="text-2xl font-bold text-gray-900">Set New Budget</h1>
+                    <h1 className="text-lg font-bold text-gray-900">Set New Budget</h1>
                     <p className="text-gray-500">Define spending limits for a category.</p>
                 </div>
 

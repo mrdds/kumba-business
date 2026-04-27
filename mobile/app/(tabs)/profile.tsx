@@ -127,7 +127,7 @@ export default function Profile() {
                             <MenuItem icon="log-out-outline" label="Sign Out" onPress={signOut} danger />
 
                             <Text className="text-center text-gray-400 text-xs mt-6 mb-8">
-                                Version 1.0.0 • Kumba Business
+                                Version 1.0.0 • OurSpace
                             </Text>
                         </View>
                     )}

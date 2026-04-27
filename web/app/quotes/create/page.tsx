@@ -6,10 +6,12 @@ import DashboardLayout from '../../dashboard-layout';
 import { createQuote, getCustomers } from '../../../services/api';
 import { ArrowLeft, Plus, Trash2, Loader2, FileText } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 
 export default function CreateQuotePage() {
     const router = useRouter();
     const { showToast } = useNotification();
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
     const [customers, setCustomers] = useState<any[]>([]);
     const [selectedCustomer, setSelectedCustomer] = useState('');
@@ -59,7 +61,7 @@ export default function CreateQuotePage() {
 
         const customer = customers.find(c => c.id.toString() === selectedCustomer);
         if (!customer) {
-            showToast('Please select a customer', 'error');
+            showToast(t('quotes.create_page.error_customer'), 'error');
             setLoading(false);
             return;
         }
@@ -73,11 +75,11 @@ export default function CreateQuotePage() {
                 valid_until: dates.valid_until,
                 items: items
             });
-            showToast('Quote created successfully', 'success');
+            showToast(t('quotes.create_page.success'), 'success');
             router.push('/quotes');
         } catch (error) {
             console.error(error);
-            showToast('Failed to create quote', 'error');
+            showToast(t('quotes.create_page.error'), 'error');
         } finally {
             setLoading(false);
         }
@@ -93,31 +95,31 @@ export default function CreateQuotePage() {
                     <div className="bg-blue-100 p-2 rounded-lg text-blue-600">
                         <FileText size={20} />
                     </div>
-                    <h1 className="text-2xl font-bold text-gray-900">New Quote</h1>
+                    <h1 className="text-lg font-bold text-gray-900">{t('quotes.create_page.title')}</h1>
                 </div>
             </div>
 
             <form onSubmit={handleSubmit} className="max-w-4xl mx-auto space-y-6">
                 {/* Client Details */}
                 <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <h2 className="text-lg font-bold text-gray-900 mb-4">Client & Dates</h2>
+                    <h2 className="text-lg font-bold text-gray-900 mb-4">{t('quotes.create_page.client_dates')}</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="md:col-span-2">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Select Customer</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">{t('quotes.create_page.customer')}</label>
                             <select
                                 required
                                 className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                 value={selectedCustomer}
                                 onChange={(e) => setSelectedCustomer(e.target.value)}
                             >
-                                <option value="">Select a customer...</option>
+                                <option value="">{t('quotes.create_page.customer_select')}</option>
                                 {customers.map(c => (
                                     <option key={c.id} value={c.id}>{c.name}</option>
                                 ))}
                             </select>
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Quote Date</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">{t('quotes.create_page.quote_date')}</label>
                             <input
                                 type="date"
                                 required
@@ -127,7 +129,7 @@ export default function CreateQuotePage() {
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Valid Until</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">{t('quotes.create_page.valid_until')}</label>
                             <input
                                 type="date"
                                 required
@@ -142,9 +144,9 @@ export default function CreateQuotePage() {
                 {/* Items */}
                 <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-lg font-bold text-gray-900">Items</h2>
+                        <h2 className="text-lg font-bold text-gray-900">{t('quotes.create_page.items')}</h2>
                         <button type="button" onClick={addItem} className="text-blue-600 font-medium text-sm flex items-center gap-1 hover:underline">
-                            <Plus size={16} /> Add Item
+                            <Plus size={16} /> {t('quotes.create_page.add_item')}
                         </button>
                     </div>
 
@@ -152,7 +154,7 @@ export default function CreateQuotePage() {
                         {items.map((item, index) => (
                             <div key={index} className="flex gap-4 items-start bg-gray-50 p-4 rounded-lg">
                                 <div className="flex-1">
-                                    <label className="block text-xs font-medium text-gray-500 mb-1">Description</label>
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">{t('quotes.create_page.desc')}</label>
                                     <input
                                         type="text"
                                         required
@@ -162,7 +164,7 @@ export default function CreateQuotePage() {
                                     />
                                 </div>
                                 <div className="w-24">
-                                    <label className="block text-xs font-medium text-gray-500 mb-1">Qty</label>
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">{t('quotes.create_page.qty')}</label>
                                     <input
                                         type="number"
                                         required
@@ -173,7 +175,7 @@ export default function CreateQuotePage() {
                                     />
                                 </div>
                                 <div className="w-32">
-                                    <label className="block text-xs font-medium text-gray-500 mb-1">Price</label>
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">{t('quotes.create_page.price')}</label>
                                     <input
                                         type="number"
                                         required
@@ -197,15 +199,15 @@ export default function CreateQuotePage() {
 
                     <div className="flex justify-end mt-6 pt-4 border-t border-gray-100">
                         <div className="text-right">
-                            <p className="text-gray-500 text-sm">Total Amount</p>
-                            <p className="text-2xl font-bold text-gray-900">${calculateTotal().toFixed(2)}</p>
+                            <p className="text-gray-500 text-sm">{t('quotes.create_page.total_amount')}</p>
+                            <p className="text-lg font-bold text-gray-900">${calculateTotal().toFixed(2)}</p>
                         </div>
                     </div>
                 </div>
 
                 <div className="flex justify-end gap-4">
                     <Link href="/quotes" className="px-6 py-3 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50">
-                        Cancel
+                        {t('quotes.create_page.cancel')}
                     </Link>
                     <button
                         type="submit"
@@ -213,7 +215,7 @@ export default function CreateQuotePage() {
                         className="px-6 py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 flex items-center gap-2"
                     >
                         {loading && <Loader2 className="animate-spin h-5 w-5" />}
-                        Create Quote
+                        {t('quotes.create_page.submit')}
                     </button>
                 </div>
             </form>

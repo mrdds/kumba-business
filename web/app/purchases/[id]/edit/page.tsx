@@ -3,7 +3,8 @@ import React, { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { useNotification } from '@/context/NotificationContext';
 import { ArrowLeft, Save, Trash2, Plus } from 'lucide-react';
-import { getSuppliers, getPurchase, updatePurchase } from '@/services/api';
+import { getSuppliers, getPurchase, updatePurchase, submitPurchaseApproval } from '@/services/api';
+import DashboardLayout from '@/app/dashboard-layout';
 
 interface Supplier {
     id: number;
@@ -109,7 +110,11 @@ export default function EditPurchaseOrder({ params }: { params: Promise<{ id: st
             };
 
             await updatePurchase(parseInt(id), payload);
-            showToast('Purchase Order updated successfully', 'success');
+            
+            // Re-submit for approval after rectification
+            await submitPurchaseApproval(parseInt(id));
+            
+            showToast('Bon de commande rectifié et renvoyé pour approbation', 'success');
             router.push(`/purchases/${id}`);
         } catch (error) {
             console.error(error);
@@ -122,13 +127,13 @@ export default function EditPurchaseOrder({ params }: { params: Promise<{ id: st
     if (fetching) return <div className="p-8 text-center text-gray-500">Loading Order...</div>;
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <DashboardLayout>
             <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                 <div className="bg-indigo-600 p-6 flex items-center text-white">
                     <button onClick={() => router.back()} className="mr-4 p-2 bg-white/20 rounded-full hover:bg-white/30 transition">
                         <ArrowLeft size={24} />
                     </button>
-                    <h1 className="text-2xl font-bold">Edit Purchase Order #{id}</h1>
+                    <h1 className="text-lg font-bold">Edit Purchase Order #{id}</h1>
                 </div>
 
                 <div className="p-8">
@@ -219,11 +224,11 @@ export default function EditPurchaseOrder({ params }: { params: Promise<{ id: st
                             className="w-full bg-indigo-600 py-4 rounded-xl text-white font-bold text-lg hover:bg-indigo-700 transition shadow-lg shadow-indigo-600/20 disabled:opacity-50 flex justify-center items-center"
                         >
                             <Save size={20} className="mr-2" />
-                            {loading ? 'Saving...' : 'Save Changes'}
+                            {loading ? 'Action en cours...' : 'Rectifier & Renvoyer'}
                         </button>
                     </div>
                 </div>
             </div>
-        </div>
+        </DashboardLayout>
     );
 }

@@ -45,15 +45,13 @@ function ActivationContent() {
         <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
             <div className="max-w-md w-full bg-white rounded-3xl shadow-xl p-8 border border-slate-100 text-center">
                 <div className="mb-8 flex justify-center">
-                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center">
-                        <span className="text-white font-bold text-3xl">K</span>
-                    </div>
+                    <img src="/icon.png" alt="OurSpace" className="w-20 h-20 object-contain rounded-2xl shadow-lg shadow-blue-600/20" />
                 </div>
 
                 {status === 'loading' && (
                     <div className="space-y-4">
                         <Loader className="w-12 h-12 text-blue-600 animate-spin mx-auto" />
-                        <h1 className="text-2xl font-bold text-slate-900">Activation en cours</h1>
+                        <h1 className="text-lg font-bold text-slate-900">Activation en cours</h1>
                         <p className="text-slate-600">{message}</p>
                     </div>
                 )}
@@ -63,7 +61,7 @@ function ActivationContent() {
                         <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
                             <CheckCircle className="text-green-600 w-10 h-10" />
                         </div>
-                        <h1 className="text-2xl font-bold text-slate-900">Compte Activé !</h1>
+                        <h1 className="text-lg font-bold text-slate-900">Compte Activé !</h1>
                         <p className="text-slate-600">{message}</p>
                         <Link
                             href="/auth/login"
@@ -79,7 +77,7 @@ function ActivationContent() {
                         <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
                             <AlertCircle className="text-red-600 w-10 h-10" />
                         </div>
-                        <h1 className="text-2xl font-bold text-slate-900">Erreur d'activation</h1>
+                        <h1 className="text-lg font-bold text-slate-900">Erreur d'activation</h1>
                         <p className="text-slate-600">{message}</p>
                         <div className="space-y-3">
                             <Link

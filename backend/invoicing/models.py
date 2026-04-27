@@ -4,9 +4,13 @@ from companies.models import Company
 from decimal import Decimal
 import datetime
 
+from core.security.registry import secure_resource
+
+@secure_resource('invoice', 'Finance & FNE', actions=['view', 'create', 'edit', 'delete', 'approve', 'cancel', 'export'])
 class Invoice(models.Model):
     class Status(models.TextChoices):
         DRAFT = 'DRAFT', 'Draft'
+        PENDING_APPROVAL = 'PENDING', 'Pending Approval'
         SENT = 'SENT', 'Sent'
         PAID = 'PAID', 'Paid'
         PARTIALLY_PAID = 'PARTIAL', 'Partially Paid'
@@ -258,9 +262,11 @@ class InvoicePayment(models.Model):
         self.invoice.save(update_fields=['status'])
 
 
+@secure_resource('quote', 'Finance & FNE', actions=['view', 'create', 'edit', 'delete', 'approve', 'convert'])
 class Quote(models.Model):
     class Status(models.TextChoices):
         DRAFT = 'DRAFT', 'Draft'
+        PENDING_APPROVAL = 'PENDING', 'Pending Approval'
         SENT = 'SENT', 'Sent'
         ACCEPTED = 'ACCEPTED', 'Accepted'
         REJECTED = 'REJECTED', 'Rejected'
@@ -295,6 +301,7 @@ class QuoteItem(models.Model):
         return f"{self.description} ({self.amount})"
 
 
+@secure_resource('recurring_invoice', 'Finance & FNE', actions=['view', 'create', 'edit', 'delete', 'pause', 'cancel'])
 class RecurringInvoice(models.Model):
     class Frequency(models.TextChoices):
         WEEKLY = 'WEEKLY', 'Weekly'

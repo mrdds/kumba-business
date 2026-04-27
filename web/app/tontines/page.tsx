@@ -4,8 +4,10 @@ import DashboardLayout from '../dashboard-layout';
 import { getTontineGroups, createTontineGroup, getTontineMembers, addTontineMember, getContributions, recordContribution } from '../../services/api';
 import { Loader2, Plus, Users, Calendar, Coins, CheckCircle, XCircle } from 'lucide-react';
 import { useNotification } from '@/context/NotificationContext';
+import { useTranslation } from 'react-i18next';
 
 export default function TontinesPage() {
+    const { t } = useTranslation();
     const { showToast } = useNotification();
     const [groups, setGroups] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -62,9 +64,9 @@ export default function TontinesPage() {
             await createTontineGroup({ ...groupForm, contribution_amount: parseFloat(groupForm.contribution_amount) });
             setShowCreateGroup(false);
             fetchGroups();
-            showToast('Group created successfully!', 'success');
+            showToast(t('tontines.toast.group_success'), 'success');
         } catch (error) {
-            showToast('Failed to create group', 'error');
+            showToast(t('tontines.toast.group_error'), 'error');
         }
     };
 
@@ -75,9 +77,9 @@ export default function TontinesPage() {
             setShowAddMember(false);
             setMemberForm({ name: '', phone: '' });
             fetchDetails(selectedGroup.id);
-            showToast('Member added successfully!', 'success');
+            showToast(t('tontines.toast.member_success'), 'success');
         } catch (error) {
-            showToast('Failed to add member', 'error');
+            showToast(t('tontines.toast.member_error'), 'error');
         }
     };
 
@@ -91,9 +93,9 @@ export default function TontinesPage() {
             });
             setShowContribute(false);
             fetchDetails(selectedGroup.id);
-            showToast('Contribution recorded successfully!', 'success');
+            showToast(t('tontines.toast.contrib_success'), 'success');
         } catch (error) {
-            showToast('Failed to record contribution', 'error');
+            showToast(t('tontines.toast.contrib_error'), 'error');
         }
     };
 
@@ -101,15 +103,15 @@ export default function TontinesPage() {
         <DashboardLayout>
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Tontines (Savings Groups)</h1>
-                    <p className="text-gray-500">Manage group savings and contributions</p>
+                    <h1 className="text-lg font-bold text-gray-900">{t('tontines.title')}</h1>
+                    <p className="text-gray-500">{t('tontines.subtitle')}</p>
                 </div>
                 {!selectedGroup && (
                     <button
                         onClick={() => setShowCreateGroup(true)}
                         className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors"
                     >
-                        <Plus size={20} /> New Group
+                        <Plus size={20} /> {t('tontines.new_group')}
                     </button>
                 )}
             </div>
@@ -117,25 +119,25 @@ export default function TontinesPage() {
             {selectedGroup ? (
                 // --- Detail View ---
                 <div className="space-y-6">
-                    <button onClick={() => setSelectedGroup(null)} className="text-sm text-gray-500 hover:text-gray-900 mb-2">← Back to Groups</button>
+                    <button onClick={() => setSelectedGroup(null)} className="text-sm text-gray-500 hover:text-gray-900 mb-2">{t('tontines.back_to_groups')}</button>
 
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
                         <div>
                             <h2 className="text-xl font-bold text-gray-900">{selectedGroup.name}</h2>
-                            <p className="text-gray-500 capitalize">{selectedGroup.frequency} Contribution: <strong>${selectedGroup.contribution_amount}</strong></p>
+                            <p className="text-gray-500 capitalize">{selectedGroup.frequency} Contribution: <strong>{selectedGroup.contribution_amount} FCFA</strong></p>
                         </div>
                         <div className="flex gap-2">
                             <button
                                 onClick={() => setShowAddMember(true)}
                                 className="border border-gray-300 px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm hover:bg-gray-50"
                             >
-                                <Users size={16} /> Add Member
+                                <Users size={16} /> {t('tontines.add_member')}
                             </button>
                             <button
                                 onClick={() => setShowContribute(true)}
                                 className="bg-green-600 text-white px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm hover:bg-green-700"
                             >
-                                <Coins size={16} /> Record Contribution
+                                <Coins size={16} /> {t('tontines.record_contribution')}
                             </button>
                         </div>
                     </div>
@@ -144,7 +146,7 @@ export default function TontinesPage() {
                         {/* Members List */}
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 h-fit">
                             <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                <Users size={18} /> Members ({members.length})
+                                <Users size={18} /> {t('tontines.members_count')} ({members.length})
                             </h3>
                             <ul className="space-y-3">
                                 {members.map(m => (
@@ -153,23 +155,23 @@ export default function TontinesPage() {
                                         {m.phone && <span className="text-gray-400 text-xs">{m.phone}</span>}
                                     </li>
                                 ))}
-                                {members.length === 0 && <p className="text-sm text-gray-400">No members yet.</p>}
+                                {members.length === 0 && <p className="text-sm text-gray-400">{t('tontines.no_members')}</p>}
                             </ul>
                         </div>
 
                         {/* Recent Contributions Grid */}
                         <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                             <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                <Calendar size={18} /> Contributions History
+                                <Calendar size={18} /> {t('tontines.history_title')}
                             </h3>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left">
                                     <thead className="bg-gray-50">
                                         <tr>
-                                            <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">Date</th>
-                                            <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">Member</th>
-                                            <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">Amount</th>
-                                            <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">Status</th>
+                                            <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">{t('tontines.table.date')}</th>
+                                            <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">{t('tontines.table.member')}</th>
+                                            <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">{t('tontines.table.amount')}</th>
+                                            <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">{t('tontines.table.status')}</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-100">
@@ -177,15 +179,15 @@ export default function TontinesPage() {
                                             <tr key={idx} className="hover:bg-gray-50">
                                                 <td className="px-4 py-3 text-sm text-gray-500">{c.date}</td>
                                                 <td className="px-4 py-3 text-sm font-medium text-gray-900">{c.member}</td>
-                                                <td className="px-4 py-3 text-sm text-gray-500">${c.amount}</td>
+                                                <td className="px-4 py-3 text-sm text-gray-500">{c.amount} FCFA</td>
                                                 <td className="px-4 py-3 text-sm">
                                                     {c.status === 'PAID' ? (
                                                         <span className="flex items-center gap-1 text-green-600 font-medium">
-                                                            <CheckCircle size={14} /> Paid
+                                                            <CheckCircle size={14} /> {t('tontines.status.paid')}
                                                         </span>
                                                     ) : (
                                                         <span className="flex items-center gap-1 text-red-500 font-medium">
-                                                            <XCircle size={14} /> Missed
+                                                            <XCircle size={14} /> {t('tontines.status.missed')}
                                                         </span>
                                                     )}
                                                 </td>
@@ -193,7 +195,7 @@ export default function TontinesPage() {
                                         ))}
                                         {contributions.length === 0 && (
                                             <tr>
-                                                <td colSpan={4} className="px-4 py-8 text-center text-gray-400 text-sm">No contributions recorded yet.</td>
+                                                <td colSpan={4} className="px-4 py-8 text-center text-gray-400 text-sm">{t('tontines.no_contributions')}</td>
                                             </tr>
                                         )}
                                     </tbody>
@@ -214,13 +216,13 @@ export default function TontinesPage() {
                             <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600">{group.name}</h3>
                             <div className="flex justify-between items-center text-sm text-gray-500 mt-4">
                                 <span className="bg-gray-100 px-2 py-1 rounded capitalize">{group.frequency}</span>
-                                <span className="font-semibold text-gray-900">${group.contribution_amount}</span>
+                                <span className="font-semibold text-gray-900">{group.contribution_amount} FCFA</span>
                             </div>
                         </div>
                     ))}
                     {!loading && groups.length === 0 && (
                         <div className="col-span-full py-12 text-center text-gray-500">
-                            No active tontines found. Create one to get started!
+                            {t('tontines.empty_groups')}
                         </div>
                     )}
                 </div>
@@ -232,17 +234,17 @@ export default function TontinesPage() {
             {showCreateGroup && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
                     <div className="bg-white rounded-xl p-6 w-full max-w-sm">
-                        <h2 className="text-xl font-bold mb-4">New Savings Group</h2>
+                        <h2 className="text-xl font-bold mb-4">{t('tontines.modals.create_group.title')}</h2>
                         <form onSubmit={handleCreateGroup} className="space-y-4">
-                            <input required placeholder="Group Name" className="w-full p-2 border rounded" value={groupForm.name} onChange={e => setGroupForm({ ...groupForm, name: e.target.value })} />
-                            <input required type="number" placeholder="Contribution Amount" className="w-full p-2 border rounded" value={groupForm.contribution_amount} onChange={e => setGroupForm({ ...groupForm, contribution_amount: e.target.value })} />
+                            <input required placeholder={t('tontines.modals.create_group.name')} className="w-full p-2 border rounded" value={groupForm.name} onChange={e => setGroupForm({ ...groupForm, name: e.target.value })} />
+                            <input required type="number" placeholder={t('tontines.modals.create_group.amount')} className="w-full p-2 border rounded" value={groupForm.contribution_amount} onChange={e => setGroupForm({ ...groupForm, contribution_amount: e.target.value })} />
                             <select className="w-full p-2 border rounded" value={groupForm.frequency} onChange={e => setGroupForm({ ...groupForm, frequency: e.target.value })}>
-                                <option value="WEEKLY">Weekly</option>
-                                <option value="MONTHLY">Monthly</option>
+                                <option value="WEEKLY">{t('tontines.modals.create_group.weekly')}</option>
+                                <option value="MONTHLY">{t('tontines.modals.create_group.monthly')}</option>
                             </select>
                             <div className="flex justify-end gap-2 mt-4">
-                                <button type="button" onClick={() => setShowCreateGroup(false)} className="px-3 py-1 text-gray-500">Cancel</button>
-                                <button type="submit" className="px-3 py-1 bg-blue-600 text-white rounded">Create</button>
+                                <button type="button" onClick={() => setShowCreateGroup(false)} className="px-3 py-1 text-gray-500">{t('tontines.modals.create_group.cancel')}</button>
+                                <button type="submit" className="px-3 py-1 bg-blue-600 text-white rounded">{t('tontines.modals.create_group.create_btn')}</button>
                             </div>
                         </form>
                     </div>
@@ -253,13 +255,13 @@ export default function TontinesPage() {
             {showAddMember && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
                     <div className="bg-white rounded-xl p-6 w-full max-w-sm">
-                        <h2 className="text-xl font-bold mb-4">Add Member</h2>
+                        <h2 className="text-xl font-bold mb-4">{t('tontines.modals.add_member.title')}</h2>
                         <form onSubmit={handleAddMember} className="space-y-4">
-                            <input required placeholder="Full Name" className="w-full p-2 border rounded" value={memberForm.name} onChange={e => setMemberForm({ ...memberForm, name: e.target.value })} />
-                            <input placeholder="Phone (Optional)" className="w-full p-2 border rounded" value={memberForm.phone} onChange={e => setMemberForm({ ...memberForm, phone: e.target.value })} />
+                            <input required placeholder={t('tontines.modals.add_member.name')} className="w-full p-2 border rounded" value={memberForm.name} onChange={e => setMemberForm({ ...memberForm, name: e.target.value })} />
+                            <input placeholder={t('tontines.modals.add_member.phone')} className="w-full p-2 border rounded" value={memberForm.phone} onChange={e => setMemberForm({ ...memberForm, phone: e.target.value })} />
                             <div className="flex justify-end gap-2 mt-4">
-                                <button type="button" onClick={() => setShowAddMember(false)} className="px-3 py-1 text-gray-500">Cancel</button>
-                                <button type="submit" className="px-3 py-1 bg-blue-600 text-white rounded">Add</button>
+                                <button type="button" onClick={() => setShowAddMember(false)} className="px-3 py-1 text-gray-500">{t('tontines.modals.add_member.cancel')}</button>
+                                <button type="submit" className="px-3 py-1 bg-blue-600 text-white rounded">{t('tontines.modals.add_member.add_btn')}</button>
                             </div>
                         </form>
                     </div>
@@ -270,20 +272,20 @@ export default function TontinesPage() {
             {showContribute && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
                     <div className="bg-white rounded-xl p-6 w-full max-w-sm">
-                        <h2 className="text-xl font-bold mb-4">Record Contribution</h2>
+                        <h2 className="text-xl font-bold mb-4">{t('tontines.modals.record_contribution.title')}</h2>
                         <form onSubmit={handleContribute} className="space-y-4">
                             <select required className="w-full p-2 border rounded" value={contribForm.member_id} onChange={e => setContribForm({ ...contribForm, member_id: e.target.value })}>
-                                <option value="">Select Member</option>
+                                <option value="">{t('tontines.modals.record_contribution.select_member')}</option>
                                 {members.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
                             </select>
                             <input type="date" required className="w-full p-2 border rounded" value={contribForm.date} onChange={e => setContribForm({ ...contribForm, date: e.target.value })} />
                             <select className="w-full p-2 border rounded" value={contribForm.status} onChange={e => setContribForm({ ...contribForm, status: e.target.value })}>
-                                <option value="PAID">Paid</option>
-                                <option value="MISSED">Missed</option>
+                                <option value="PAID">{t('tontines.status.paid')}</option>
+                                <option value="MISSED">{t('tontines.status.missed')}</option>
                             </select>
                             <div className="flex justify-end gap-2 mt-4">
-                                <button type="button" onClick={() => setShowContribute(false)} className="px-3 py-1 text-gray-500">Cancel</button>
-                                <button type="submit" className="px-3 py-1 bg-green-600 text-white rounded">Save</button>
+                                <button type="button" onClick={() => setShowContribute(false)} className="px-3 py-1 text-gray-500">{t('tontines.modals.record_contribution.cancel')}</button>
+                                <button type="submit" className="px-3 py-1 bg-green-600 text-white rounded">{t('tontines.modals.record_contribution.save_btn')}</button>
                             </div>
                         </form>
                     </div>

@@ -6,8 +6,10 @@ import { useAuth } from '@/context/AuthContext';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { getBudgets } from '../../services/api';
 import { PieChart, Plus, AlertTriangle, CheckCircle, TrendingUp } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function BudgetDashboard() {
+    const { t, i18n } = useTranslation();
     const { user } = useAuth();
     const [budgets, setBudgets] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -33,7 +35,7 @@ export default function BudgetDashboard() {
     };
 
     const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
+        return new Date(dateString).toLocaleDateString(i18n.language === 'fr' ? 'fr-FR' : 'en-US', {
             month: 'short',
             day: 'numeric'
         });
@@ -43,12 +45,12 @@ export default function BudgetDashboard() {
         <DashboardLayout>
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Budgets & Analysis</h1>
-                    <p className="text-gray-500">Track spending against your targets</p>
+                    <h1 className="text-lg font-bold text-gray-900">{t('budgets.title')}</h1>
+                    <p className="text-gray-500">{t('budgets.subtitle')}</p>
                 </div>
                 <Link href="/budgets/create" className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors">
                     <Plus size={20} />
-                    Create Budget
+                    {t('budgets.add_btn')}
                 </Link>
             </div>
 
@@ -59,10 +61,10 @@ export default function BudgetDashboard() {
             ) : budgets.length === 0 ? (
                 <div className="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
                     <PieChart size={48} className="mx-auto text-gray-400 mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900">No active budgets</h3>
-                    <p className="text-gray-500 mb-4">Set spending limits for your categories.</p>
+                    <h3 className="text-lg font-medium text-gray-900">{t('budgets.no_record_title')}</h3>
+                    <p className="text-gray-500 mb-4">{t('budgets.no_record_desc')}</p>
                     <Link href="/budgets/create" className="text-blue-600 font-bold hover:underline">
-                        Create First Budget
+                        {t('budgets.first_budget')}
                     </Link>
                 </div>
             ) : (
@@ -83,11 +85,11 @@ export default function BudgetDashboard() {
 
                             <div className="mb-2 flex justify-between items-end">
                                 <div>
-                                    <span className="text-2xl font-bold text-gray-900">{formatCurrency(budget.spent, user?.company?.currency)}</span>
-                                    <span className="text-gray-500 text-sm ml-2">spent</span>
+                                    <span className="text-lg font-bold text-gray-900">{formatCurrency(budget.spent, user?.company?.currency)}</span>
+                                    <span className="text-gray-500 text-sm ml-2">{t('budgets.spent')}</span>
                                 </div>
                                 <div className="text-right">
-                                    <span className="text-sm font-medium text-gray-600">of {formatCurrency(budget.amount_limit, user?.company?.currency)}</span>
+                                    <span className="text-sm font-medium text-gray-600">{t('budgets.of')} {formatCurrency(budget.amount_limit, user?.company?.currency)}</span>
                                 </div>
                             </div>
 
@@ -102,15 +104,15 @@ export default function BudgetDashboard() {
                                 {budget.remaining > 0 ? (
                                     <span className="text-green-600 flex items-center gap-1 font-medium">
                                         <CheckCircle size={14} />
-                                        {formatCurrency(budget.remaining, user?.company?.currency)} remaining
+                                        {formatCurrency(budget.remaining, user?.company?.currency)} {t('budgets.remaining')}
                                     </span>
                                 ) : (
                                     <span className="text-red-600 flex items-center gap-1 font-medium">
                                         <AlertTriangle size={14} />
-                                        Over budget by {formatCurrency(Math.abs(budget.remaining), user?.company?.currency)}
+                                        {t('budgets.over_budget')} {formatCurrency(Math.abs(budget.remaining), user?.company?.currency)}
                                     </span>
                                 )}
-                                <span className="text-gray-500">{budget.percentage.toFixed(1)}% used</span>
+                                <span className="text-gray-500">{budget.percentage.toFixed(1)}% {t('budgets.used')}</span>
                             </div>
                         </div>
                     ))}

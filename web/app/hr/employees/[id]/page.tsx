@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect, use, useCallback } from 'react';
 import { getEmployee } from '../../../../services/api';
 import EmployeeProfileView from '../../../../components/hr/EmployeeProfileView';
+import DashboardLayout from '../../../dashboard-layout';
 
 export default function EmployeeDetail({ params }: { params: Promise<{ id: string }> }) {
     const resolvedParams = use(params);
@@ -11,11 +12,7 @@ export default function EmployeeDetail({ params }: { params: Promise<{ id: strin
     const [employee, setEmployee] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        fetchEmployee();
-    }, [id]);
-
-    const fetchEmployee = async () => {
+    const fetchEmployee = useCallback(async () => {
         try {
             const data = await getEmployee(id);
             setEmployee(data);
@@ -24,15 +21,21 @@ export default function EmployeeDetail({ params }: { params: Promise<{ id: strin
         } finally {
             setLoading(false);
         }
-    };
+    }, [id]);
+
+    useEffect(() => {
+        fetchEmployee();
+    }, [fetchEmployee]);
 
     return (
-        <EmployeeProfileView
-            employee={employee}
-            loading={loading}
-            refreshEmployee={fetchEmployee}
-            showBackButton={true}
-        />
+        <DashboardLayout>
+            <EmployeeProfileView
+                employee={employee}
+                loading={loading}
+                refreshEmployee={fetchEmployee}
+                showBackButton={true}
+            />
+        </DashboardLayout>
     );
 }
 

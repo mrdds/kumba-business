@@ -2,8 +2,36 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 from django.utils import timezone
 from .models import ApprovalDefinition, ApprovalRequest, ApprovalStep, ApprovalLog
+from notifications.utils import send_push_notification
 
 class ApprovalService:
+    @staticmethod
+    def get_approval_info(obj):
+        """Helper to get latest approval status and rejection comment for an object"""
+        from .models import ApprovalRequest, ApprovalLog
+        from django.contrib.contenttypes.models import ContentType
+        
+        content_type = ContentType.objects.get_for_model(obj)
+        req = ApprovalRequest.objects.filter(
+            content_type=content_type,
+            object_id=obj.id
+        ).order_by('-created_at').first()
+        
+        if not req:
+            return None
+            
+        rejection_log = ApprovalLog.objects.filter(
+            request=req,
+            action=ApprovalLog.Action.REJECT
+        ).last()
+        
+        return {
+            "id": req.id,
+            "status": req.status,
+            "rejection_reason": rejection_log.comments if rejection_log else None,
+            "current_step": req.current_step.order if req.current_step else None
+        }
+
     @staticmethod
     def submit_for_approval(obj, user):
         """
@@ -57,6 +85,9 @@ class ApprovalService:
         ).first()
         
         if existing:
+            if hasattr(obj, 'status') and obj.status != 'PENDING':
+                obj.status = 'PENDING'
+                obj.save()
             return existing
 
         with transaction.atomic():
@@ -83,8 +114,11 @@ class ApprovalService:
             
             # Update Object Status
             if hasattr(obj, 'status'):
-               pass # We rely on caller or finalize for status updates? 
-               # Or we can setting 'PENDING_APPROVAL' if model supports it.
+               obj.status = 'PENDING'
+               obj.save()
+               
+            # Send Notification to approvers
+            ApprovalService._notify_approvers(req)
                
             return req
 
@@ -127,6 +161,13 @@ class ApprovalService:
                 # Update Source Object Status
                 ApprovalService._finalize_object_status(req.content_object, 'APPROVED')
                 
+                # Notify Requester
+                ApprovalService._notify_result(req, 'APPROVED')
+            
+            # If not fully approved, notify next approvers
+            if req.status == ApprovalRequest.Status.PENDING:
+                ApprovalService._notify_approvers(req)
+                
         return req
 
     @staticmethod
@@ -137,6 +178,7 @@ class ApprovalService:
             raise ValueError("Request is not pending")
             
         with transaction.atomic():
+            last_step = req.current_step
             req.status = ApprovalRequest.Status.REJECTED
             req.current_step = None
             req.save()
@@ -145,12 +187,15 @@ class ApprovalService:
                 request=req,
                 actor=user,
                 action=ApprovalLog.Action.REJECT,
-                step=req.current_step,
+                step=last_step,
                 comments=comments
             )
             
             # Update Source Object Status
             ApprovalService._finalize_object_status(req.content_object, 'REJECTED')
+            
+            # Notify Requester
+            ApprovalService._notify_result(req, 'REJECTED')
             
         return req
         
@@ -197,3 +242,91 @@ class ApprovalService:
                     obj.status = 'REJECTED'
         
         obj.save()
+
+    @staticmethod
+    def _notify_approvers(req):
+        """
+        Sends push and internal notifications to designated approvers for the current step.
+        """
+        from users.models import CustomUser
+        
+        current_step = req.current_step
+        if not current_step:
+            return
+
+        # Identify targets
+        targets = []
+        if current_step.approver_user:
+            targets.append(current_step.approver_user)
+        elif current_step.role_required:
+            targets = list(CustomUser.objects.filter(
+                company=req.company,
+                role=current_step.role_required,
+                is_active=True
+            ))
+
+        if not targets:
+            return
+
+        # Prepare message
+        model_name = req.content_type.model.title()
+        title = f"Nouvelle Approbation : {model_name}"
+        body = f"Une demande d'approbation pour {model_name} #{req.object_id} attend votre validation."
+        
+        data = {
+            "type": "APPROVAL",
+            "request_id": req.id,
+            "object_id": req.object_id,
+            "model": req.content_type.model,
+            "url": f"/approvals?id={req.id}"
+        }
+
+        for user in targets:
+            # 1. Create System Notification (for In-App bell)
+            from notifications.models import Notification
+            Notification.objects.create(
+                user=user,
+                title=title,
+                body=body,
+                type='SYSTEM',
+                status='SENT'
+            )
+            
+            # 2. Send Push Notification (if tokens exist)
+            send_push_notification(user, title, body, data)
+
+    @staticmethod
+    def _notify_result(req, status_type):
+        """
+        Notifies the requester of the final decision (APPROVED or REJECTED).
+        """
+        from notifications.models import Notification
+        
+        user = req.created_by
+        if not user:
+            return
+
+        model_name = req.content_type.model.title()
+        action_verb = "approuvée" if status_type == 'APPROVED' else "rejetée"
+        title = f"Requête {action_verb} : {model_name}"
+        body = f"Votre demande d'approbation pour {model_name} #{req.object_id} a été {action_verb}."
+        
+        data = {
+            "type": "APPROVAL_RESULT",
+            "request_id": req.id,
+            "object_id": req.object_id,
+            "status": status_type,
+            "url": f"/approvals?id={req.id}"
+        }
+
+        # System Notification
+        Notification.objects.create(
+            user=user,
+            title=title,
+            body=body,
+            type='SYSTEM',
+            status='SENT'
+        )
+        
+        # Push Notification
+        send_push_notification(user, title, body, data)

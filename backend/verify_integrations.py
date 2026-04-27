@@ -11,7 +11,7 @@ django.setup()
 
 from users.models import CustomUser
 from companies.models import Company
-from accounting.models import Transaction
+from accounting.models import Account, AccountType, JournalEntry, JournalEntryLine
 from ninja_jwt.tokens import RefreshToken
 
 def verify_integrations():
@@ -29,11 +29,23 @@ def verify_integrations():
     user.company = company
     user.save()
 
-    # 2. Create Dummy Transactions
-    Transaction.objects.create(company=company, amount=1000, type='IN', category='Sales', description='Product A', date=date.today())
-    Transaction.objects.create(company=company, amount=500, type='OUT', category='Rent', description='Office Rent', date=date.today())
+    # 2. Create Dummy Journal Entries
+    # Create required accounts if they don't exist
+    rev_acc, _ = Account.objects.get_or_create(company=company, code='701', defaults={'name': 'Sales', 'type': AccountType.REVENUE})
+    exp_acc, _ = Account.objects.get_or_create(company=company, code='601', defaults={'name': 'Rent', 'type': AccountType.EXPENSE})
+    cash_acc, _ = Account.objects.get_or_create(company=company, code='53', defaults={'name': 'Cash', 'type': AccountType.ASSET})
+
+    # Income entry
+    entry1 = JournalEntry.objects.create(company=company, date=date.today(), description="Product A Sales", status='POSTED')
+    JournalEntryLine.objects.create(journal_entry=entry1, account=cash_acc, debit=1000)
+    JournalEntryLine.objects.create(journal_entry=entry1, account=rev_acc, credit=1000)
     
-    print(f"Created User & Transactions: {email}")
+    # Expense entry
+    entry2 = JournalEntry.objects.create(company=company, date=date.today(), description="Office Rent", status='POSTED')
+    JournalEntryLine.objects.create(journal_entry=entry2, account=exp_acc, debit=500)
+    JournalEntryLine.objects.create(journal_entry=entry2, account=cash_acc, credit=500)
+    
+    print(f"Created User & Journal Entries: {email}")
 
     # 3. Login
     refresh = RefreshToken.for_user(user)

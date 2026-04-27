@@ -4,8 +4,10 @@ import DashboardLayout from '../../dashboard-layout';
 import { getSuppliers } from '../../../services/api';
 import { Plus, Search, Mail, Phone, MapPin, Briefcase } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 
 export default function SuppliersPage() {
+    const { t } = useTranslation();
     const [suppliers, setSuppliers] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -26,10 +28,10 @@ export default function SuppliersPage() {
     return (
         <DashboardLayout>
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold text-gray-900">Suppliers</h1>
+                <h1 className="text-lg font-bold text-gray-900">{t('crm.suppliers.title')}</h1>
                 <Link href="/crm/suppliers/create" className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors">
                     <Plus size={20} />
-                    Add Supplier
+                    {t('crm.suppliers.add_btn')}
                 </Link>
             </div>
 
@@ -38,7 +40,7 @@ export default function SuppliersPage() {
                 <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                 <input
                     type="text"
-                    placeholder="Search suppliers..."
+                    placeholder={t('crm.suppliers.search_placeholder')}
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
             </div>
@@ -57,20 +59,20 @@ export default function SuppliersPage() {
                         <div className="space-y-2 text-sm text-gray-500">
                             <div className="flex items-center gap-2">
                                 <Mail size={16} />
-                                <span>{supplier.email || 'No email'}</span>
+                                <span>{supplier.email || t('crm.suppliers.no_email')}</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <Phone size={16} />
-                                <span>{supplier.phone || 'No phone'}</span>
+                                <span>{supplier.phone || t('crm.suppliers.no_phone')}</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <MapPin size={16} />
-                                <span className="truncate">{supplier.address || 'No address'}</span>
+                                <span className="truncate">{supplier.address || t('crm.suppliers.no_address')}</span>
                             </div>
                         </div>
 
                         <div className="mt-4 pt-4 border-t border-gray-100 text-center text-purple-600 font-medium text-sm">
-                            View Dashboard
+                            {t('crm.suppliers.view_dashboard')}
                         </div>
                     </Link>
                 ))}
@@ -81,10 +83,10 @@ export default function SuppliersPage() {
                     <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
                         <Briefcase className="text-gray-400" size={32} />
                     </div>
-                    <h3 className="text-lg font-medium text-gray-900">No suppliers yet</h3>
-                    <p className="text-gray-500 mb-4">Add your first supplier or subcontractor.</p>
+                    <h3 className="text-lg font-medium text-gray-900">{t('crm.suppliers.empty_title')}</h3>
+                    <p className="text-gray-500 mb-4">{t('crm.suppliers.empty_desc')}</p>
                     <Link href="/crm/suppliers/create" className="text-blue-600 font-medium hover:underline">
-                        Add Supplier
+                        {t('crm.suppliers.add_first')}
                     </Link>
                 </div>
             )}

@@ -1,0 +1,1384 @@
+{
+  "dashboard": {
+    "title": "Tableau de Bord",
+    "balance": "Solde Actuel",
+    "income": "Revenus",
+    "expenses": "Dépenses",
+    "unpaid": "Factures Impayées",
+    "pending": "en attente",
+    "payroll": "Paie",
+    "quick_actions": "Actions Rapides",
+    "recent_transactions": "Transactions Récentes",
+    "view_all": "Voir Tout",
+    "no_transactions": "Aucune transaction pour le moment",
+    "monthly_proj": "Projection Mensuelle",
+    "welcome": {
+      "msg": "Content de vous revoir, {{name}} !",
+      "subtitle": "Retrouvez vos dernières mises à jour, gérez votre profil et vos demandes depuis votre tableau de bord personnel."
+    },
+    "actions": {
+      "advance": "Demander une Avance",
+      "advance_desc": "Avance sur salaire",
+      "profile": "Mon Profil",
+      "profile_desc": "Voir les détails",
+      "new_po": "Nouveau Bon de Commande",
+      "new_po_desc": "Créer un BC pour un fournisseur",
+    "new_invoice": "Nouvelle Facture",
+      "new_invoice_desc": "Facturer un client",
+      "monthly_proj": "Projection Mensuelle"
+    }
+  },
+  "sidebar": {
+    "dashboard": "Tableau de Bord",
+    "approvals": "Approbations",
+    "invoices": "Factures",
+    "purchases": "Achats",
+    "bills": "Factures Fournisseur",
+    "quotes": "Devis",
+    "customers": "Clients",
+    "hr": "Ressources Humaines",
+    "worksites": "Chantiers",
+    "infocenter": "Centre d'Info",
+    "transactions": "Transactions",
+    "reports": "Rapports",
+    "debts": "Dettes",
+    "requests": "Requêtes",
+    "incomes": "Entrées",
+    "expenses": "Dépenses",
+    "budgets": "Budgets",
+    "documents": "Documents",
+    "settings": "Paramètres",
+    "logout": "Déconnexion",
+    "connect": "OurSpace Connect",
+    "new": "NOUVEAU"
+  },
+  "auth": {
+    "login": {
+      "welcome": "Bon retour !",
+      "subtitle": "Connectez-vous pour accéder à votre espace de travail",
+      "email": "Adresse Email",
+      "password": "Mot de Passe",
+      "forgot_password": "Mot de passe oublié ?",
+      "remember_me": "Se souvenir de moi",
+      "separator": "ou",
+      "submit": "Se connecter",
+      "signing_in": "Connexion...",
+      "no_account": "Pas encore de compte ?",
+      "register_link": "S'inscrire",
+      "back_to_home": "Retour à l'accueil",
+      "errors": {
+        "invalid_credentials": "Identifiants invalides. Vérifiez votre email et mot de passe.",
+        "bad_request": "Requête invalide.",
+        "server_error": "Erreur interne du serveur. Réessayez plus tard.",
+        "network_error": "Erreur réseau : ",
+        "unknown": "Erreur inconnue.",
+        "no_data": "Erreur inconnue (aucune donnée reçue)"
+      }
+    },
+    "register": {
+      "title": "Créer un compte",
+      "subtitle": "Rejoignez OurSpace et gérez vos finances",
+      "name": "Nom complet",
+      "email": "Email",
+      "password": "Mot de passe",
+      "submit": "S'inscrire",
+      "signing_up": "Inscription...",
+      "has_account": "Déjà un compte ?",
+      "login_link": "Connectez-vous"
+    }
+  },
+  "invoices": {
+    "title": "Factures",
+    "create": "Créer une facture",
+    "create_page": {
+      "title": "Créer une Nouvelle Facture",
+      "client_details": "Détails du Client",
+      "select_customer": "Client",
+      "select_placeholder": "Sélectionner un Client...",
+      "add_customer": "Ajouter un Nouveau Client",
+      "items": "Articles",
+      "add_item": "Ajouter un Article",
+      "description": "Description",
+      "qty": "Qté",
+      "price": "Prix Unitaire",
+      "total": "Montant Total",
+      "cancel": "Annuler",
+      "create_btn": "Créer la Facture",
+      "error_select": "Veuillez sélectionner un client",
+      "success": "Facture créée avec succès",
+      "error": "Échec de la création de la facture"
+    },
+    "print_page": {
+      "not_found": "Facture introuvable",
+      "print_btn": "Imprimer PDF",
+      "invoice": "FACTURE",
+      "bill_to": "Facturé à",
+      "invoice_id": "Facture N° :",
+      "date": "Date :",
+      "due_date": "Échéance :",
+      "subtotal": "Sous-total",
+      "total": "Total",
+      "unit_price": "Prix Unitaire"
+    },
+    "table": {
+      "client": "Client",
+      "date": "Date",
+      "amount": "Montant",
+      "status": "Statut",
+      "actions": "Actions",
+      "due": "Dû:",
+      "no_records": "Aucune facture trouvée. Créez-en une pour commencer."
+    },
+    "actions": {
+      "submit_approval": "Soumettre pour approb.",
+      "print_pdf": "Imprimer PDF",
+      "send_email": "Envoyer Email"
+    },
+    "modals": {
+      "send": {
+        "title": "Envoyer la Facture",
+        "message": "Êtes-vous sûr de vouloir envoyer la facture #{{id}} à {{email}} ?",
+        "confirm": "Envoyer Email"
+      },
+      "submit": {
+        "title": "Soumettre pour Approbation",
+        "message": "Êtes-vous sûr de vouloir soumettre la facture #{{id}} pour approbation ?",
+        "confirm": "Soumettre"
+      }
+    },
+    "toast": {
+      "send_success": "Email envoyé avec succès !",
+      "send_error": "Échec de l'envoi de l'email.",
+      "submit_success": "Facture soumise pour approbation",
+      "submit_error": "Échec de la soumission de la facture"
+    }
+  },
+  "purchases": {
+    "title": "Bons de Commande",
+    "subtitle": "Gérer les achats et les commandes fournisseurs",
+    "create": "Nouvelle Commande",
+    "no_records": {
+      "title": "Aucun bon de commande pour le moment",
+      "subtitle": "Créez votre premier bon de commande pour suivre les dépenses et les demandes aux fournisseurs."
+    },
+    "card": {
+      "total": "Montant Total",
+      "status": {
+        "sent": "ENVOYÉ",
+        "cancelled": "ANNULÉ",
+        "draft": "BROUILLON"
+      }
+    },
+    "modals": {
+      "delete": {
+        "title": "Supprimer le Bon de Commande",
+        "message": "Êtes-vous sûr de vouloir supprimer ce bon de commande ? Cette action est irréversible.",
+        "confirm": "Supprimer"
+      }
+    },
+    "toast": {
+      "delete_success": "Bon de commande supprimé avec succès",
+      "delete_error": "Échec de la suppression du bon de commande"
+    },
+    "create_page": {
+      "title": "Nouveau Bon de Commande (BdC)",
+      "project_vendor": "Projet et Fournisseur",
+      "vendor": "Fournisseur / Prestataire",
+      "select": "Sélectionner un Fournisseur...",
+      "add_vendor": "Ajouter un Fournisseur",
+      "vendor_name": "Nom du Fournisseur *",
+      "email": "Email",
+      "phone": "Téléphone",
+      "tax_id": "Numéro d'Identification Fiscale (NIF/NCC)",
+      "address": "Adresse",
+      "save_vendor": "Enregistrer le Fournisseur",
+      "project_name": "Nom du Projet",
+      "project_name_placeholder": "ex : Rénovation du siège",
+      "items": "Articles",
+      "add_item": "Ajouter un Article",
+      "desc": "Description",
+      "desc_placeholder": "Description de l'article",
+      "qty": "Qté",
+      "price": "Prix Unitaire",
+      "total_items": "Total d'Articles",
+      "total": "Montant Total",
+      "create_btn": "Créer le Bon de Commande",
+      "creating": "Création en cours...",
+      "error_vendor": "Le nom du fournisseur est requis",
+      "error_vendor_project": "Le fournisseur et le nom du projet sont requis.",
+      "success_vendor": "Fournisseur créé avec succès",
+      "error_create_vendor": "Échec de la création du fournisseur",
+      "success": "Bon de commande créé pour {{vendor}}",
+      "error": "Échec de la création du bon de commande"
+    },
+    "detail_page": {
+      "title": "Bon de Commande #{{id}}",
+      "cancel_modal": {
+        "title": "Annuler le Bon de Commande",
+        "message": "Êtes-vous sûr de vouloir ANNULER cette commande ? Cette opération est irréversible.",
+        "confirm": "Annuler la Commande"
+      },
+      "submit_modal": {
+        "title": "Soumettre pour Approbation",
+        "message": "Êtes-vous sûr de vouloir soumettre ce bon de commande pour approbation ?",
+        "confirm": "Soumettre"
+      },
+      "submit_for_approval": "Soumettre pour Approbation",
+      "edit": "Modifier",
+      "cancel_order": "Annuler la Commande",
+      "vendor": "Fournisseur",
+      "date_created": "Date de Création",
+      "expected_date": "Date Prévue",
+      "notes": "Notes",
+      "items": "Articles",
+      "desc": "Description",
+      "qty": "Qté",
+      "price": "Prix Unitaire",
+      "amount": "Montant",
+      "total": "Total",
+      "toast": {
+        "error_load": "Échec du chargement du bon de commande",
+        "cancel_success": "Le bon de commande a été annulé.",
+        "cancel_error": "Échec de l'annulation de la commande",
+        "submit_success": "Bon de commande soumi pour approbation.",
+        "submit_error": "Échec de la soumission de la commande pour approbation"
+      }
+    },
+    "table": {
+      "input_date": "Date de Saisie",
+      "vendor": "Fournisseur",
+      "invoice_no": "N° Facture",
+      "project_desc": "Projet / Description",
+      "amount": "Montant",
+      "status": "Statut",
+      "att": "P.J.",
+      "action": "Action"
+    }
+  },
+  "profile": {
+    "title": "Profil de l'Employé",
+    "my_profile": "Mon Profil",
+    "edit_profile": "Modifier le Profil",
+    "back_to_employees": "Retour aux Employés",
+    "doc_uploaded": "Document ajouté avec succès",
+    "doc_deleted": "Document supprimé",
+    "upload_btn_confirm": "Confirmer le téléversement",
+    "not_found": {
+      "title": "Employé non trouvé",
+      "desc": "Nous n'avons pas pu localiser les détails de l'employé demandé.",
+      "back_btn": "Retourner"
+    },
+    "tabs": {
+      "overview": "Aperçu",
+      "payroll": "Paie",
+      "documents": "Documents",
+      "settings": "Paramètres",
+      "empty_desc": "Les informations pour {{tab}} apparaîtront ici."
+    },
+    "overview": {
+      "personal": "Informations Personnelles",
+      "employment": "Informations Professionnelles",
+      "email": "Email",
+      "phone": "Téléphone",
+      "address": "Adresse",
+      "department": "Département",
+      "hire_date": "Date d'embauche",
+      "salary": "Salaire de base"
+    },
+    "settings": {
+      "personal_title": "Informations Personnelles",
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "phone_label": "Numéro de téléphone",
+      "work_site": "Site de travail assigné",
+      "no_work_site": "-- Aucun site --",
+      "address_label": "Adresse",
+      "address_placeholder": "Adresse de résidence...",
+      "save_btn": "Enregistrer les détails",
+      "saving": "Enregistrement...",
+      "preferences": "Préférences",
+      "notif_email": "Notifications par email",
+      "dark_mode": "Mode sombre (Bêta)",
+      "security": "Sécurité & Mot de Passe",
+      "curr_pass": "Mot de passe actuel",
+      "new_pass": "Nouveau mot de passe",
+      "confirm_pass": "Confirmer le mot de passe",
+      "update_password_btn": "Mettre à jour le mot de passe",
+      "updating": "Mise à jour...",
+      "photo_title": "Photo de Profil",
+      "photo_desc": "Cliquez ci-dessous pour télécharger une nouvelle photo. Taille recommandée : 500x500px.",
+      "upload_btn": "Télécharger une nouvelle photo",
+      "status_title": "Statut du Compte",
+      "curr_status": "Statut actuel",
+      "status_active": "Actif",
+      "confirm_activate": "Activer cet employé ?",
+      "activate": "Activer le compte",
+      "confirm_suspend": "Suspendre cet employé ? Il ne pourra plus se connecter.",
+      "suspend_btn": "Suspendre le compte",
+      "confirm_ban": "Bannir cet employé ? Cette action est irréversible.",
+      "ban_btn": "Bannir l'employé"
+    },
+    "roles_modal": {
+      "title": "Gérer les Rôles d'Approbation",
+      "desc": "Sélectionnez les groupes d'approbation spécifiques pour {{name}}."
+    },
+    "roles": {
+      "cancel": "Annuler",
+      "saving": "Enregistrement...",
+      "save": "Enregistrer les modifications",
+      "PROJECT_MANAGER": "Chef de Projet",
+      "OPERATOR_MANAGER": "Gestionnaire d'Opérations",
+      "GENERAL_MANAGER": "Directeur Général",
+      "FINANCE": "Responsable Finance"
+    },
+    "alerts": {
+      "role_update_error": "Échec de la mise à jour des rôles",
+      "password_mismatch": "Les nouveaux mots de passe ne correspondent pas",
+      "password_success": "Mot de passe mis à jour avec succès",
+      "password_error": "Échec de la mise à jour du mot de passe",
+      "personal_success": "Détails personnels mis à jour",
+      "personal_error": "Échec de la mise à jour des détails personnels",
+      "photo_success": "Photo de profil mise à jour",
+      "photo_error": "Échec du téléchargement de la photo",
+      "role_success": "Rôles mis à jour avec succès",
+      "status_success": "Statut du compte mis à jour",
+      "status_error": "Échec de la mise à jour du statut",
+      "job_title": "Poste / Fonction",
+      "bio": "Bio",
+      "phone_numbers": "Numéros de Téléphone",
+      "add_number": "Ajouter un numéro",
+      "primary_phone": "Numéro Principal",
+      "whatsapp": "WhatsApp"
+    }
+  },
+  "bills": {
+    "title": "Factures Fournisseurs",
+    "subtitle": "Gérer les factures des sous-traitants et fournisseurs",
+    "record_bill": "Enregistrer une Facture",
+    "search": "Rechercher par fournisseur, n° de facture ou projet...",
+    "no_records": {
+      "title": "Aucune facture enregistrée",
+      "subtitle": "Enregistrez votre première facture fournisseur ou facture de sous-traitant."
+    },
+    "create_page": {
+      "title": "Enregistrer une Facture",
+      "subtitle": "Enregistrez une nouvelle facture reçue d'un fournisseur ou sous-traitant",
+      "vendor": "Fournisseur / Sous-traitant",
+      "vendor_select": "Sélectionner un Fournisseur...",
+      "invoice_no": "Numéro de Facture",
+      "invoice_no_placeholder": "ex : INV-2023-001",
+      "date": "Date",
+      "attachment": "Pièce Jointe (Photo/PDF de la facture)",
+      "upload": "Cliquez pour télécharger une photo ou un PDF",
+      "notes": "Notes",
+      "notes_placeholder": "Détails supplémentaires...",
+      "line_items": "Articles",
+      "add_item": "Ajouter un Article",
+      "desc_placeholder": "Description / Service",
+      "qty_placeholder": "Qté",
+      "price_placeholder": "Prix",
+      "total_amount": "Montant Total",
+      "cancel": "Annuler",
+      "submit": "Enregistrer la Facture",
+      "error_vendor": "Veuillez sélectionner un fournisseur",
+      "error_items": "Veuillez vérifier les détails des articles",
+      "success": "Facture enregistrée avec succès",
+      "error": "Échec de l'enregistrement de la facture. Veuillez réessayer."
+    },
+    "table": {
+      "input_date": "Date Saisie",
+      "vendor": "Fournisseur",
+      "invoice_no": "N° Facture",
+      "project_desc": "Projet / Description",
+      "amount": "Montant",
+      "status": "Statut",
+      "att": "P.J.",
+      "action": "Action"
+    },
+    "errors": {
+      "fetch_failed": "Échec de la récupération des factures"
+    },
+    "details_page": {
+      "cancel_modal": {
+        "title": "Annuler la Facture",
+        "message": "Êtes-vous sûr de vouloir ANNULER cette facture ? Cette action est irréversible.",
+        "confirm": "Annuler la Facture"
+      },
+      "submit_modal": {
+        "title": "Soumettre pour Approbation",
+        "message": "Êtes-vous sûr de vouloir soumettre cette facture pour approbation ?",
+        "confirm": "Soumettre"
+      },
+      "vendor_bill": "Facture Fournisseur",
+      "view_invoice": "Voir la Facture",
+      "submit_btn": "Soumettre pour Approbation",
+      "cancel_btn": "Annuler",
+      "vendor": "Fournisseur",
+      "invoice_no": "N° Facture",
+      "date": "Date",
+      "due_date": "Date d'Échéance",
+      "notes": "Notes",
+      "items": "Articles",
+      "desc": "Description",
+      "qty": "Qté",
+      "price": "Prix Unitaire",
+      "amount": "Montant",
+      "total": "Montant Total",
+      "toast_load_error": "Échec du chargement des détails",
+      "toast_cancel_success": "La facture a été annulée.",
+      "toast_cancel_error": "Échec de l'annulation",
+      "toast_submit_success": "Facture soumise pour approbation.",
+      "toast_submit_error": "Échec de la soumission pour approbation"
+    }
+  },
+  "quotes": {
+    "title": "Devis",
+    "subtitle": "Gérer les propositions et devis clients",
+    "new_quote": "Nouveau Devis",
+    "empty_title": "Aucun devis pour le moment",
+    "empty_desc": "Créez votre premier devis à envoyer à un client.",
+    "create_btn": "Créer un Devis",
+    "table": {
+      "id": "ID",
+      "client": "Client",
+      "date": "Date",
+      "valid_until": "Valable Jusqu'au",
+      "amount": "Montant",
+      "status": "Statut",
+      "actions": "Actions"
+    },
+    "actions": {
+      "convert": "Convertir",
+      "converted": "Converti"
+    },
+    "convert_modal": {
+      "title": "Convertir le Devis",
+      "message": "Êtes-vous sûr de vouloir convertir ce devis en Facture ? Une nouvelle facture sera créée à partir des détails du devis.",
+      "confirm": "Convertir"
+    },
+    "submit_modal": {
+      "title": "Soumettre pour Approbation",
+      "message": "Êtes-vous sûr de vouloir soumettre le devis #{{id}} pour approbation ?",
+      "confirm": "Soumettre"
+    },
+    "toast_convert_success": "Devis converti en Facture avec succès !",
+    "toast_convert_error": "Échec de la conversion du devis",
+    "toast_submit_success": "Devis soumis pour approbation",
+    "toast_submit_error": "Échec de la soumission du devis",
+    "create_page": {
+      "title": "Nouveau Devis",
+      "error_customer": "Veuillez sélectionner un client",
+      "success": "Devis créé avec succès",
+      "error": "Échec de la création du devis",
+      "client_dates": "Client et Dates",
+      "customer": "Sélectionner un Client",
+      "customer_select": "Sélectionnez un client...",
+      "quote_date": "Date du Devis",
+      "valid_until": "Valable Jusqu'au",
+      "items": "Articles",
+      "add_item": "Ajouter un Article",
+      "desc": "Description",
+      "qty": "Qté",
+      "price": "Prix",
+      "total_amount": "Montant Total",
+      "cancel": "Annuler",
+      "submit": "Créer un Devis"
+    }
+  },
+  "transactions": {
+    "title": "Transactions",
+    "search": "Rechercher des transactions...",
+    "table": {
+      "type": "Type",
+      "description": "Description",
+      "category": "Catégorie",
+      "date": "Date",
+      "amount": "Montant",
+      "no_records": "Aucune transaction trouvée"
+    },
+    "modal": {
+      "title": "Détails de la Transaction",
+      "ref": "Réf",
+      "loading": "Chargement des détails...",
+      "error": "Échec du chargement des détails de la transaction.",
+      "try_again": "Réessayer",
+      "accounting_entries": "Écritures Comptables",
+      "table": {
+        "account": "Compte",
+        "description": "Description",
+        "debit": "Débit",
+        "credit": "Crédit",
+        "total": "Total"
+      },
+      "close": "Fermer"
+    }
+  },
+  "crm": {
+    "customers": {
+      "title": "Clients",
+      "add_btn": "Ajouter un Client",
+      "search_placeholder": "Rechercher des clients...",
+      "no_email": "Pas d'email",
+      "no_phone": "Pas de téléphone",
+      "no_address": "Pas d'adresse",
+      "view_details": "Voir Détails",
+      "empty_title": "Pas encore de clients",
+      "empty_desc": "Ajoutez votre premier client pour commencer.",
+      "add_first": "Ajouter un Client",
+      "create": {
+        "title": "Ajouter un Client",
+        "label_name": "Nom du Client / Entreprise",
+        "label_email": "Email",
+        "label_phone": "Téléphone",
+        "label_address": "Adresse",
+        "label_tax_id": "ID Fiscal / NINEA",
+        "cancel": "Annuler",
+        "save": "Enregistrer le Client"
+      },
+      "toast": {
+        "create_success": "Client créé avec succès !",
+        "create_error": "Échec de la création du client"
+      }
+    },
+    "suppliers": {
+      "title": "Fournisseurs",
+      "add_btn": "Ajouter un Fournisseur",
+      "search_placeholder": "Rechercher des fournisseurs...",
+      "no_email": "Pas d'email",
+      "no_phone": "Pas de téléphone",
+      "no_address": "Pas d'adresse",
+      "view_dashboard": "Voir Tableau de Bord",
+      "empty_title": "Pas encore de fournisseurs",
+      "empty_desc": "Ajoutez votre premier fournisseur ou sous-traitant.",
+      "add_first": "Ajouter un Fournisseur",
+      "create": {
+        "title": "Ajouter un Fournisseur",
+        "label_name": "Nom du Fournisseur / Entreprise",
+        "label_email": "Email",
+        "label_phone": "Téléphone",
+        "label_address": "Adresse",
+        "label_tax_id": "ID Fiscal / NINEA",
+        "cancel": "Annuler",
+        "save": "Enregistrer le Fournisseur"
+      },
+      "toast": {
+        "create_success": "Fournisseur créé avec succès !",
+        "create_error": "Échec de la création du fournisseur"
+      }
+    }
+  },
+    "hr": {
+        "dashboard": {
+            "title": "Tableau de Bord RH"
+        },
+        "profile": {
+            "title": "Profil Employé",
+            "my_profile": "Mon Profil",
+            "edit_btn": "Modifier le profil",
+            "not_found_title": "Profil Introuvable",
+            "not_found_desc": "Le profil demandé n'existe pas.",
+            "photo_updated": "Photo mise à jour",
+            "error_upload": "Erreur d'envoi",
+            "save_success": "Enregistré avec succès",
+            "save_error": "Erreur d'enregistrement",
+            "no_matricule": "Matricule non assigné",
+            "hq": "Siège Social",
+            "tabs": {
+                "identity": "Identité",
+                "professional": "Professionnel",
+                "education": "Cursus & Exp",
+                "admin": "Administratif",
+                "documents": "Documents",
+                "security": "Sécurité"
+            },
+            "sections": {
+                "identity": "Identité & Rôle",
+                "personal": "Informations Personnelles",
+                "status": "État Civil & Contact",
+                "career": "Carrière",
+                "pay": "Rémunération",
+                "education": "Formation & Diplômes",
+                "experience": "Expériences Professionnelles",
+                "administration": "Identifiants Administratifs",
+                "emergency": "Contact d'Urgence",
+                "permissions": "Rôles & Accès",
+                "documents": "Dossier Numérique"
+            },
+            "fields": {
+                "gender": "Genre",
+                "birth_date": "Date de naissance",
+                "birth_place": "Lieu de naissance",
+                "nationality": "Nationalité",
+                "marital_status": "Situation matrimoniale",
+                "children": "Nombre d'enfants",
+                "phone": "Téléphone",
+                "email": "Email",
+                "address": "Adresse Résidentielle",
+                "matricule": "Matricule",
+                "position": "Fonction",
+                "department": "Département",
+                "hire_date": "Date d'embauche",
+                "category": "Catégorie",
+                "base_salary": "Salaire de base",
+                "education_level": "Niveau d'étude",
+                "study_field": "Domaine",
+                "cnps": "N° CNPS",
+                "emergency_name": "Contact (Nom)",
+                "emergency_phone": "Contact (Tel)"
+            }
+        },
+        "employees": {
+            "title": "Employés",
+            "subtitle": "Gérez votre équipe et les salaires",
+            "add_btn": "Ajouter un Employé",
+            "no_record_title": "Aucun employé trouvé",
+            "no_record_desc": "Commencez par ajouter votre premier employé.",
+            "active": "Actif",
+            "view_details": "Voir Détails",
+            "salary_period": "/ mois",
+            "create": {
+                "back": "Retour à la liste",
+                "title": "Onboarding Employé",
+                "subtitle": "Enregistrez un nouveau membre avec son identité numérique, son rôle professionnel et ses permissions système.",
+                "steps": {
+                    "personal": "Infos Personnelles",
+                    "professional": "Infos Professionnelles",
+                    "education": "Formation & Expériences",
+                    "administrative": "Infos Administratives",
+                    "role": "Rôle & Accès"
+                },
+                "nav": {
+                    "previous": "Précédent",
+                    "next": "Suivant"
+                },
+                "photo": {
+                    "label": "Photo de profil",
+                    "hint": "PNG, JPG · Max 5 Mo · Optionnel"
+                },
+                "personal": {
+                    "title": "Identité",
+                    "first_name": "Prénom",
+                    "last_name": "Nom",
+                    "birth_date": "Date de naissance",
+                    "birth_place": "Lieu de naissance",
+                    "nationality": "Nationalité",
+                    "phone": "Téléphone",
+                    "email": "Email professionnel",
+                    "marital_status": "Situation matrimoniale",
+                    "marital_single": "Célibataire",
+                    "marital_married": "Marié(e)",
+                    "marital_divorced": "Divorcé(e)",
+                    "marital_widowed": "Veuf/Veuve",
+                    "children_count": "Nombre d'enfants"
+                },
+                "professional": {
+                    "title": "Données Professionnelles",
+                    "entry_date": "Date d'entrée",
+                    "hire_date": "Date d'embauche",
+                    "job_title": "Fonction / Poste",
+                    "select_title": "Sélectionner un poste...",
+                    "department": "Service / Département",
+                    "employee_id": "Matricule",
+                    "category": "Catégorie",
+                    "base_salary": "Salaire de base (annuel)"
+                },
+                "education": {
+                    "title": "Formation Académique",
+                    "level": "Niveau d'étude",
+                    "field": "Domaine de formation"
+                },
+                "experience": {
+                    "title": "Expériences (5 dernières années)",
+                    "number": "Poste",
+                    "company": "Entreprise",
+                    "position": "Poste occupé",
+                    "start_year": "Année de début",
+                    "end_year": "Année de fin",
+                    "end_year_hint": "Vide si actuel",
+                    "add": "Ajouter une expérience",
+                    "max_reached": "Maximum 5 expériences atteint"
+                },
+                "administrative": {
+                    "title": "Informations Administratives",
+                    "cnps": "Numéro CNPS",
+                    "emergency_title": "Contact d'urgence",
+                    "emergency_name": "Nom & Prénom",
+                    "emergency_phone": "Téléphone"
+                },
+                "role": {
+                    "title": "Rôle Système & Niveau d'Accès",
+                    "desc": "Le rôle détermine les modules et actions accessibles à cet employé dans OurSpace.",
+                    "summary": "Récapitulatif"
+                },
+                "submit": "Finaliser l'Onboarding",
+                "processing": "Traitement...",
+                "required_fields_error": "Veuillez remplir tous les champs obligatoires.",
+                "success": "Employé créé avec succès !",
+                "error": "Impossible d'effectuer l'onboarding de l'employé"
+            }
+        },
+        "attendance": {
+            "title": "Présences du jour",
+            "table": {
+                "employee": "Employé",
+                "in": "Arrivée",
+                "out": "Départ",
+                "status": "Statut"
+            },
+            "empty": "Aucun enregistrement de présence aujourd'hui.",
+            "status": {
+                "late": "EN RETARD",
+                "on_time": "À L'HEURE"
+            }
+        },
+        "advances": {
+            "title": "Demandes d'Acomptes",
+            "empty": "Aucune demande en attente.",
+            "reason_placeholder": "Pas de motif",
+            "approve": "Approuver",
+            "reject": "Rejeter",
+            "loading": "Chargement...",
+            "toast": {
+                "approve_success": "Acompte approuvé !",
+                "reject_success": "Acompte rejeté !"
+            }
+        }
+    },
+  "tontines": {
+    "title": "Tontines (Épargne Collective)",
+    "subtitle": "Gérez l'épargne et les cotisations du groupe",
+    "new_group": "Nouveau Groupe",
+    "back_to_groups": "← Retour aux Groupes",
+    "add_member": "Ajouter un Membre",
+    "record_contribution": "Enregistrer Cotisation",
+    "members_count": "Membres",
+    "no_members": "Aucun membre pour le moment.",
+    "history_title": "Historique des Cotisations",
+    "no_contributions": "Aucune cotisation enregistrée.",
+    "empty_groups": "Aucune tontine active. Créez-en une pour commencer !",
+    "table": {
+      "date": "Date",
+      "member": "Membre",
+      "amount": "Montant",
+      "status": "Statut"
+    },
+    "status": {
+      "paid": "Payé",
+      "missed": "Manqué"
+    },
+    "modals": {
+      "create_group": {
+        "title": "Nouveau Groupe d'Épargne",
+        "name": "Nom du Groupe",
+        "amount": "Montant de la Cotisation",
+        "weekly": "Hebdomadaire",
+        "monthly": "Mensuel",
+        "cancel": "Annuler",
+        "create_btn": "Créer"
+      },
+      "add_member": {
+        "title": "Ajouter un Membre",
+        "name": "Nom Complet",
+        "phone": "Téléphone (Optionnel)",
+        "cancel": "Annuler",
+        "add_btn": "Ajouter"
+      },
+      "record_contribution": {
+        "title": "Enregistrer Cotisation",
+        "select_member": "Sélectionner Membre",
+        "cancel": "Annuler",
+        "save_btn": "Enregistrer"
+      }
+    },
+    "toast": {
+      "group_success": "Groupe créé avec succès !",
+      "group_error": "Échec de la création du groupe",
+      "member_success": "Membre ajouté avec succès !",
+      "member_error": "Échec de l'ajout du membre",
+      "contrib_success": "Cotisation enregistrée avec succès !",
+      "contrib_error": "Échec de l'enregistrement de la cotisation"
+    }
+  },
+  "budgets": {
+    "title": "Budgets & Analyse",
+    "subtitle": "Suivez vos dépenses par rapport à vos objectifs",
+    "add_btn": "Créer un Budget",
+    "no_record_title": "Aucun budget actif",
+    "no_record_desc": "Définissez des limites de dépenses pour vos catégories.",
+    "first_budget": "Créer votre premier budget",
+    "spent": "dépensé",
+    "of": "sur",
+    "remaining": "restant",
+    "over_budget": "Dépassement de budget de",
+    "used": "utilisé"
+  },
+  "reports": {
+    "title": "Rapports & Analyses",
+    "subtitle": "Aperçu de la performance financière",
+    "export_pnl": "Exporter le P&L",
+    "export_accountant": "Export Comptable",
+    "income": "Revenu Total",
+    "expenses": "Dépenses Totales",
+    "profit": "Bénéfice Net",
+    "chart_title": "P&L Mensuel (Revenus vs Dépenses)",
+    "detailed_breakdown": "Répartition Détaillée",
+    "table": {
+      "month": "Mois",
+      "income": "Revenus",
+      "expenses": "Dépenses",
+      "profit_loss": "Bénéfice / Perte"
+    }
+  },
+  "accounting_old": {
+    "title": "Tableau de Bord Comptable",
+    "subtitle": "Aperçu financier complet",
+    "loading": "Chargement des données comptables...",
+    "kpis": {
+      "ar": "Clients (411)",
+      "ar_desc": "Argent dû par les clients",
+      "ap": "Fournisseurs (401)",
+      "ap_desc": "Argent que nous devons",
+      "cash": "Trésorerie (53)",
+      "cash_desc": "Liquidités disponibles",
+      "profit": "Résultat Net (Annuel)",
+      "profit_desc": "Depuis le début de l'année"
+    },
+    "actions": {
+      "coa": "Plan Comptable",
+      "coa_desc": "Gérer la structure de vos comptes",
+      "journal": "Journal Général",
+      "journal_desc": "Voir toutes les écritures comptables",
+      "reports": "États Financiers",
+      "reports_desc": "Générer Bilan, Compte de Résultat"
+    },
+    "table": {
+      "title": "Soldes des Comptes Clés",
+      "code": "Code",
+      "name": "Nom du Compte",
+      "type": "Type",
+      "balance": "Solde",
+      "view_all": "Voir tous les comptes →"
+    }
+  },
+  "settings": {
+    "title": "Paramètres",
+    "subtitle": "Gérez vos préférences d'entreprise et de profil.",
+    "tabs": {
+      "company": "Paramètres Entreprise",
+      "profile": "Profil Utilisateur"
+    },
+    "company": {
+      "title": "Informations de l'Entreprise",
+      "logo": "Logo de l'Entreprise",
+      "logo_desc": "Téléchargez votre logo (JPG, PNG).",
+      "name": "Nom de l'Entreprise",
+      "sector": "Secteur d'Activité",
+      "address": "Adresse",
+      "tax_id": "Compte Contribuable (ID Fiscal)",
+      "reg_no": "N° Registre de Commerce (RCCM)",
+      "phone": "Téléphone",
+      "email": "Email",
+      "website": "Site Web",
+      "currency": "Devise par Défaut",
+      "tax_rate": "Taux de Taxe (%)",
+      "save": "Enregistrer les modifications",
+      "saving": "Enregistrement..."
+    },
+    "profile": {
+      "title": "Profil Utilisateur",
+      "photo": "Photo de Profil",
+      "photo_desc": "Téléchargez une nouvelle photo (JPG, PNG).",
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "job_title": "Poste / Fonction",
+      "bio": "Bio / Description",
+      "phone_numbers": "Numéros de Téléphone",
+      "add_number": "Ajouter un numéro",
+      "primary_phone": "Numéro Principal",
+      "whatsapp": "Disponible sur WhatsApp",
+      "language": "Langue de l'Interface",
+      "timezone": "Fuseau Horaire",
+      "save": "Mettre à jour le profil",
+      "saving": "Enregistrement..."
+    },
+    "toast": {
+      "company_success": "Informations de l'entreprise mises à jour !",
+      "company_error": "Échec de la mise à jour de l'entreprise",
+      "profile_success": "Profil mis à jour avec succès !",
+      "profile_error": "Échec de la mise à jour du profil"
+    }
+  },
+  "documents": {
+    "title": "Gestion des Documents",
+    "subtitle": "Stockez et organisez vos documents d'entreprise",
+    "feature_coming": "Fonctionnalité de téléchargement bientôt disponible",
+    "add_new": "Nouveau Document",
+    "search_placeholder": "Rechercher un document...",
+    "no_docs": "Aucun document trouvé",
+    "no_docs_subtitle": "Commencez par ajouter votre premier document",
+    "table": {
+      "name": "Nom",
+      "category": "Catégorie",
+      "size": "Taille",
+      "date": "Date",
+      "actions": "Actions"
+    }
+  },
+  "approvals": {
+    "title": "Centre des Approbations",
+    "subtitle": "Gérez les demandes en attente nécessitant votre autorisation",
+    "empty": {
+      "title": "Tout est à jour !",
+      "desc": "Vous n'avez aucune approbation en attente pour le moment."
+    },
+    "card": {
+      "requested_by": "Demandé par : {{name}}",
+      "follow_path": "Suivre le parcours",
+      "review": "Réviser",
+      "view_details": "Voir les détails",
+      "reject": "Rejeter",
+      "approve": "Approuver"
+    },
+    "modal_confirm": {
+      "approve_title": "Confirmer l'Approbation",
+      "reject_title": "Rejeter la Demande",
+      "approve_msg": "Êtes-vous sûr de vouloir approuver cette demande ? Cette action est irréversible.",
+      "reject_msg": "Veuillez fournir une raison pour le rejet de cette demande.",
+      "confirm_approve": "Approuver",
+      "confirm_reject": "Rejeter la demande",
+      "placeholder": "Raison du rejet..."
+    },
+    "toast": {
+      "fetch_error": "Échec de la récupération des approbations",
+      "approve_success": "Demande approuvée avec succès",
+      "reject_success": "Demande rejetée avec succès",
+      "action_error": "Échec de l'action {{type}}"
+    },
+    "types": {
+      "bill": "Facture Fournisseur",
+      "payroll": "Paie",
+      "purchase": "Bon de Commande",
+      "quote": "Devis"
+    }
+  },
+  "approval_status": {
+    "approved": "Approuvé",
+    "rejected": "Rejeté",
+    "pending": "En attente",
+    "pending_step": "En attente (Étape {{step}})",
+    "draft": "Brouillon",
+    "sent": "Envoyé",
+    "paid": "Payé",
+    "partial": "Partiel",
+    "overdue": "En retard",
+    "cancelled": "Annulé"
+  },
+  "onboarding": {
+    "welcome": "Bienvenue sur OurSpace",
+    "subtitle": "Configurons votre espace de travail en quelques secondes.",
+    "steps": {
+      "company": "Entreprise",
+      "role": "Rôle",
+      "subscription": "Abonnement",
+      "payment": "Paiement"
+    },
+    "company": {
+      "name_label": "Nom de l'entreprise",
+      "name_placeholder": "Ex: OurSpace Tech SARL",
+      "sector_label": "Secteur d'activité",
+      "currency_label": "Devise Centrale",
+      "continue": "Continuer"
+    },
+    "role": {
+      "title": "Votre Profil Administrateur",
+      "desc": "En tant que créateur, vous avez les droits de <strong>Super Admin</strong>. Précisez votre titre pour personnaliser vos documents.",
+      "job_label": "Votre fonction / poste",
+      "job_placeholder": "Ex: Directeur Général, Co-fondateur...",
+      "back": "Retour",
+      "next": "Suivant"
+    },
+    "plans": {
+      "free": {
+        "title": "Gratuit",
+        "subtitle": "Idéal pour démarrer",
+        "price": "0€",
+        "select": "Sélectionner Gratuit"
+      },
+      "pro": {
+        "title": "Professionnel",
+        "subtitle": "Tout pour votre PME",
+        "price": "49€",
+        "popular": "Populaire",
+        "pay": "Payer avec OurSpace Pay"
+      },
+      "period": "/mois",
+      "features": {
+        "user_limit_1": "1 Utilisateur",
+        "unlimited_users": "Utilisateurs Illimités",
+        "invoicing": "Gestion Factures & Devis",
+        "crm": "CRM (Clients)",
+        "mobile_no": "Pas d'accès App Mobile Klock",
+        "chat": "OurSpace (Chat E2EE & Vidéo)",
+        "mobile_yes": "Mobile Klock (Pointage)",
+        "full_suite": "Bons de Commande, Devis, Factures",
+        "hr": "RH & Bulletins de Salaire",
+        "more": "... et bien d'autres avantages"
+      },
+      "modify_back": "Modifier les informations précédentes"
+    },
+    "payment": {
+      "title": "Paiement Sécurisé",
+      "desc": "Veuillez autoriser le paiement de <strong>49€/mois</strong> via votre compte OurSpace Pay.",
+      "phone_label": "Numéro de téléphone OurSpace Pay",
+      "phone_placeholder": "Ex: +225 01 02 03 04 05",
+      "processing": "Validation en cours...",
+      "pay_now": "Payer 49,00 €",
+      "back_to_plans": "Retour aux abonnements",
+      "error": "Échec du paiement avec OurSpace Pay. Veuillez réessayer."
+    },
+    "success": {
+      "title": "Félicitations !",
+      "desc": "Votre espace de travail <strong>{{name}}</strong> est prêt. Nous préparons vos accès...",
+      "redirect": "Redirection vers le tableau de bord"
+    },
+    "footer": {
+      "secure": "Données Sécurisées",
+      "standard": "Standard OHADA",
+      "support": "Support: support@ourspace.app"
+    },
+    "toast": {
+      "company_error": "Erreur lors de la création de l'entreprise",
+      "profile_error": "Erreur lors de la mise à jour du profil",
+      "sub_error": "Erreur lors de la mise à jour de l'abonnement"
+    }
+  },
+  "debts": {
+    "title": "Gestion des Dettes",
+    "subtitle": "Suivez ce que vous devez et ce qui vous est dû",
+    "add_btn": "Ajouter {{type}}",
+    "debt": "Dette",
+    "credit": "Créance",
+    "tabs": {
+      "suppliers": "Dettes Fournisseurs",
+      "clients": "Créances Clients"
+    },
+    "empty": {
+      "title": "Tout est à jour !",
+      "desc": "Vous n'avez aucune {{type}} en attente pour le moment."
+    },
+    "status": {
+      "paid": "Payé",
+      "partial": "Partiel",
+      "pending": "En attente"
+    },
+    "card": {
+      "no_desc": "Aucune description",
+      "total": "Montant Total",
+      "paid": "Déjà Payé",
+      "outstanding": "Reste à Payer",
+      "record_payment": "Enregistrer un Paiement"
+    },
+    "modal_create": {
+      "title": "Nouvelle {{type}}",
+      "name_label": "Nom du tiers",
+      "amount_label": "Montant",
+      "date_label": "Date d'échéance",
+      "desc_label": "Description",
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "auto_contact_success": "Nouveau contact créé automatiquement"
+    },
+    "modal_confirm": {
+      "title": "Enregistrer un paiement",
+      "message": "Voulez-vous enregistrer un paiement pour cette dette ? Montant restant : {{amount}}",
+      "confirm": "Confirmer le paiement",
+      "placeholder": "Montant à payer"
+    },
+    "toast": {
+      "invalid_amount": "Veuillez entrer un montant valide",
+      "pay_success": "Paiement enregistré avec succès",
+      "pay_error": "Erreur lors de l'enregistrement du paiement",
+      "create_success": "Dette créée avec succès",
+      "create_error": "Erreur lors de la création de la dette"
+    }
+  },
+  "landing": {
+    "nav": {
+      "features": "Fonctionnalités",
+      "accounting": "Comptabilité",
+      "pricing": "Tarifs",
+      "login": "Connexion",
+      "free_trial": "Essai Gratuit →"
+    },
+    "hero": {
+      "title": "La <1>Comptabilité Automatique</1><2/>pour les PME Africaines",
+      "subtitle": "Factures, Paie, Achats → <1>Écritures comptables automatiques</1>. Bilan et Compte de Résultat <2>en un clic</2>.",
+      "cta_start": "Démarrer gratuitement",
+      "cta_view": "Voir la Compta",
+      "proof": {
+        "companies": "<1>500+</1> entreprises",
+        "ohada": "<1>OHADA</1> conforme",
+        "start": "<1>0€</1> pour commencer"
+      }
+    },
+    "accounting_old": {
+      "title": "Fini Excel ! Place à la <1>Vraie Comptabilité</1>",
+      "subtitle": "Un système de comptabilité en partie double complet, comme QuickBooks, mais adapté à l'Afrique.",
+      "features": {
+        "auto_entries": {
+          "title": "Écritures Automatiques",
+          "desc": "Chaque facture, achat ou paie génère automatiquement les écritures comptables. Plus d'erreurs!"
+        },
+        "financial_states": {
+          "title": "États Financiers Instantanés",
+          "desc": "Compte de Résultat, Bilan, Flux de Trésorerie générés en un clic. Toujours à jour."
+        },
+        "ohada_plan": {
+          "title": "Plan Comptable OHADA",
+          "desc": "36 comptes pré-configurés selon les normes africaines. Prêt à l'emploi en 2 minutes."
+        }
+      },
+      "how_it_works": {
+        "title": "Comment ça marche ?",
+        "steps": [
+          "Vous créez une facture → Écriture comptable automatique (DR: Clients, CR: Revenus)",
+          "Client paie → Écriture de paiement (DR: Caisse, CR: Clients)",
+          "Vous achetez → Écriture d'achat (DR: Dépenses, CR: Fournisseurs)",
+          "États financiers → Toujours à jour en temps réel"
+        ],
+        "journal_entry": "Écriture Journal #001",
+        "balanced": "✓ Équilibré • POSTÉ"
+      }
+    },
+    "key_features": {
+      "title": "Tout ce dont votre PME a besoin",
+      "subtitle": "Une plateforme complète pour gérer finances, RH, clients et projets.",
+      "list": {
+        "billing": {
+          "title": "Facturation Pro",
+          "desc": "Devis, factures, relances automatiques. Liens de paiement Mobile Money intégrés."
+        },
+        "hr": {
+          "title": "Gestion RH & Paie",
+          "desc": "Employees, fiches de paie, congés, avances. Écritures comptables auto-générées."
+        },
+        "budgets": {
+          "title": "Budgets & Projets",
+          "desc": "Suivez la rentabilité de chaque projet. Budget vs Réalisé en temps réel."
+        },
+        "reports": {
+          "title": "Rapports Puissants",
+          "desc": "Dashboard, P&L, Bilan, Aging clients/fournisseurs. Export Excel/PDF."
+        },
+        "crm": {
+          "title": "CRM Simple",
+          "desc": "Gérez clients et fournisseurs. Historique complet des transactions."
+        },
+        "mobile": {
+          "title": "Mobile First",
+          "desc": "Application mobile iOS & Android. Gérez partout, tout le temps."
+        }
+      }
+    },
+    "why": {
+      "title": "Pourquoi OurSpace ?",
+      "items": {
+        "time": {
+          "title": "Gagnez 20h par mois",
+          "desc": "Automatisation complète de la compta. Plus besoin de saisir manuellement."
+        },
+        "ohada": {
+          "title": "100% Conforme OHADA",
+          "desc": "Plan comptable africain, règles fiscales locales. Prêt pour votre expert-comptable."
+        },
+        "secure": {
+          "title": "Données Sécurisées",
+          "desc": "Cryptage SSL, sauvegardes quotidiennes, hébergement cloud fiable."
+        },
+        "vision": {
+          "title": "Vision Financière Claire",
+          "desc": "Sachez EXACTEMENT combien vous gagnez, devez, possédez. En temps réel."
+        }
+      },
+      "preview": {
+        "title": "Balance de Vérification",
+        "totals": "TOTAUX",
+        "balanced": "Balance Équilibrée ✓"
+      }
+    },
+    "pricing": {
+      "title": "Tarifs Transparents",
+      "subtitle": "Commencez gratuitement. Évoluez quand vous êtes prêt.",
+      "plans": {
+        "starter": {
+          "name": "Starter",
+          "price": "0",
+          "period": "Gratuit",
+          "desc": "Pour tester et petites structures",
+          "features": [
+            "1 Utilisateur",
+            "5 Factures/mois",
+            "Dashboard basique",
+            "Support email"
+          ],
+          "cta": "Démarrer"
+        },
+        "pro": {
+          "name": "Pro",
+          "price": "15.000",
+          "period": "/mois",
+          "desc": "Pour PME en croissance",
+          "popular": "⭐ POPULAIRE",
+          "features": [
+            "5 Utilisateurs",
+            "Facturation illimitée",
+            "Comptabilité complète",
+            "Gestion RH & Paie",
+            "Support prioritaire",
+            "Mobile Apps"
+          ],
+          "cta": "Essayer 30 jours"
+        },
+        "enterprise": {
+          "name": "Business",
+          "price": "Sur Mesure",
+          "period": "",
+          "desc": "Pour grandes structures",
+          "features": [
+            "Utilisateurs illimités",
+            "API & Intégrations",
+            "Formation dédiée",
+            "Account Manager",
+            "SLA garanti"
+          ],
+          "cta": "Contactez-nous"
+        }
+      }
+    },
+    "cta_final": {
+      "title": "Prêt à transformer votre gestion ?",
+      "subtitle": "Rejoignez 500+ entreprises africaines qui ont dit adieu à Excel.",
+      "cta1": "Créer mon compte gratuit →",
+      "cta2": "Découvrir la Compta"
+    },
+    "footer": {
+      "desc": "La comptabilité automatique pour les PME africaines. Simple, Puissante, Sécurisée.",
+      "product": "Produit",
+      "company": "Entreprise",
+      "legal": "Légal",
+      "about": "À propos",
+      "contact": "Contact",
+      "blog": "Blog",
+      "privacy": "Confidentialité",
+      "terms": "CGU",
+      "copyright": "© {{year}} OurSpace. Fait avec ❤️ pour l'Afrique."
+    }
+  },
+  "accounting": {
+    "loading": "Chargement des données comptables...",
+    "title": "Comptabilité",
+    "subtitle": "Gérez vos comptes, états financiers et journaux",
+    "kpis": {
+      "ar": "Créances Clients",
+      "ar_desc": "Montant total dû par les clients",
+      "ap": "Dettes Fournisseurs",
+      "ap_desc": "Montant total dû aux fournisseurs",
+      "cash": "Trésorerie",
+      "cash_desc": "Solde disponible en caisse et banque",
+      "profit": "Bénéfice Net",
+      "profit_desc": "Résultat net de l'exercice en cours"
+    },
+    "actions": {
+      "coa": "Plan Comptable",
+      "coa_desc": "Gérer la structure de vos comptes",
+      "journal": "Journaux",
+      "journal_desc": "Saisir et consulter les écritures",
+      "reports": "États Financiers",
+      "reports_desc": "Bilan, Compte de Résultat, etc."
+    },
+    "table": {
+      "title": "Soldes des Comptes Récents",
+      "code": "Code",
+      "name": "Libellé",
+      "type": "Type",
+      "balance": "Solde",
+      "view_all": "Voir tout le plan comptable"
+    }
+  },
+  "connect": {
+    "title": "OurSpace Connect",
+    "new_chat": "Nouvelle Discussion",
+    "new_message": "Nouveau Message",
+    "employee": "Employé",
+    "load_error": "Échec du chargement des conversations",
+    "create_error": "Échec de la création de la discussion",
+    "messages": "Messages",
+    "no_conversations": "Aucune conversation pour le moment.",
+    "direct_message": "Message Direct",
+    "no_messages": "Aucun message pour le moment",
+    "select_to_start": "Sélectionnez une conversation pour commencer à discuter",
+    "type_message": "Écrivez un message...",
+    "chat": "Chat"
+  },
+  "common": {
+    "create": "Créer",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "loading": "Chargement...",
+    "success": "Succès",
+    "error": "Erreur",
+    "actions": "Actions",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "view": "Voir",
+    "close": "Fermer",
+    "confirm": "Confirmer",
+    "system": "Système",
+    "active": "ACTIF",
+    "none": "Aucun(e)",
+    "add": "Ajouter",
+    "saving": "Enregistrement...",
+    "save_changes": "Enregistrer",
+    "back": "Retour"
+  },
+  "finance": {
+    "requests": {
+      "title": "Requêtes & Demandes",
+      "subtitle": "Gérez les demandes de fonds, matériel et autres",
+      "new": "Nouvelle Requête",
+      "table": {
+        "title": "Sujet",
+        "type": "Type",
+        "amount": "Montant",
+        "requester": "Demandeur",
+        "status": "Statut",
+        "date": "Date"
+      },
+      "empty": "Aucune requête trouvée."
+    },
+    "expenses": {
+      "title": "Dépenses de Caisse",
+      "subtitle": "Enregistrement des sorties de caisse et menues dépenses",
+      "new": "Enregistrer une Dépense",
+      "table": {
+        "title": "Description",
+        "category": "Catégorie",
+        "amount": "Montant",
+        "date": "Date",
+        "status": "Statut"
+      },
+      "empty": "Aucune dépense enregistrée."
+    },
+    "budgets": {
+      "title": "Budgets & Projets",
+      "subtitle": "Gérez vos enveloppes budgétaires par projet",
+      "new": "Nouveau Budget",
+      "empty": "Aucun budget défini pour le moment."
+    },
+    "incomes": {
+      "title": "Entrées de Caisse",
+      "subtitle": "Suivez vos encaissements et revenus",
+      "new": "Nouvelle Entrée"
+    }
+  }
+}

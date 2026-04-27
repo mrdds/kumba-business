@@ -64,7 +64,25 @@ class EmployeeCreateSchema(Schema):
     department: str = ""
     bio: str = ""
     base_salary: float = 0
+    # HR specific fields
+    birth_date: str | None = None
+    birth_place: str = ""
+    nationality: str = ""
+    marital_status: str = ""
+    children_count: int = 0
+    cnps_number: str = ""
+    category: str = ""
+    education_level: str = ""
+    study_field: str = ""
     permissions: str | dict = {}
+    experiences: str = "[]"
+    emergency_contacts: str = "[]"
+    groups: str = "[]"
+
+class EmployeeCreateOutSchema(Schema):
+    id: int
+    employee_id: str
+    message: str
 
 class EmployeeSchema(Schema):
     id: int
@@ -198,7 +216,7 @@ class AuthController:
         
         return 201, {"message": "Account created successfully"}
 
-    @route.post('/employees', auth=JWTAuth(), response={201: MessageSchema, 400: MessageSchema, 403: MessageSchema, 500: MessageSchema})
+    @route.post('/employees', auth=JWTAuth(), response={201: EmployeeCreateOutSchema, 400: MessageSchema, 403: MessageSchema, 500: MessageSchema})
     @transaction.atomic
     def create_employee(self, request, payload: EmployeeCreateSchema = Form(...), avatar: Optional[UploadedFile] = File(None)):
         # Allow SUPER_ADMIN (Owner) and MANAGER to create employees
@@ -253,6 +271,17 @@ class AuthController:
 
             # 1. Create HR Employee record
             from hr.models import Employee
+            # Parse JSON strings for experiences and emergency_contacts
+            try:
+                experiences_list = json.loads(payload.experiences)
+            except:
+                experiences_list = []
+                
+            try:
+                emergency_contacts_list = json.loads(payload.emergency_contacts)
+            except:
+                emergency_contacts_list = []
+                
             employee = Employee.objects.create(
                 company=request.user.company,
                 first_name=payload.first_name,
@@ -263,7 +292,18 @@ class AuthController:
                 department=payload.department,
                 bio=payload.bio,
                 base_salary=payload.base_salary,
+                birth_date=payload.birth_date,
+                birth_place=payload.birth_place,
+                nationality=payload.nationality,
+                marital_status=payload.marital_status,
+                children_count=payload.children_count,
+                cnps_number=payload.cnps_number,
+                category=payload.category,
+                education_level=payload.education_level,
+                study_field=payload.study_field,
                 photo=avatar,
+                emergency_contacts=emergency_contacts_list,
+                experiences=experiences_list,
                 hire_date=date.today()
             )
 
@@ -283,8 +323,21 @@ class AuthController:
                 employee_id=employee_id,
                 avatar=avatar,
                 must_change_password=True,
-                is_activated=True,
             )
+            
+            # Apply Groups (Functionalities)
+            try:
+                groups_list = json.loads(payload.groups)
+                if groups_list:
+                    from django.contrib.auth.models import Group
+                    for group_name in groups_list:
+                        try:
+                            g = Group.objects.get(name=group_name)
+                            user.groups.add(g)
+                        except Group.DoesNotExist:
+                            pass
+            except:
+                pass
             
             # Update Employee with generated kumba_id (from user creation)
             employee.kumba_id = user.kumba_id or user.employee_id
@@ -325,111 +378,68 @@ class AuthController:
                 # Re-raise to trigger rollback
                 raise e
 
-            logo_url = request.build_absolute_uri(settings.MEDIA_URL + 'klock-logo.png')
+            # --- STEP 1: SEND ACTIVATION EMAIL ONLY ---
+            from django.contrib.auth.tokens import default_token_generator
+            from django.utils.http import urlsafe_base64_encode
+            from django.utils.encoding import force_bytes
             
-            # --- PREMIUM HTML EMAIL CONTENT ---
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            
+            activation_link = f"{settings.FRONTEND_URL}/activate?uid={uid}&token={token}"
+            logo_url = request.build_absolute_uri(settings.MEDIA_URL + 'ourspace-logo.png')
+            
+            # --- PREMIUM HTML ACTIVATION EMAIL ---
+            subject = "Activez votre compte OurSpace"
+            message_text = f"Bonjour {payload.first_name}, veuillez activer votre compte OurSpace : {activation_link}"
+            
             html_message = f"""
             <!DOCTYPE html>
             <html>
             <head>
-                <style>
-                    body {{ font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; color: #1a1a1a; margin: 0; padding: 0; }}
-                    .container {{ max-width: 600px; margin: 0 auto; padding: 40px 20px; }}
-                    .header {{ text-align: center; margin-bottom: 40px; }}
-                    .logo {{ font-size: 28px; font-weight: 800; color: #2563eb; letter-spacing: -1px; }}
-                    .card {{ background: #ffffff; border-radius: 24px; padding: 40px; border: 1px solid #f0f0f0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }}
-                    h1 {{ font-size: 24px; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.5px; }}
-                    p {{ font-size: 16px; color: #4b5563; margin-bottom: 24px; }}
-                    .credentials-box {{ background: #f8fafc; border-radius: 16px; padding: 24px; margin-bottom: 32px; border: 1px solid #e2e8f0; }}
-                    .credential-item {{ margin-bottom: 12px; font-size: 14px; }}
-                    .credential-label {{ font-weight: 700; color: #64748b; text-transform: uppercase; font-size: 11px; letter-spacing: 0.05em; margin-bottom: 4px; display: block; }}
-                    .credential-value {{ font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 16px; font-weight: 600; color: #0f172a; }}
-                    .btn {{ display: inline-block; background: #2563eb; color: #ffffff; padding: 16px 32px; border-radius: 14px; text-decoration: none; font-weight: 700; font-size: 16px; text-align: center; }}
-                    .footer {{ text-align: center; margin-top: 40px; font-size: 12px; color: #9ca3af; }}
-                    .warning {{ font-size: 13px; color: #b45309; background: #fffbeb; padding: 16px; border-radius: 12px; border-left: 4px solid #f59e0b; margin-top: 24px; }}
-                </style>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
             </head>
-            <body>
-                <div class="container">
-                    <div class="header" style="text-align: center;">
-                        <img src="{logo_url}" alt="Klock Logo" style="width: 80px; height: 80px; border-radius: 20px; border: 1px solid #f0f0f0; margin-bottom: 20px;">
-                        <div class="logo" style="margin-top: 10px;">Kumba Business</div>
-                    </div>
-                    <div class="card">
-                        <h1>Welcome to the Team, {payload.first_name}!</h1>
-                        <p>We're excited to have you on board. Your professional Kumba Business account is ready for use.</p>
-                        
-                        <div class="credentials-box">
-                            <div class="credential-item">
-                                <span class="credential-label">Professional Email</span>
-                                <span class="credential-value" style="color: #2563eb;">{payload.email}</span>
-                            </div>
-                            <div class="credential-item">
-                                <span class="credential-label">Employee ID</span>
-                                <span class="credential-value">{employee_id}</span>
-                            </div>
-                            <div class="credential-item" style="background: #fff; padding: 16px; border-radius: 12px; border: 1px dashed #cbd5e1; margin-top: 16px;">
-                                <span class="credential-label" style="color: #eb4432;">Temporary Password</span>
-                                <span class="credential-value" style="font-size: 20px; letter-spacing: 2px;">{password}</span>
-                            </div>
-                        </div>
-
-                        <div style="text-align: center;">
-                            <a href="{settings.FRONTEND_URL}" class="btn">Access Dashboard</a>
-                        </div>
-
-                        <div class="warning">
-                            <strong>Security Notice:</strong> You will be required to activate your account and set a new personal password upon your first login.
+            <body style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #0f172a; margin: 0; padding: 0; color: #e2e8f0;">
+                <div style="max-width: 600px; margin: 40px auto; background-color: #1e293b; border-radius: 24px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border: 1px solid #334155;">
+                    <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 40px 30px; text-align: center; border-bottom: 1px solid #334155;">
+                        <img src="{logo_url}" alt="OurSpace Logo" style="width: 80px; height: 80px; border-radius: 20px; border: 1px solid #334155; margin-bottom: 16px; object-fit: cover;">
+                        <div style="font-size: 28px; font-weight: 800; color: #fff; letter-spacing: -1px;">
+                            Our<span style="color: #3b82f6;">Space</span>
                         </div>
                     </div>
-                    <div class="footer">
-                        &copy; 2026 Kumba Ecosystem. All rights reserved.<br>
-                        Sent by Kumba HR for {request.user.company.name if request.user.company else "Kumba Business"}
+                    <div style="padding: 50px 40px; text-align: center;">
+                        <h1 style="font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 16px; margin-top: 0; letter-spacing: -0.5px;">Activez votre compte professionnel</h1>
+                        <p style="color: #94a3b8; font-size: 16px; line-height: 1.6; margin-bottom: 32px;">
+                            Bonjour <strong>{payload.first_name}</strong>,<br><br>
+                            Votre compte OurSpace pour {request.user.company.name if request.user.company else "votre entreprise"} a été créé. Pour sécuriser votre accès, veuillez l'activer ci-dessous.
+                        </p>
+                        <a href="{activation_link}" style="display: inline-block; background: #3b82f6; color: #ffffff; padding: 18px 36px; border-radius: 14px; font-weight: 700; text-decoration: none; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);">
+                            Activer mon compte
+                        </a>
+                        <p style="color: #64748b; font-size: 13px; margin-top: 32px;">
+                            Une fois activé, vous recevrez un second email contenant vos accès de connexion.
+                        </p>
+                    </div>
+                    <div style="background-color: #0f172a; padding: 30px; text-align: center; color: #64748b; font-size: 12px; border-top: 1px solid #334155;">
+                        &copy; 2026 OurSpace Ecosystem. Tous droits réservés.
                     </div>
                 </div>
             </body>
             </html>
             """
             
-            # Fallback plain text version
-            text_message = f"""
-            Hello {payload.first_name},
-
-            Welcome to Kumba Business! Your account has been created.
-
-            CREDENTIALS:
-            - Email: {payload.email}
-            - ID: {employee_id}
-            - Password: {password}
-
-            Please log in at {settings.FRONTEND_URL} to activate your account.
-            """
-
-            subject = f"Welcome to {request.user.company.name if request.user.company else 'Kumba'} - Your Credentials"
-            
-            print(f"DEBUG: Attempting to send HTML email to {payload.email}")
             try:
-                send_mail(
-                    subject,
-                    text_message,
-                    settings.DEFAULT_FROM_EMAIL,
-                    [payload.email],
-                    fail_silently=False,
-                    html_message=html_message
-                )
-                email_status = "Credentials sent via HTML email."
-                print(f"DEBUG: Email sent successfully to {payload.email}")
-            except Exception as mail_err:
-                import traceback
-                traceback.print_exc()
-                print(f"DEBUG Error sending email to {payload.email}: {mail_err}")
-                email_status = "Employee created, but failed to send credential email. Please provide credentials manually."
+                send_mail(subject, message_text, settings.DEFAULT_FROM_EMAIL, [payload.email], html_message=html_message)
+                email_status = "Activation email sent."
+            except:
+                email_status = "Employee created, but failed to send activation email."
 
-            print(f"--- EMAIL LOG ---")
-            print(f"To: {payload.email} | Status: {email_status}")
-            print(f"------------------")
-
-            return 201, {"message": f"Employee created. ID: {employee_id}. {email_status}"}
+            return 201, {
+                "id": employee.id,
+                "employee_id": employee_id,
+                "message": f"Employee created. {email_status}"
+            }
         except Exception as e:
             import traceback
             traceback.print_exc()
@@ -451,10 +461,10 @@ class AuthController:
         
         activation_link = f"{settings.FRONTEND_URL}/activate?uid={uid}&token={token}"
         
-        logo_url = request.build_absolute_uri(settings.MEDIA_URL + 'klock-logo.png')
+        logo_url = request.build_absolute_uri(settings.MEDIA_URL + 'ourspace-logo.png')
         
         # --- PREMIUM HTML ACTIVATION EMAIL ---
-        subject = "Activez votre compte Kumba Business"
+        subject = "Activez votre compte OurSpace"
         message = f"Bonjour {user.first_name}, veuillez activer votre compte en suivant ce lien : {activation_link}"
         
         html_message = f"""
@@ -469,7 +479,7 @@ class AuthController:
                 <!-- Header with Logo -->
                 <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 40px 30px; text-align: center; border-bottom: 1px solid #334155;">
                     <div style="font-size: 28px; font-weight: 800; color: #fff; letter-spacing: -1px; margin-bottom: 8px;">
-                        Kumba<span style="color: #3b82f6;">Business</span>
+                        Our<span style="color: #3b82f6;">Space</span>
                     </div>
                     <div style="height: 2px; width: 40px; background: #3b82f6; margin: 0 auto; border-radius: 2px;"></div>
                 </div>
@@ -477,19 +487,19 @@ class AuthController:
                 <!-- Main Content -->
                 <div style="padding: 50px 40px; text-align: center;">
                     <div style="width: 80px; height: 80px; border-radius: 20px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 24px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1);">
-                         <img src="{logo_url}" alt="Klock Logo" style="width: 100%; height: 100%; object-fit: cover;">
+                         <img src="{logo_url}" alt="OurSpace Logo" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     
                     <h1 style="font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 16px; margin-top: 0; letter-spacing: -0.5px;">Activez votre compte</h1>
                     
                     <p style="color: #94a3b8; font-size: 16px; line-height: 1.6; margin-bottom: 32px;">
                         Bonjour <strong>{user.first_name}</strong>,<br><br>
-                        Ravi de vous compter parmi nous ! Pour sécuriser votre accès et commencer à utiliser Kumba Business et Klock, veuillez confirmer votre adresse email.
+                        Ravi de vous compter parmi nous ! Pour sécuriser votre accès et commencer à utiliser OurSpace, veuillez confirmer votre adresse email.
                     </p>
 
                     <!-- Primary Action Button (Deep Link) -->
-                    <a href="klock://activate?uid={uid}&token={token}" style="display: inline-block; background: #3b82f6; color: #ffffff; padding: 18px 36px; border-radius: 14px; font-weight: 700; text-decoration: none; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);">
-                        Ouvrir dans l'application Klock
+                    <a href="{activation_link}" style="display: inline-block; background: #3b82f6; color: #ffffff; padding: 18px 36px; border-radius: 14px; font-weight: 700; text-decoration: none; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);">
+                        Activer mon compte
                     </a>
 
                     <div style="margin: 30px 0; border-top: 1px solid #334155;"></div>
@@ -506,8 +516,8 @@ class AuthController:
 
                 <!-- Footer -->
                 <div style="background-color: #0f172a; padding: 30px; text-align: center; color: #64748b; font-size: 12px; border-top: 1px solid #334155;">
-                    <p style="margin-bottom: 12px;">Cet email a été envoyé pour la sécurité de votre compte Kumba.</p>
-                    <p style="margin-bottom: 0;">&copy; 2026 Kumba Ecosystem. Tous droits réservés.</p>
+                    <p style="margin-bottom: 12px;">Cet email a été envoyé pour la sécurité de votre compte OurSpace.</p>
+                    <p style="margin-bottom: 0;">&copy; 2026 OurSpace Ecosystem. Tous droits réservés.</p>
                 </div>
             </div>
         </body>
@@ -535,14 +545,84 @@ class AuthController:
             id = force_str(urlsafe_base64_decode(uid))
             user = User.objects.get(pk=id)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            print(f"DEBUG: Activation failed - User not found for uid={uid}")
             user = None
-
-        if user is not None and default_token_generator.check_token(user, token):
-            user.is_activated = True
-            user.save()
-            return 200, {"message": "Account activated successfully"}
+            
+        if user is not None:
+            token_valid = default_token_generator.check_token(user, token)
+            print(f"DEBUG: Activation check for user={user.email}: token_valid={token_valid}")
+            if token_valid:
+                user.is_activated = True
+                
+                # --- STEP 2: GENERATE AND SEND CREDENTIALS NOW ---
+                import secrets
+                import string
+                alphabet = string.ascii_letters + string.digits
+                new_password = ''.join(secrets.choice(alphabet) for i in range(12))
+                user.set_password(new_password)
+                user.must_change_password = True
+                user.save()
+                
+                # Send Welcome Email
+                self._send_credentials_email(request, user, new_password)
+                
+                return 200, {"message": "Account activated successfully. Check your email for login credentials."}
+            else:
+                return 400, {"message": "Invalid activation link (token mismatch)"}
         else:
-            return 400, {"message": "Invalid activation link"}
+            return 400, {"message": "Invalid activation link (user not found)"}
+
+    def _send_credentials_email(self, request, user, password):
+        """Helper to send the credentials email after activation."""
+        logo_url = request.build_absolute_uri(settings.MEDIA_URL + 'ourspace-logo.png')
+        subject = f"Vos accès OurSpace - {user.company.name if user.company else 'OurSpace'}"
+        
+        html_message = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </head>
+        <body style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #0f172a; margin: 0; padding: 0; color: #e2e8f0;">
+            <div style="max-width: 600px; margin: 40px auto; background-color: #1e293b; border-radius: 24px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border: 1px solid #334155;">
+                <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 40px 30px; text-align: center; border-bottom: 1px solid #334155;">
+                    <img src="{logo_url}" alt="OurSpace Logo" style="width: 80px; height: 80px; border-radius: 20px; border: 1px solid #334155; margin-bottom: 16px; object-fit: cover;">
+                    <div style="font-size: 28px; font-weight: 800; color: #fff; letter-spacing: -1px;">
+                        Our<span style="color: #3b82f6;">Space</span>
+                    </div>
+                </div>
+                <div style="padding: 50px 40px; text-align: center;">
+                    <h1 style="font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 16px; margin-top: 0; letter-spacing: -0.5px;">Félicitations !</h1>
+                    <p style="color: #94a3b8; font-size: 16px; line-height: 1.6; margin-bottom: 32px;">
+                        Bonjour <strong>{user.first_name}</strong>, votre compte a été activé. Voici vos accès pour vous connecter à votre espace de travail.
+                    </p>
+                    <div style="background: #0f172a; border-radius: 20px; padding: 30px; margin-bottom: 32px; border: 1px solid #334155; text-align: left;">
+                        <div style="margin-bottom: 20px;">
+                            <span style="display: block; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px;">Email / Identifiant</span>
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 16px; color: #3b82f6; font-weight: 600;">{user.email}</span>
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <span style="display: block; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px;">Matricule</span>
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 16px; color: #fff; font-weight: 600;">{user.employee_id or 'N/A'}</span>
+                        </div>
+                        <div style="background: rgba(59, 130, 246, 0.1); padding: 20px; border-radius: 12px; border: 1px dashed #3b82f6;">
+                            <span style="display: block; font-size: 11px; font-weight: 800; color: #3b82f6; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px;">Mot de passe temporaire</span>
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 20px; color: #fff; font-weight: 700; letter-spacing: 2px;">{password}</span>
+                        </div>
+                    </div>
+                    <a href="{settings.FRONTEND_URL}/auth/login" style="display: inline-block; background: #3b82f6; color: #ffffff; padding: 18px 36px; border-radius: 14px; font-weight: 700; text-decoration: none; font-size: 16px;">
+                        Se connecter
+                    </a>
+                </div>
+                <div style="background-color: #0f172a; padding: 30px; text-align: center; color: #64748b; font-size: 12px; border-top: 1px solid #334155;">
+                    &copy; 2026 OurSpace Ecosystem. Tous droits réservés.
+                </div>
+            </div>
+        </body>
+        </html>
+        """
+        send_mail(subject, "", settings.DEFAULT_FROM_EMAIL, [user.email], html_message=html_message)
 
 
     @route.get('/employees', auth=JWTAuth(), response=list[EmployeeSchema])

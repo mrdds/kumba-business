@@ -17,6 +17,14 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Manual .env loader
+if os.path.exists(BASE_DIR / '.env'):
+    with open(BASE_DIR / '.env') as f:
+        for line in f:
+            if line.strip() and not line.startswith('#'):
+                key, value = line.strip().split('=', 1)
+                os.environ[key] = value
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -66,6 +74,8 @@ INSTALLED_APPS = [
     'purchasing.apps.PurchasingConfig',
     'approvals',
     'documents',
+    'finance',
+    'inventory',
 ]
 
 ASGI_APPLICATION = 'kumba_backend.asgi.application'
@@ -95,6 +105,7 @@ AUTHENTICATION_BACKENDS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 
@@ -175,6 +186,21 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Internationalization
+LANGUAGE_CODE = 'fr'
+TIME_ZONE = 'UTC'
+USE_I18N = True
+USE_TZ = True
+LANGUAGES = (
+    ('fr', 'Français'),
+    ('en', 'English'),
+)
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = 'static/'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
@@ -204,17 +230,17 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'sano.daouda96@gmail.com'
 EMAIL_HOST_PASSWORD = 'ovwj yhso krkm vttc'  # App Password
-DEFAULT_FROM_EMAIL = 'Kumba Business <sano.daouda96@gmail.com>'
+DEFAULT_FROM_EMAIL = 'OurSpace <sano.daouda96@gmail.com>'
 SERVER_EMAIL = 'sano.daouda96@gmail.com'
 
 # Frontend URL for password reset links
-FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:3001')
+FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
 
 from datetime import timedelta
 NINJA_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-    'USER_ID_FIELD': 'email',
+    'USER_ID_FIELD': 'kumba_id',
     'USER_ID_CLAIM': 'user_id',
 }
 
@@ -224,7 +250,7 @@ SIMPLE_JWT = {
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,
     'AUTH_HEADER_TYPES': ('Bearer',),
-    'USER_ID_FIELD': 'email',
+    'USER_ID_FIELD': 'kumba_id',
     'USER_ID_CLAIM': 'user_id',
 }
 # SSO Auth Server Configuration

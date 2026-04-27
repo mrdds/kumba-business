@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff, Mail, Lock, AlertCircle, CheckCircle, Loader } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 export default function LoginPage() {
     const router = useRouter();
@@ -13,6 +14,7 @@ export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const { t } = useTranslation();
 
     const { login } = useAuth();
 
@@ -27,8 +29,33 @@ export default function LoginPage() {
             await login({ username: email, password });
             // Redirect is handled in AuthContext login method
         } catch (err: any) {
-            console.error(err);
-            setError('Email ou mot de passe incorrect');
+            // Gestion détaillée des erreurs pour retour utilisateur
+            if (err?.response) {
+                const status = err.response.status;
+                const data = err.response.data;
+                let message = t('auth.login.errors.unknown');
+                if (status === 401) {
+                    message = t('auth.login.errors.invalid_credentials');
+                } else if (status === 400) {
+                    message = data.detail || data.message || t('auth.login.errors.bad_request');
+                } else if (status === 500) {
+                    message = t('auth.login.errors.server_error');
+                } else if (data && (data.detail || data.message)) {
+                    message = data.detail || data.message;
+                } else if (data) {
+                    message = t('auth.login.errors.unknown') + ': ' + JSON.stringify(data);
+                } else {
+                    message = t('auth.login.errors.no_data');
+                }
+                setError(message);
+                console.error('Erreur login:', status, data, err);
+            } else if (err?.message) {
+                setError(t('auth.login.errors.network_error') + err.message);
+                console.error('Erreur login:', err);
+            } else {
+                setError(t('auth.login.errors.unknown'));
+                console.error('Erreur login:', err);
+            }
         } finally {
             setLoading(false);
         }
@@ -46,16 +73,13 @@ export default function LoginPage() {
                 {/* Logo */}
                 <div className="text-center mb-8">
                     <Link href="/" className="inline-flex items-center space-x-2 mb-4">
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">
-                            <span className="text-white font-bold text-2xl">K</span>
-                        </div>
-                        <span className="text-3xl font-extrabold">
-                            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Kumba</span>
-                            <span className="text-slate-900 ml-1">Business</span>
+                        <img src="/icon.png" alt="OurSpace" className="w-12 h-12 rounded-xl shadow-lg border border-white/50" />
+                        <span className="text-xl font-extrabold">
+                            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">OurSpace</span>
                         </span>
                     </Link>
-                    <h1 className="text-3xl font-bold text-slate-900 mb-2">Bon retour !</h1>
-                    <p className="text-slate-600">Connectez-vous à votre compte</p>
+                    <h1 className="text-xl font-bold text-slate-900 mb-2">{t('auth.login.welcome')}</h1>
+                    <p className="text-slate-600">{t('auth.login.subtitle')}</p>
                 </div>
 
                 {/* Login Card */}
@@ -72,7 +96,7 @@ export default function LoginPage() {
                         {/* Email Field */}
                         <div>
                             <label className="block text-sm font-semibold text-slate-700 mb-2">
-                                Email
+                                {t('auth.login.email')}
                             </label>
                             <div className="relative">
                                 <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400" size={20} />
@@ -90,7 +114,7 @@ export default function LoginPage() {
                         {/* Password Field */}
                         <div>
                             <label className="block text-sm font-semibold text-slate-700 mb-2">
-                                Mot de passe
+                                {t('auth.login.password')}
                             </label>
                             <div className="relative">
                                 <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400" size={20} />
@@ -116,10 +140,10 @@ export default function LoginPage() {
                         <div className="flex items-center justify-between text-sm">
                             <label className="flex items-center cursor-pointer">
                                 <input type="checkbox" className="w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500" />
-                                <span className="ml-2 text-slate-700">Se souvenir de moi</span>
+                                <span className="ml-2 text-slate-700">{t('auth.login.remember_me')}</span>
                             </label>
                             <Link href="/auth/forgot-password" className="text-blue-600 hover:text-blue-700 font-semibold">
-                                Mot de passe oublié ?
+                                {t('auth.login.forgot_password')}
                             </Link>
                         </div>
 
@@ -132,10 +156,10 @@ export default function LoginPage() {
                             {loading ? (
                                 <>
                                     <Loader className="animate-spin mr-2" size={20} />
-                                    Connexion...
+                                    {t('auth.login.signing_in')}
                                 </>
                             ) : (
-                                'Se connecter'
+                                t('auth.login.submit')
                             )}
                         </button>
                     </form>
@@ -146,15 +170,15 @@ export default function LoginPage() {
                             <div className="w-full border-t border-slate-200"></div>
                         </div>
                         <div className="relative flex justify-center text-sm">
-                            <span className="px-4 bg-white text-slate-500">ou</span>
+                            <span className="px-4 bg-white text-slate-500">{t('auth.login.separator')}</span>
                         </div>
                     </div>
 
                     {/* Sign Up Link */}
                     <p className="text-center text-slate-600">
-                        Pas encore de compte ?{' '}
-                        <Link href="/auth/register" className="text-blue-600 hover:text-blue-700 font-bold">
-                            Créer un compte gratuit
+                        {t('auth.login.no_account')}{' '}
+                        <Link href="http://localhost:3001/register?redirect_url=http://localhost:3000/dashboard&app=business" className="text-blue-600 hover:text-blue-700 font-bold">
+                            {t('auth.login.register_link')}
                         </Link>
                     </p>
                 </div>
@@ -162,7 +186,7 @@ export default function LoginPage() {
                 {/* Back to Home */}
                 <div className="text-center mt-6">
                     <Link href="/" className="text-slate-600 hover:text-slate-900 text-sm font-medium">
-                        ← Retour à l'accueil
+                        ← {t('auth.login.back_to_home')}
                     </Link>
                 </div>
             </div>

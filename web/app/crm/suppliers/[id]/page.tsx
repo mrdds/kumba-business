@@ -78,7 +78,7 @@ export default function SupplierDetailsPage({ params }: { params: { id: string }
                         <ArrowLeft size={20} />
                     </Link>
                     <div className="flex-1">
-                        <h1 className="text-2xl font-bold text-gray-900">{supplier.name}</h1>
+                        <h1 className="text-lg font-bold text-gray-900">{supplier.name}</h1>
                         <p className="text-gray-500">Supplier / Contractor Dashboard</p>
                     </div>
                 </div>
@@ -89,7 +89,7 @@ export default function SupplierDetailsPage({ params }: { params: { id: string }
                         <div className="flex justify-between items-start mb-4">
                             <div>
                                 <p className="text-sm font-medium text-gray-500">Total Billed</p>
-                                <h3 className="text-2xl font-bold text-gray-900 mt-1">
+                                <h3 className="text-lg font-bold text-gray-900 mt-1">
                                     {formatCurrency(stats?.total_billed || 0, user?.company?.currency)}
                                 </h3>
                             </div>
@@ -104,7 +104,7 @@ export default function SupplierDetailsPage({ params }: { params: { id: string }
                         <div className="flex justify-between items-start mb-4">
                             <div>
                                 <p className="text-sm font-medium text-gray-500">Total Paid</p>
-                                <h3 className="text-2xl font-bold text-gray-900 mt-1">
+                                <h3 className="text-lg font-bold text-gray-900 mt-1">
                                     {formatCurrency(stats?.total_paid || 0, user?.company?.currency)}
                                 </h3>
                             </div>
@@ -119,7 +119,7 @@ export default function SupplierDetailsPage({ params }: { params: { id: string }
                         <div className="flex justify-between items-start mb-4">
                             <div>
                                 <p className="text-sm font-medium text-gray-500">Balance Due</p>
-                                <h3 className={`text-2xl font-bold mt-1 ${stats?.balance_due > 0 ? 'text-red-600' : 'text-gray-900'}`}>
+                                <h3 className={`text-lg font-bold mt-1 ${stats?.balance_due > 0 ? 'text-red-600' : 'text-gray-900'}`}>
                                     {formatCurrency(stats?.balance_due || 0, user?.company?.currency)}
                                 </h3>
                             </div>

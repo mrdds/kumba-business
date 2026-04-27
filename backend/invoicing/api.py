@@ -63,6 +63,34 @@ class InvoiceOutSchema(Schema):
     balance_due: float
     has_accounting_entry: bool
     items: List[InvoiceItemOutSchema]
+    approval_id: Optional[int] = None
+    approval_status: Optional[str] = None
+    rejection_reason: Optional[str] = None
+    approval_level: Optional[int] = None
+    
+    @staticmethod
+    def resolve_approval_id(obj):
+        from approvals.service import ApprovalService
+        info = ApprovalService.get_approval_info(obj)
+        return info['id'] if info else None
+
+    @staticmethod
+    def resolve_approval_status(obj):
+        from approvals.service import ApprovalService
+        info = ApprovalService.get_approval_info(obj)
+        return info['status'] if info else obj.status
+
+    @staticmethod
+    def resolve_rejection_reason(obj):
+        from approvals.service import ApprovalService
+        info = ApprovalService.get_approval_info(obj)
+        return info['rejection_reason'] if info else None
+
+    @staticmethod
+    def resolve_approval_level(obj):
+        from approvals.service import ApprovalService
+        info = ApprovalService.get_approval_info(obj)
+        return info['current_step'] if info else 1
 
     @staticmethod
     def resolve_total_amount(obj):
@@ -147,6 +175,34 @@ class InvoiceController:
             )
         
         return 201, invoice
+
+    @route.put('/{invoice_id}', response={200: InvoiceOutSchema})
+    @transaction.atomic
+    def update_invoice(self, request, invoice_id: int, payload: InvoiceCreateSchema):
+        """Update an existing invoice (if still DRAFT)"""
+        invoice = get_object_or_404(Invoice, id=invoice_id, company=request.user.company)
+        
+        if invoice.status != Invoice.Status.DRAFT:
+            return 400, {'error': 'Only draft invoices can be edited'}
+            
+        invoice.client_name = payload.client_name
+        invoice.client_email = payload.client_email
+        invoice.customer_id = payload.customer_id
+        invoice.date = payload.date
+        invoice.due_date = payload.due_date
+        invoice.save()
+        
+        # Replace items
+        invoice.items.all().delete()
+        for item in payload.items:
+            InvoiceItem.objects.create(
+                invoice=invoice,
+                description=item.description,
+                quantity=item.quantity,
+                unit_price=item.unit_price
+            )
+            
+        return 200, invoice
     
     @route.post('/{invoice_id}/record-payment', response={201: PaymentOutSchema})
     @transaction.atomic

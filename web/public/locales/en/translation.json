@@ -1,0 +1,1262 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "balance": "Current Balance",
+    "income": "Income",
+    "expenses": "Expenses",
+    "unpaid": "Unpaid Invoices",
+    "pending": "pending",
+    "payroll": "Payroll",
+    "quick_actions": "Quick Actions",
+    "recent_transactions": "Recent Transactions",
+    "view_all": "View All",
+    "no_transactions": "No transactions yet",
+    "monthly_proj": "Monthly Projection",
+    "welcome": {
+      "msg": "Welcome back, {{name}} !",
+      "subtitle": "Find your latest updates, manage your profile, and handle your requests from your personal dashboard."
+    },
+    "actions": {
+      "advance": "Request Advance",
+      "advance_desc": "Salary advance",
+      "profile": "My Profile",
+      "profile_desc": "View details",
+      "new_po": "New Purchase Order",
+      "new_po_desc": "Create PO for vendor",
+      "new_invoice": "New Invoice",
+      "new_invoice_desc": "Bill a client",
+      "monthly_proj": "Monthly Projection"
+    }
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "members": "Members",
+    "tontines": "Tontines",
+    "messages": "Messages",
+    "campaigns": "Campaigns",
+    "settings": "Settings",
+    "events": "Events",
+    "help": "Help",
+    "security": "Security",
+    "payroll": "Payroll",
+    "logout": "Log out"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "approvals": "Approvals",
+    "invoices": "Invoices",
+    "purchases": "Purchases",
+    "bills": "Bills",
+    "quotes": "Quotes",
+    "customers": "Customers",
+    "hr": "Human Resources",
+    "worksites": "Work Sites",
+    "infocenter": "Info Center",
+    "transactions": "Transactions",
+    "reports": "Reports",
+    "debts": "Debts",
+    "documents": "Documents",
+    "settings": "Settings",
+    "logout": "Logout",
+    "connect": "OurSpace Connect",
+    "new": "NEW"
+  },
+  "auth": {
+    "login": {
+      "welcome": "Welcome back!",
+      "subtitle": "Sign in to your account",
+      "email": "Email",
+      "password": "Password",
+      "forgot_password": "Forgot password?",
+      "submit": "Sign in",
+      "signing_in": "Signing in...",
+      "no_account": "Don't have an account?",
+      "register_link": "Sign up"
+    },
+    "register": {
+      "title": "Create an account",
+      "subtitle": "Join OurSpace and manage your finances",
+      "name": "Full name",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign up",
+      "signing_up": "Signing up...",
+      "has_account": "Already have an account?",
+      "login_link": "Log in"
+    }
+  },
+  "invoices": {
+    "title": "Invoices",
+    "create": "Create Invoice",
+    "create_page": {
+      "title": "Create New Invoice",
+      "client_details": "Client Details",
+      "select_customer": "Customer",
+      "select_placeholder": "Select a Customer...",
+      "add_customer": "Add New Customer",
+      "items": "Line Items",
+      "add_item": "Add Item",
+      "description": "Description",
+      "qty": "Qty",
+      "price": "Unit Price",
+      "total": "Total Amount",
+      "cancel": "Cancel",
+      "create_btn": "Create Invoice",
+      "error_select": "Please select a customer",
+      "success": "Invoice created successfully",
+      "error": "Failed to create invoice"
+    },
+    "print_page": {
+      "not_found": "Invoice not found",
+      "print_btn": "Print PDF",
+      "invoice": "INVOICE",
+      "bill_to": "Bill To",
+      "invoice_id": "Invoice ID:",
+      "date": "Date:",
+      "due_date": "Due Date:",
+      "subtotal": "Subtotal",
+      "total": "Total",
+      "unit_price": "Unit Price"
+    },
+    "table": {
+      "client": "Client",
+      "date": "Date",
+      "amount": "Amount",
+      "status": "Status",
+      "actions": "Actions",
+      "due": "Due:",
+      "no_records": "No invoices found. Create one to get started."
+    },
+    "actions": {
+      "submit_approval": "Submit for approval",
+      "print_pdf": "Print PDF",
+      "send_email": "Send Email"
+    },
+    "modals": {
+      "send": {
+        "title": "Send Invoice",
+        "message": "Are you sure you want to send invoice #{{id}} to {{email}}?",
+        "confirm": "Send Email"
+      },
+      "submit": {
+        "title": "Submit for Approval",
+        "message": "Are you sure you want to submit invoice #{{id}} for approval?",
+        "confirm": "Submit"
+      }
+    },
+    "toast": {
+      "send_success": "Email sent successfully!",
+      "send_error": "Failed to send email.",
+      "submit_success": "Invoice submitted for approval",
+      "submit_error": "Failed to submit invoice"
+    }
+  },
+  "purchases": {
+    "title": "Purchase Orders",
+    "subtitle": "Manage procurement and vendor orders",
+    "create": "New Order",
+    "no_records": {
+      "title": "No Purchase Orders Yet",
+      "subtitle": "Create your first purchase order to track expenses and vendor requests."
+    },
+    "card": {
+      "total": "Total Amount",
+      "status": {
+        "sent": "SENT",
+        "cancelled": "CANCELLED",
+        "draft": "DRAFT"
+      }
+    },
+    "modals": {
+      "delete": {
+        "title": "Delete Purchase Order",
+        "message": "Are you sure you want to delete this purchase order? This action cannot be undone.",
+        "confirm": "Delete"
+      }
+    },
+    "toast": {
+      "delete_success": "Purchase Order deleted successfully",
+      "delete_error": "Failed to delete purchase order"
+    },
+    "create_page": {
+      "title": "New Purchase Order (PO)",
+      "project_vendor": "Project & Vendor",
+      "vendor": "Vendor / Contractor",
+      "select": "Select Vendor...",
+      "add_vendor": "Add New Vendor",
+      "vendor_name": "Vendor Name *",
+      "email": "Email",
+      "phone": "Phone",
+      "tax_id": "Tax ID / NCC",
+      "address": "Address",
+      "save_vendor": "Save Vendor",
+      "project_name": "Project Name",
+      "project_name_placeholder": "e.g. HQ Renovation",
+      "items": "Items",
+      "add_item": "Add Item",
+      "desc": "Description",
+      "desc_placeholder": "Item Description",
+      "qty": "Qty",
+      "price": "Unit Price",
+      "total_items": "Total Items",
+      "total": "Total Amount",
+      "create_btn": "Create Purchase Order",
+      "creating": "Creating Order...",
+      "error_vendor": "Vendor Name is required",
+      "error_vendor_project": "Vendor and Project Name are required.",
+      "success_vendor": "Vendor created successfully",
+      "error_create_vendor": "Failed to create vendor",
+      "success": "Purchase Order created for {{vendor}}",
+      "error": "Failed to create Purchase Order"
+    },
+    "detail_page": {
+      "title": "Purchase Order #{{id}}",
+      "cancel_modal": {
+        "title": "Cancel Purchase Order",
+        "message": "Are you sure you want to CANCEL this order? This cannot be undone.",
+        "confirm": "Cancel Order"
+      },
+      "submit_modal": {
+        "title": "Submit for Approval",
+        "message": "Are you sure you want to submit this purchase order for approval?",
+        "confirm": "Submit"
+      },
+      "submit_for_approval": "Submit for Approval",
+      "edit": "Edit",
+      "cancel_order": "Cancel Order",
+      "vendor": "Vendor",
+      "date_created": "Date Created",
+      "expected_date": "Expected Date",
+      "notes": "Notes",
+      "items": "Items",
+      "desc": "Description",
+      "qty": "Qty",
+      "price": "Unit Price",
+      "amount": "Amount",
+      "total": "Total",
+      "toast": {
+        "error_load": "Failed to load purchase order",
+        "cancel_success": "Purchase Order has been cancelled.",
+        "cancel_error": "Failed to cancel order",
+        "submit_success": "Purchase Order submitted for approval.",
+        "submit_error": "Failed to submit order for approval"
+      }
+    },
+    "table": {
+      "input_date": "Input Date",
+      "vendor": "Vendor",
+      "invoice_no": "Invoice #",
+      "project_desc": "Project / Description",
+      "amount": "Amount",
+      "status": "Status",
+      "att": "Att.",
+      "action": "Action"
+    }
+  },
+  "profile": {
+    "title": "Employee Profile",
+    "my_profile": "My Profile",
+    "edit_profile": "Edit Profile",
+    "back_to_employees": "Back to Employees",
+    "manage_roles": "Manage Roles",
+    "not_found": {
+      "title": "Employee Not Found",
+      "desc": "We couldn't locate the employee details you requested.",
+      "back_btn": "Go Back"
+    },
+    "tabs": {
+      "overview": "Overview",
+      "payroll": "Payroll",
+      "documents": "Documents",
+      "settings": "Settings",
+      "empty_desc": "Information for {{tab}} will appear here."
+    },
+    "overview": {
+      "personal": "Personal Information",
+      "employment": "Employment Information",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "department": "Department",
+      "hire_date": "Hire Date",
+      "salary": "Base Salary"
+    },
+    "settings": {
+      "personal_title": "Personal Information",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "phone_label": "Phone Number",
+      "work_site": "Assigned Work Site",
+      "no_work_site": "No Work Site",
+      "address_label": "Address",
+      "address_placeholder": "Resident Address...",
+      "save_btn": "Save Changes",
+      "saving": "Saving...",
+      "preferences": "Preferences",
+      "notif_email": "Email Notifications",
+      "dark_mode": "Dark Mode",
+      "security": "Security & Password",
+      "curr_pass": "Current Password",
+      "new_pass": "New Password",
+      "confirm_pass": "Confirm New Password",
+      "update_password_btn": "Update Password",
+      "updating": "Updating...",
+      "photo_title": "Profile Photo",
+      "photo_desc": "Click below to upload a new profile picture. Recommended size: 500x500px.",
+      "upload_btn": "Upload Photo",
+      "status_title": "Account Status",
+      "curr_status": "Current Status",
+      "status_active": "Active",
+      "confirm_activate": "Activate this employee?",
+      "activate": "Activate Account",
+      "confirm_suspend": "Suspend this employee? They will not be able to login.",
+      "suspend_btn": "Suspend Account",
+      "confirm_ban": "Ban this employee? This is a severe action.",
+      "ban_btn": "Ban Employee"
+    },
+    "roles_modal": {
+      "title": "Manage Approval Roles",
+      "desc": "Select the specific approval groups for {{name}}."
+    },
+    "roles": {
+      "cancel": "Cancel",
+      "saving": "Saving...",
+      "save": "Save Changes",
+      "PROJECT_MANAGER": "Project Manager",
+      "OPERATOR_MANAGER": "Operator Manager",
+      "GENERAL_MANAGER": "General Manager",
+      "FINANCE": "Finance Officer"
+    },
+    "alerts": {
+      "role_update_error": "Failed to update roles",
+      "password_mismatch": "New passwords do not match",
+      "password_success": "Password updated successfully",
+      "password_error": "Failed to update password",
+      "personal_success": "Personal details updated",
+      "personal_error": "Failed to update personal details",
+      "photo_success": "Profile photo updated",
+      "photo_error": "Failed to upload photo",
+      "role_success": "Roles updated successfully",
+      "status_success": "Account status updated",
+      "status_error": "Failed to update status",
+      "job_title": "Job Title",
+      "bio": "Bio",
+      "phone_numbers": "Phone Numbers",
+      "add_number": "Add number",
+      "primary_phone": "Primary Phone",
+      "whatsapp": "WhatsApp"
+    }
+  },
+  "bills": {
+    "title": "Vendor Bills",
+    "subtitle": "Manage invoices from subcontractors and suppliers",
+    "record_bill": "Record Bill",
+    "search": "Search by vendor, invoice #, or project...",
+    "no_records": {
+      "title": "No bills recorded",
+      "subtitle": "Record your first vendor bill or subcontractor invoice."
+    },
+    "create_page": {
+      "title": "Record Vendor Bill",
+      "subtitle": "Record a new invoice received from a supplier or contractor",
+      "vendor": "Vendor / Contractor",
+      "vendor_select": "Select Vendor...",
+      "invoice_no": "Invoice Number",
+      "invoice_no_placeholder": "e.g. INV-2023-001",
+      "date": "Date",
+      "attachment": "Attachment (Invoice Photo/PDF)",
+      "upload": "Click to upload photo or PDF",
+      "notes": "Notes",
+      "notes_placeholder": "Additional details...",
+      "line_items": "Line Items",
+      "add_item": "Add Item",
+      "desc_placeholder": "Description / Service",
+      "qty_placeholder": "Qty",
+      "price_placeholder": "Price",
+      "total_amount": "Total Amount",
+      "cancel": "Cancel",
+      "submit": "Record Bill",
+      "error_vendor": "Please select a vendor",
+      "error_items": "Please check item details",
+      "success": "Bill recorded successfully",
+      "error": "Failed to record bill. Please try again."
+    },
+    "table": {
+      "input_date": "Input Date",
+      "vendor": "Vendor",
+      "invoice_no": "Invoice No.",
+      "project_desc": "Project / Description",
+      "amount": "Amount",
+      "status": "Status",
+      "att": "Att.",
+      "action": "Action"
+    },
+    "errors": {
+      "fetch_failed": "Failed to fetch bills"
+    },
+    "details_page": {
+      "cancel_modal": {
+        "title": "Cancel Bill",
+        "message": "Are you sure you want to CANCEL this bill? This cannot be undone.",
+        "confirm": "Cancel Bill"
+      },
+      "submit_modal": {
+        "title": "Submit for Approval",
+        "message": "Are you sure you want to submit this bill for approval?",
+        "confirm": "Submit"
+      },
+      "vendor_bill": "Vendor Bill",
+      "view_invoice": "View Invoice",
+      "submit_btn": "Submit for Approval",
+      "cancel_btn": "Cancel",
+      "vendor": "Vendor",
+      "invoice_no": "Invoice #",
+      "date": "Date",
+      "due_date": "Due Date",
+      "notes": "Notes",
+      "items": "Bill Items",
+      "desc": "Description",
+      "qty": "Qty",
+      "price": "Unit Price",
+      "amount": "Amount",
+      "total": "Total Amount",
+      "toast_load_error": "Failed to load bill details",
+      "toast_cancel_success": "Bill has been cancelled.",
+      "toast_cancel_error": "Failed to cancel bill",
+      "toast_submit_success": "Bill submitted for approval.",
+      "toast_submit_error": "Failed to submit bill for approval"
+    }
+  },
+  "quotes": {
+    "title": "Quotes",
+    "subtitle": "Manage client proposals and estimates",
+    "new_quote": "New Quote",
+    "empty_title": "No quotes yet",
+    "empty_desc": "Create your first quote to send to a client.",
+    "create_btn": "Create Quote",
+    "table": {
+      "id": "ID",
+      "client": "Client",
+      "date": "Date",
+      "valid_until": "Valid Until",
+      "amount": "Amount",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "actions": {
+      "convert": "Convert",
+      "converted": "Converted"
+    },
+    "convert_modal": {
+      "title": "Convert Quote",
+      "message": "Are you sure you want to convert this quote to an Invoice? A new invoice will be created from the quote details.",
+      "confirm": "Convert"
+    },
+    "submit_modal": {
+      "title": "Submit for Approval",
+      "message": "Are you sure you want to submit quote #{{id}} for approval?",
+      "confirm": "Submit"
+    },
+    "toast_convert_success": "Quote converted to Invoice successfully!",
+    "toast_convert_error": "Failed to convert quote",
+    "toast_submit_success": "Quote submitted for approval",
+    "toast_submit_error": "Failed to submit quote",
+    "create_page": {
+      "title": "New Quote",
+      "error_customer": "Please select a customer",
+      "success": "Quote created successfully",
+      "error": "Failed to create quote",
+      "client_dates": "Client & Dates",
+      "customer": "Select Customer",
+      "customer_select": "Select a customer...",
+      "quote_date": "Quote Date",
+      "valid_until": "Valid Until",
+      "items": "Items",
+      "add_item": "Add Item",
+      "desc": "Description",
+      "qty": "Qty",
+      "price": "Price",
+      "total_amount": "Total Amount",
+      "cancel": "Cancel",
+      "submit": "Create Quote"
+    }
+  },
+  "transactions": {
+    "title": "Transactions",
+    "search": "Search transactions...",
+    "table": {
+      "type": "Type",
+      "description": "Description",
+      "category": "Category",
+      "date": "Date",
+      "amount": "Amount",
+      "no_records": "No transactions found"
+    },
+    "modal": {
+      "title": "Transaction Details",
+      "ref": "Ref",
+      "loading": "Loading details...",
+      "error": "Failed to load transaction details.",
+      "try_again": "Try Again",
+      "accounting_entries": "Accounting Entries",
+      "table": {
+        "account": "Account",
+        "description": "Description",
+        "debit": "Debit",
+        "credit": "Credit",
+        "total": "Total"
+      },
+      "close": "Close"
+    }
+  },
+  "debts": {
+    "title": "Debt Management",
+    "subtitle": "Track what you owe and what is owed to you",
+    "add_btn": "Add {{type}}",
+    "debt": "Debt",
+    "credit": "Receivable",
+    "tabs": {
+      "suppliers": "Supplier Debts",
+      "clients": "Client Receivables"
+    },
+    "empty": {
+      "title": "All caught up!",
+      "desc": "You have no pending {{type}} at the moment."
+    },
+    "status": {
+      "paid": "Paid",
+      "partial": "Partial",
+      "pending": "Pending"
+    },
+    "card": {
+      "no_desc": "No description",
+      "total": "Total Amount",
+      "paid": "Already Paid",
+      "outstanding": "Outstanding",
+      "record_payment": "Record Payment"
+    },
+    "modal_create": {
+      "title": "New {{type}}",
+      "name_label": "Contact name",
+      "amount_label": "Amount",
+      "date_label": "Due date",
+      "desc_label": "Description",
+      "cancel": "Cancel",
+      "save": "Save",
+      "auto_contact_success": "New contact created automatically"
+    },
+    "modal_confirm": {
+      "title": "Record a payment",
+      "message": "Do you want to record a payment for this debt? Remaining amount: {{amount}}",
+      "confirm": "Confirm payment",
+      "placeholder": "Amount to pay"
+    },
+    "toast": {
+      "invalid_amount": "Please enter a valid amount",
+      "pay_success": "Payment recorded successfully",
+      "pay_error": "Error recording payment",
+      "create_success": "Debt created successfully",
+      "create_error": "Error creating debt"
+    }
+  },
+  "crm": {
+    "customers": {
+      "title": "Customers",
+      "add_btn": "Add Customer",
+      "search_placeholder": "Search customers...",
+      "no_email": "No email",
+      "no_phone": "No phone",
+      "no_address": "No address",
+      "view_details": "View Details",
+      "empty_title": "No customers yet",
+      "empty_desc": "Add your first customer to get started.",
+      "add_first": "Add Customer",
+      "create": {
+        "title": "Add Customer",
+        "label_name": "Customer / Company Name",
+        "label_email": "Email",
+        "label_phone": "Phone",
+        "label_address": "Address",
+        "label_tax_id": "Tax ID / NINEA",
+        "cancel": "Cancel",
+        "save": "Save Customer"
+      },
+      "toast": {
+        "create_success": "Customer created successfully!",
+        "create_error": "Failed to create customer"
+      }
+    },
+    "suppliers": {
+      "title": "Suppliers",
+      "add_btn": "Add Supplier",
+      "search_placeholder": "Search suppliers...",
+      "no_email": "No email",
+      "no_phone": "No phone",
+      "no_address": "No address",
+      "view_dashboard": "View Dashboard",
+      "empty_title": "No suppliers yet",
+      "empty_desc": "Add your first supplier or subcontractor.",
+      "add_first": "Add Supplier",
+      "create": {
+        "title": "Add Supplier",
+        "label_name": "Supplier / Company Name",
+        "label_email": "Email",
+        "label_phone": "Phone",
+        "label_address": "Address",
+        "label_tax_id": "Tax ID / NINEA",
+        "cancel": "Cancel",
+        "save": "Save Supplier"
+      },
+      "toast": {
+        "create_success": "Supplier created successfully!",
+        "create_error": "Failed to create supplier"
+      }
+    }
+  },
+    "hr": {
+        "dashboard": {
+            "title": "HR Dashboard"
+        },
+        "profile": {
+            "title": "Employee Profile",
+            "my_profile": "My Profile",
+            "save_error": "Error while saving",
+            "upload_doc": "Upload Document",
+            "no_docs": "No documents in folder.",
+            "doc_uploaded": "Document uploaded successfully",
+            "doc_deleted": "Document deleted",
+            "upload_btn_confirm": "Confirm Upload",
+            "not_found_title": "Employee not found",
+            "not_found_desc": "The requested profile does not exist.",
+            "photo_updated": "Photo updated",
+            "error_upload": "Upload error",
+            "save_success": "Saved successfully",
+            "no_matricule": "No matricule assigned",
+            "hq": "Headquarters",
+            "tabs": {
+                "identity": "Identity",
+                "professional": "Professional",
+                "education": "Education & Exp",
+                "admin": "Administrative",
+                "documents": "Documents",
+                "security": "Security"
+            },
+            "sections": {
+                "identity": "Identity & Role",
+                "personal": "Personal Information",
+                "status": "Marital Status & Contact",
+                "career": "Career",
+                "pay": "Compensation",
+                "education": "Education & Degrees",
+                "experience": "Professional Experience",
+                "administration": "Administrative IDs",
+                "emergency": "Emergency Contact",
+                "permissions": "Roles & Access",
+                "documents": "Digital Folder"
+            },
+            "fields": {
+                "gender": "Gender",
+                "birth_date": "Birth Date",
+                "birth_place": "Birth Place",
+                "nationality": "Nationality",
+                "marital_status": "Marital Status",
+                "children": "Children Count",
+                "phone": "Phone",
+                "email": "Email",
+                "address": "Residential Address",
+                "matricule": "Employee ID",
+                "position": "Position",
+                "department": "Department",
+                "hire_date": "Hire Date",
+                "category": "Category",
+                "base_salary": "Base Salary",
+                "education_level": "Education Level",
+                "study_field": "Field of Study",
+                "cnps": "CNPS Number",
+                "emergency_name": "Contact (Name)",
+                "emergency_phone": "Contact (Phone)"
+            }
+        },
+        "employees": {
+            "title": "Employees",
+            "subtitle": "Manage your team and payroll",
+            "add_btn": "Add Employee",
+            "no_record_title": "No employees found",
+            "no_record_desc": "Start by adding your first employee.",
+            "active": "Active",
+            "view_details": "View Details",
+            "salary_period": "/ month",
+            "create": {
+                "back": "Back to Team List",
+                "title": "Employee Onboarding",
+                "subtitle": "Register a new team member with their digital identity, professional role, and system permissions.",
+                "status_label": "Status",
+                "status_value": "Drafting Onboarding",
+                "photo_section": "Profile Photo",
+                "photo_hint": "Use a professional headshot for best results in the Klock mobile app. Max 5MB.",
+                "change": "Change",
+                "identity_title": "Personal & Professional Details",
+                "first_name": "First Name *",
+                "last_name": "Last Name *",
+                "email": "Professional Email *",
+                "job_title": "Job Title *",
+                "select_title": "Select Title...",
+                "base_salary": "Base Salary (Annual)",
+                "role_title": "System Role & Security",
+                "access_level": "Access Level",
+                "security_title": "Security Authentication",
+                "security_desc": "OurSpace will auto-generate a secure 12-character password. Welcome instructions and credentials will be sent to the employee's professional email.",
+                "discard": "Discard",
+                "submit": "Finalize Onboarding",
+                "processing": "Processing...",
+                "required_fields_error": "Please fill all required fields.",
+                "success": "Employee created successfully!",
+                "error": "Failed to onboard employee"
+            }
+        },
+        "attendance": {
+            "title": "Today's Attendance",
+            "table": {
+                "employee": "Employee",
+                "in": "In",
+                "out": "Out",
+                "status": "Status"
+            },
+            "empty": "No attendance records today.",
+            "status": {
+                "late": "LATE",
+                "on_time": "ON TIME"
+            }
+        },
+        "advances": {
+            "title": "Advance Requests",
+            "empty": "No pending requests.",
+            "reason_placeholder": "No reason",
+            "approve": "Approve",
+            "reject": "Reject",
+            "loading": "Loading...",
+            "toast": {
+                "approve_success": "Advance approved!",
+                "reject_success": "Advance rejected!"
+            }
+        }
+    },
+  "tontines": {
+    "title": "Tontines (Savings Groups)",
+    "subtitle": "Manage group savings and contributions",
+    "new_group": "New Group",
+    "back_to_groups": "← Back to Groups",
+    "add_member": "Add Member",
+    "record_contribution": "Record Contribution",
+    "members_count": "Members",
+    "no_members": "No members yet.",
+    "history_title": "Contributions History",
+    "table": {
+      "date": "Date",
+      "member": "Member",
+      "amount": "Amount",
+      "status": "Status"
+    },
+    "status": {
+      "paid": "Paid",
+      "missed": "Missed"
+    },
+    "no_contributions": "No contributions recorded yet.",
+    "empty_groups": "No active tontines found. Create one to get started!",
+    "modals": {
+      "create_group": {
+        "title": "New Savings Group",
+        "name": "Group Name",
+        "amount": "Contribution Amount",
+        "frequency": "Frequency",
+        "weekly": "Weekly",
+        "monthly": "Monthly",
+        "create_btn": "Create",
+        "cancel": "Cancel"
+      },
+      "add_member": {
+        "title": "Add Member",
+        "name": "Full Name",
+        "phone": "Phone (Optional)",
+        "add_btn": "Add",
+        "cancel": "Cancel"
+      },
+      "record_contribution": {
+        "title": "Record Contribution",
+        "select_member": "Select Member",
+        "date": "Date",
+        "status": "Status",
+        "save_btn": "Save",
+        "cancel": "Cancel"
+      }
+    },
+    "toast": {
+      "group_success": "Group created successfully!",
+      "group_error": "Failed to create group",
+      "member_success": "Member added successfully!",
+      "member_error": "Failed to add member",
+      "contrib_success": "Contribution recorded successfully!",
+      "contrib_error": "Failed to record contribution"
+    }
+  },
+  "budgets": {
+    "title": "Budgets & Analysis",
+    "subtitle": "Track spending against your targets",
+    "add_btn": "Create Budget",
+    "no_record_title": "No active budgets",
+    "no_record_desc": "Set spending limits for your categories.",
+    "first_budget": "Create First Budget",
+    "spent": "spent",
+    "of": "of",
+    "remaining": "remaining",
+    "over_budget": "Over budget by",
+    "used": "used"
+  },
+  "reports": {
+    "title": "Reports & Analytics",
+    "subtitle": "Financial performance overview",
+    "export_pnl": "Export P&L",
+    "export_accountant": "Accountant Export",
+    "income": "Total Income",
+    "expenses": "Total Expenses",
+    "profit": "Net Profit",
+    "chart_title": "Monthly P&L (Income vs Expenses)",
+    "detailed_breakdown": "Detailed Breakdown",
+    "table": {
+      "month": "Month",
+      "income": "Income",
+      "expenses": "Expenses",
+      "profit_loss": "Profit / Loss"
+    }
+  },
+  "accounting": {
+    "title": "Accounting Dashboard",
+    "subtitle": "Comprehensive financial overview",
+    "loading": "Loading accounting data...",
+    "kpis": {
+      "ar": "Accounts Receivable (411)",
+      "ar_desc": "Money owed to us by customers",
+      "ap": "Accounts Payable (401)",
+      "ap_desc": "Money we owe to suppliers",
+      "cash": "Cash Balance (53)",
+      "cash_desc": "Available liquid cash",
+      "profit": "Net Profit (YTD)",
+      "profit_desc": "Year to date performance"
+    },
+    "actions": {
+      "coa": "Chart of Accounts",
+      "coa_desc": "Manage your account structure",
+      "journal": "Journal Entries",
+      "journal_desc": "View all accounting entries",
+      "reports": "Financial Reports",
+      "reports_desc": "Generate P&L and Balance Sheet"
+    },
+    "table": {
+      "title": "Key Account Balances",
+      "code": "Code",
+      "name": "Account Name",
+      "type": "Type",
+      "balance": "Balance",
+      "view_all": "View all accounts →"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your company and profile preferences.",
+    "tabs": {
+      "company": "Company Settings",
+      "profile": "User Profile"
+    },
+    "company": {
+      "title": "Company Information",
+      "logo": "Company Logo",
+      "logo_desc": "Upload your company logo (JPG, PNG).",
+      "name": "Company Name",
+      "sector": "Business Sector",
+      "address": "Address",
+      "tax_id": "Tax ID / Tax Payer ID",
+      "reg_no": "Registration Number (RCCM)",
+      "phone": "Phone",
+      "email": "Email",
+      "website": "Website",
+      "currency": "Default Currency",
+      "tax_rate": "Tax Rate (%)",
+      "save": "Save Changes",
+      "saving": "Saving..."
+    },
+    "profile": {
+      "title": "User Profile",
+      "photo": "Profile Photo",
+      "photo_desc": "Upload a new photo (JPG, PNG).",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "job_title": "Job Title / Position",
+      "bio": "Bio / Description",
+      "phone_numbers": "Phone Numbers",
+      "add_number": "Add number",
+      "primary_phone": "Primary Phone",
+      "whatsapp": "Available on WhatsApp",
+      "language": "Interface Language",
+      "timezone": "Timezone",
+      "save": "Update Profile",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "company_success": "Company details updated successfully!",
+      "company_error": "Failed to update company details",
+      "profile_success": "Profile updated successfully!",
+      "profile_error": "Failed to update profile"
+    }
+  },
+  "documents": {
+    "title": "Document Management",
+    "subtitle": "Store and organize your business documents",
+    "feature_coming": "Upload feature coming soon",
+    "add_new": "New Document",
+    "search_placeholder": "Search for a document...",
+    "no_docs": "No documents found",
+    "no_docs_subtitle": "Start by adding your first document",
+    "table": {
+      "name": "Name",
+      "category": "Category",
+      "size": "Size",
+      "date": "Date",
+      "actions": "Actions"
+    }
+  },
+  "approvals": {
+    "title": "Approvals Center",
+    "subtitle": "Manage pending requests requiring your authorization",
+    "empty": {
+      "title": "All Clear!",
+      "desc": "You have no pending approvals at the moment."
+    },
+    "card": {
+      "requested_by": "Requested by: {{name}}",
+      "follow_path": "Follow path",
+      "review": "Review",
+      "view_details": "View Details",
+      "reject": "Reject",
+      "approve": "Approve"
+    },
+    "modal_confirm": {
+      "approve_title": "Confirm Approval",
+      "reject_title": "Reject Request",
+      "approve_msg": "Are you sure you want to approve this request? This action cannot be undone.",
+      "reject_msg": "Please provide a reason for rejecting this request.",
+      "confirm_approve": "Approve",
+      "confirm_reject": "Reject Request",
+      "placeholder": "Reason for rejection..."
+    },
+    "toast": {
+      "fetch_error": "Failed to fetch pending approvals",
+      "approve_success": "Request approved successfully",
+      "reject_success": "Request rejected successfully",
+      "action_error": "Failed to {{type}} request"
+    },
+    "types": {
+      "bill": "Vendor Bill",
+      "payroll": "Payroll Run",
+      "purchase": "Purchase Order",
+      "quote": "Quote"
+    }
+  },
+  "approval_status": {
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "pending": "Pending",
+    "pending_step": "Pending (Step {{step}})",
+    "draft": "Draft",
+    "sent": "Sent",
+    "paid": "Paid",
+    "partial": "Partial",
+    "overdue": "Overdue"
+  },
+  "onboarding": {
+    "welcome": "Welcome to OurSpace",
+    "subtitle": "Let's set up your workspace in seconds.",
+    "steps": {
+      "company": "Company",
+      "role": "Role",
+      "subscription": "Subscription",
+      "payment": "Payment"
+    },
+    "company": {
+      "name_label": "Company Name",
+      "name_placeholder": "Ex: OurSpace Tech LLC",
+      "sector_label": "Business Sector",
+      "currency_label": "Central Currency",
+      "continue": "Continue"
+    },
+    "role": {
+      "title": "Your Admin Profile",
+      "desc": "As the creator, you have <strong>Super Admin</strong> rights. Specify your title to personalize your documents.",
+      "job_label": "Your function / position",
+      "job_placeholder": "Ex: General Manager, Co-founder...",
+      "back": "Back",
+      "next": "Next"
+    },
+    "plans": {
+      "free": {
+        "title": "Free",
+        "subtitle": "Ideal to start",
+        "price": "€0",
+        "select": "Select Free"
+      },
+      "pro": {
+        "title": "Professional",
+        "subtitle": "Everything for your SME",
+        "price": "€49",
+        "popular": "Popular",
+        "pay": "Pay with OurSpace Pay"
+      },
+      "period": "/month",
+      "features": {
+        "user_limit_1": "1 User",
+        "unlimited_users": "Unlimited Users",
+        "invoicing": "Invoice & Quote Management",
+        "crm": "CRM (Clients)",
+        "mobile_no": "No Klock Mobile App access",
+        "chat": "OurSpace (E2EE Chat & Video)",
+        "mobile_yes": "Klock Mobile (Time tracking)",
+        "full_suite": "Purchase Orders, Quotes, Invoices",
+        "hr": "HR & Payslips",
+        "more": "... and many other benefits"
+      },
+      "modify_back": "Modify previous information"
+    },
+    "payment": {
+      "title": "Secure Payment",
+      "desc": "Please authorize the <strong>€49/month</strong> payment via your OurSpace Pay account.",
+      "phone_label": "OurSpace Pay Phone Number",
+      "phone_placeholder": "Ex: +225 01 02 03 04 05",
+      "processing": "Validation in progress...",
+      "pay_now": "Pay €49.00",
+      "back_to_plans": "Back to subscriptions",
+      "error": "Payment failed with OurSpace Pay. Please try again."
+    },
+    "success": {
+      "title": "Congratulations!",
+      "desc": "Your workspace <strong>{{name}}</strong> is ready. We are preparing your access...",
+      "redirect": "Redirecting to dashboard"
+    },
+    "footer": {
+      "secure": "Secure Data",
+      "standard": "OHADA Standard",
+      "support": "Support: support@ourspace.app"
+    },
+    "toast": {
+      "company_error": "Error creating company",
+      "profile_error": "Error updating profile",
+      "sub_error": "Error updating subscription"
+    }
+  },
+  "landing": {
+    "nav": {
+      "features": "Features",
+      "accounting": "Accounting",
+      "pricing": "Pricing",
+      "login": "Login",
+      "free_trial": "Free Trial →"
+    },
+    "hero": {
+      "title": "The <1>Automatic Accounting</1><2/>for African SMEs",
+      "subtitle": "Invoices, Payroll, Purchases → <1>Automatic accounting entries</1>. Balance Sheet and P&L <2>in one click</2>.",
+      "cta_start": "Start for free",
+      "cta_view": "View Accounting",
+      "proof": {
+        "companies": "<1>500+</1> companies",
+        "ohada": "<1>OHADA</1> compliant",
+        "start": "<1>€0</1> to start"
+      }
+    },
+    "accounting": {
+      "title": "No more Excel! Switch to <1>Real Accounting</1>",
+      "subtitle": "A complete double-entry accounting system, like QuickBooks, but adapted for Africa.",
+      "features": {
+        "auto_entries": {
+          "title": "Automatic Entries",
+          "desc": "Every invoice, purchase, or payroll automatically generates accounting entries. No more errors!"
+        },
+        "financial_states": {
+          "title": "Instant Financial States",
+          "desc": "Income Statement, Balance Sheet, Cash Flow generated in one click. Always up to date."
+        },
+        "ohada_plan": {
+          "title": "OHADA Chart of Accounts",
+          "desc": "36 pre-configured accounts according to African standards. Ready to use in 2 minutes."
+        }
+      },
+      "how_it_works": {
+        "title": "How it works?",
+        "steps": [
+          "You create an invoice → Automatic accounting entry (DR: Accounts Receivable, CR: Revenue)",
+          "Client pays → Payment entry (DR: Cash, CR: Accounts Receivable)",
+          "You purchase → Purchase entry (DR: Expenses, CR: Accounts Payable)",
+          "Financial states → Always up to date in real-time"
+        ],
+        "journal_entry": "Journal Entry #001",
+        "balanced": "✓ Balanced • POSTED"
+      }
+    },
+    "key_features": {
+      "title": "Everything your SME needs",
+      "subtitle": "A complete platform to manage finances, HR, clients, and projects.",
+      "list": {
+        "billing": {
+          "title": "Pro Billing",
+          "desc": "Quotes, invoices, automatic reminders. Integrated Mobile Money payment links."
+        },
+        "hr": {
+          "title": "HR & Payroll Management",
+          "desc": "Employees, payslips, leaves, advances. Auto-generated accounting entries."
+        },
+        "budgets": {
+          "title": "Budgets & Projects",
+          "desc": "Track visibility for each project. Budget vs Actual in real-time."
+        },
+        "reports": {
+          "title": "Powerful Reports",
+          "desc": "Dashboard, P&L, Balance Sheet, Aging reports. Excel/PDF export."
+        },
+        "crm": {
+          "title": "Simple CRM",
+          "desc": "Manage clients and vendors. Complete transaction history."
+        },
+        "mobile": {
+          "title": "Mobile First",
+          "desc": "iOS & Android mobile app. Manage everywhere, all the time."
+        }
+      }
+    },
+    "why": {
+      "title": "Why OurSpace?",
+      "items": {
+        "time": {
+          "title": "Save 20h per month",
+          "desc": "Complete accounting automation. No more manual data entry."
+        },
+        "ohada": {
+          "title": "100% OHADA Compliant",
+          "desc": "African chart of accounts, local tax rules. Ready for your accountant."
+        },
+        "secure": {
+          "title": "Secure Data",
+          "desc": "SSL encryption, daily backups, reliable cloud hosting."
+        },
+        "vision": {
+          "title": "Clear Financial Vision",
+          "desc": "Know EXACTLY how much you earn, owe, possess. In real-time."
+        }
+      },
+      "preview": {
+        "title": "Trial Balance",
+        "totals": "TOTALS",
+        "balanced": "Balanced Sheet ✓"
+      }
+    },
+    "pricing": {
+      "title": "Transparent Pricing",
+      "subtitle": "Start for free. Scale when you're ready.",
+      "plans": {
+        "starter": {
+          "name": "Starter",
+          "price": "0",
+          "period": "Free",
+          "desc": "For testing and small structures",
+          "features": [
+            "1 User",
+            "5 Invoices/month",
+            "Basic Dashboard",
+            "Email Support"
+          ],
+          "cta": "Start"
+        },
+        "pro": {
+          "name": "Pro",
+          "price": "15,000",
+          "period": "/month",
+          "desc": "For growing SMEs",
+          "popular": "⭐ POPULAR",
+          "features": [
+            "5 Users",
+            "Unlimited Invoicing",
+            "Complete Accounting",
+            "HR & Payroll Management",
+            "Priority Support",
+            "Mobile Apps"
+          ],
+          "cta": "Try for 30 days"
+        },
+        "enterprise": {
+          "name": "Business",
+          "price": "Custom",
+          "period": "",
+          "desc": "For large structures",
+          "features": [
+            "Unlimited Users",
+            "API & Integrations",
+            "Dedicated Training",
+            "Account Manager",
+            "Guaranteed SLA"
+          ],
+          "cta": "Contact us"
+        }
+      }
+    },
+    "cta_final": {
+      "title": "Ready to transform your management?",
+      "subtitle": "Join 500+ African companies that have said goodbye to Excel.",
+      "cta1": "Create my free account →",
+      "cta2": "Discover Accounting"
+    },
+    "footer": {
+      "desc": "Automatic accounting for African SMEs. Simple, Powerful, Secure.",
+      "product": "Product",
+      "company": "Company",
+      "legal": "Legal",
+      "about": "About",
+      "contact": "Contact",
+      "blog": "Blog",
+      "privacy": "Privacy",
+      "terms": "Terms of Use",
+      "copyright": "© {{year}} OurSpace. Made with ❤️ for Africa."
+    }
+  },
+  "connect": {
+    "title": "OurSpace Connect",
+    "new_chat": "New Chat",
+    "new_message": "New Message",
+    "employee": "Employee",
+    "load_error": "Failed to load conversations",
+    "create_error": "Failed to create chat",
+    "messages": "Messages",
+    "no_conversations": "No conversations yet.",
+    "direct_message": "Direct Message",
+    "no_messages": "No messages yet",
+    "select_to_start": "Select a conversation to start chatting",
+    "type_message": "Type a message...",
+    "chat": "Chat"
+  },
+  "common": {
+    "create": "Create",
+    "save": "Save",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "success": "Success",
+    "error": "Error",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "close": "Close",
+    "confirm": "Confirm",
+    "system": "System",
+    "active": "ACTIVE",
+    "none": "None",
+    "add": "Add",
+    "saving": "Saving...",
+    "save_changes": "Save Changes",
+    "back": "Back"
+  }
+}

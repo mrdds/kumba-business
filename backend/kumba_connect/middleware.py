@@ -19,11 +19,11 @@ def get_user(token):
         except User.DoesNotExist:
             # Fallback to kumba_uid or PK if email fails
             try:
-                return User.objects.get(kumba_uid=user_identity)
+                return User.objects.get(kumba_id=user_identity)
             except (User.DoesNotExist, ValueError):
                 try:
-                    return User.objects.get(id=user_identity)
-                except User.DoesNotExist:
+                    return User.objects.get(kumba_uid=user_identity)
+                except (User.DoesNotExist, ValueError):
                     return AnonymousUser()
     except Exception as e:
         print(f"JWT Auth Error: {e}")

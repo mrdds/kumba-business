@@ -5,8 +5,10 @@ import { useAuth } from '@/context/AuthContext';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { getPnLReport, getExportUrl } from '../../services/api';
 import { Loader2, Download, TrendingUp, TrendingDown, DollarSign, FileText } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function ReportsPage() {
+    const { t } = useTranslation();
     const { user } = useAuth();
     const [loading, setLoading] = useState(true);
     const [report, setReport] = useState<any[]>([]);
@@ -42,8 +44,8 @@ export default function ReportsPage() {
         <DashboardLayout>
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Reports & Analytics</h1>
-                    <p className="text-gray-500">Financial performance overview</p>
+                    <h1 className="text-lg font-bold text-gray-900">{t('reports.title')}</h1>
+                    <p className="text-gray-500">{t('reports.subtitle')}</p>
                 </div>
                 <div className="flex items-center gap-4">
                     <select
@@ -59,13 +61,13 @@ export default function ReportsPage() {
                         href={getExportUrl('pnl', year)}
                         className="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-50 transition-colors font-medium"
                     >
-                        <FileText size={18} /> Export P&L
+                        <FileText size={18} /> {t('reports.export_pnl')}
                     </a>
                     <a
                         href={getExportUrl('accountant', year)}
                         className="bg-gray-900 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-800 transition-colors font-medium"
                     >
-                        <Download size={18} /> Accountant Export
+                        <Download size={18} /> {t('reports.export_accountant')}
                     </a>
                 </div>
             </div>
@@ -78,8 +80,8 @@ export default function ReportsPage() {
                             <TrendingUp size={24} className="text-green-600" />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-500 font-medium">Total Income</p>
-                            <h3 className="text-2xl font-bold text-gray-900">{formatCurrency(totals.income, user?.company?.currency)}</h3>
+                            <p className="text-sm text-gray-500 font-medium">{t('reports.income')}</p>
+                            <h3 className="text-lg font-bold text-gray-900">{formatCurrency(totals.income, user?.company?.currency)}</h3>
                         </div>
                     </div>
                 </div>
@@ -89,8 +91,8 @@ export default function ReportsPage() {
                             <TrendingDown size={24} className="text-red-600" />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-500 font-medium">Total Expenses</p>
-                            <h3 className="text-2xl font-bold text-gray-900">{formatCurrency(totals.expenses, user?.company?.currency)}</h3>
+                            <p className="text-sm text-gray-500 font-medium">{t('reports.expenses')}</p>
+                            <h3 className="text-lg font-bold text-gray-900">{formatCurrency(totals.expenses, user?.company?.currency)}</h3>
                         </div>
                     </div>
                 </div>
@@ -100,8 +102,8 @@ export default function ReportsPage() {
                             <DollarSign size={24} className="text-blue-600" />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-500 font-medium">Net Profit</p>
-                            <h3 className={`text-2xl font-bold ${totals.profit >= 0 ? 'text-gray-900' : 'text-red-600'}`}>
+                            <p className="text-sm text-gray-500 font-medium">{t('reports.profit')}</p>
+                            <h3 className={`text-lg font-bold ${totals.profit >= 0 ? 'text-gray-900' : 'text-red-600'}`}>
                                 {formatCurrency(totals.profit, user?.company?.currency)}
                             </h3>
                         </div>
@@ -111,7 +113,7 @@ export default function ReportsPage() {
 
             {/* Chart Section */}
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-8">
-                <h3 className="text-lg font-bold text-gray-900 mb-6">Monthly P&L (Income vs Expenses)</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-6">{t('reports.chart_title')}</h3>
 
                 {loading ? (
                     <div className="h-64 flex items-center justify-center">
@@ -126,13 +128,13 @@ export default function ReportsPage() {
                                     <div
                                         className="w-3 bg-green-500 rounded-t-sm transition-all duration-500 hover:bg-green-600 relative"
                                         style={{ height: `${(item.income / maxVal) * 100}%` }}
-                                        title={`Income: ${formatCurrency(item.income, user?.company?.currency)}`}
+                                        title={`${t('reports.table.income')}: ${formatCurrency(item.income, user?.company?.currency)}`}
                                     ></div>
                                     {/* Expense Bar */}
                                     <div
                                         className="w-3 bg-red-500 rounded-t-sm transition-all duration-500 hover:bg-red-600 relative"
                                         style={{ height: `${(item.expenses / maxVal) * 100}%` }}
-                                        title={`Expenses: ${formatCurrency(item.expenses, user?.company?.currency)}`}
+                                        title={`${t('reports.table.expenses')}: ${formatCurrency(item.expenses, user?.company?.currency)}`}
                                     ></div>
                                 </div>
                                 <span className="text-xs text-gray-500 font-medium">{item.month}</span>
@@ -145,16 +147,16 @@ export default function ReportsPage() {
             {/* Data Table */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                 <div className="px-6 py-4 border-b border-gray-100">
-                    <h3 className="font-bold text-gray-900">Detailed Breakdown</h3>
+                    <h3 className="font-bold text-gray-900">{t('reports.detailed_breakdown')}</h3>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
                         <thead className="bg-gray-50">
                             <tr>
-                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Month</th>
-                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Income</th>
-                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Expenses</th>
-                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Profit / Loss</th>
+                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">{t('reports.table.month')}</th>
+                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">{t('reports.table.income')}</th>
+                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">{t('reports.table.expenses')}</th>
+                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">{t('reports.table.profit_loss')}</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">

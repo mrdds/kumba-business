@@ -57,6 +57,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Real-time updates integration
     useEffect(() => {
         if (user && user.id) {
+            /* Disabling dead socket.io connection causing noise 
             const socket = io(process.env.NEXT_PUBLIC_REALTIME_URL || 'http://localhost:8088', {
                 transports: ['websocket'],
             });
@@ -73,13 +74,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             return () => {
                 socket.disconnect();
             };
+            */
+            return () => {};
         }
     }, [user?.id]);
 
     const login = async (data: any) => {
-        // [SSO] Redirect to Core Login
-        const currentUrl = window.location.origin + '/dashboard'; // Redirect back to dashboard
-        window.location.href = `https://kumba-auth.trocplus.ci/login?redirect_url=${encodeURIComponent(currentUrl)}`;
+        // [SSO] Perform local login against Business API (which proxies/syncs to Kumba Auth)
+        const { login: apiLogin } = await import('../services/api');
+        try {
+            const tokens = await apiLogin(data);
+            if (tokens.access && tokens.refresh) {
+                localStorage.setItem('access_token', tokens.access);
+                localStorage.setItem('refresh_token', tokens.refresh);
+                setToken(tokens.access);
+                await fetchUser();
+                // Redirect to dashboard
+                window.location.href = '/dashboard';
+            }
+        } catch (error) {
+            console.error("Login error in context:", error);
+            throw error;
+        }
     };
 
     const logout = () => {
@@ -88,8 +104,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.removeItem('user_data');
         setUser(null);
         setToken(null);
-        // [SSO] Global Logout via Kumba Auth
-        window.location.href = 'https://kumba-auth.trocplus.ci/logout?redirect=http://localhost:3002/';
+        // Redirect to local login
+        window.location.href = '/auth/login';
     };
 
     const refreshUser = async () => {

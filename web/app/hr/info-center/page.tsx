@@ -1,8 +1,18 @@
 'use client';
+
 import { useState, useEffect } from 'react';
 import DashboardLayout from '../../dashboard-layout';
 import { getInformations, createInformation, deleteInformation } from '../../../services/api';
-import { Megaphone, Plus, Trash2, X } from 'lucide-react';
+import { 
+    Megaphone, Plus, Trash2, X, Send, 
+    Calendar, User, Bell, Sparkles, Loader2,
+    LayoutGrid, List, Filter, Search, MoreHorizontal
+} from 'lucide-react';
+import { Outfit } from 'next/font/google';
+import clsx from 'clsx';
+import { useNotification } from '@/context/NotificationContext';
+
+const displayFont = Outfit({ subsets: ['latin'], weight: ['300', '400', '500', '700', '800'] });
 
 interface Information {
     id: number;
@@ -14,21 +24,21 @@ interface Information {
 }
 
 const COLORS = [
-    { label: 'Ardoise', value: '#1E293B' },
-    { label: 'Bleu', value: '#3B82F6' },
-    { label: 'Vert', value: '#10B981' },
-    { label: 'Ambre', value: '#F59E0B' },
-    { label: 'Rouge', value: '#EF4444' },
+    { label: 'Indigo', value: '#6366F1' },
+    { label: 'Emerald', value: '#10B981' },
+    { label: 'Amber', value: '#F59E0B' },
+    { label: 'Rose', value: '#F43F5E' },
+    { label: 'Slate', value: '#0F172A' },
     { label: 'Violet', value: '#8B5CF6' },
-    { label: 'Rose', value: '#EC4899' },
 ];
 
 export default function InfoCenterPage() {
-    const [informations, setInformations] = useState < Information[] > ([]);
+    const { showToast } = useNotification();
+    const [informations, setInformations] = useState<Information[]>([]);
     const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
     const [submitting, setSubmitting] = useState(false);
-    const [deleting, setDeleting] = useState < number | null > (null);
+    const [deleting, setDeleting] = useState<number | null>(null);
 
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -55,6 +65,7 @@ export default function InfoCenterPage() {
         setSubmitting(true);
         try {
             await createInformation({ title: title.trim(), content: content.trim(), color });
+            showToast("Annonce publiée avec succès", "success");
             setTitle('');
             setContent('');
             setColor(COLORS[0].value);
@@ -62,19 +73,22 @@ export default function InfoCenterPage() {
             fetchInfos();
         } catch (err) {
             console.error('Failed to create information', err);
+            showToast("Erreur lors de la publication", "error");
         } finally {
             setSubmitting(false);
         }
     };
 
     const handleDelete = async (id: number) => {
-        if (!confirm('Supprimer cette information ?')) return;
+        if (!confirm('Voulez-vous vraiment supprimer cette annonce ?')) return;
         setDeleting(id);
         try {
             await deleteInformation(id);
             setInformations(prev => prev.filter(i => i.id !== id));
+            showToast("Annonce supprimée", "success");
         } catch (err) {
             console.error('Failed to delete information', err);
+            showToast("Erreur lors de la suppression", "error");
         } finally {
             setDeleting(null);
         }
@@ -82,158 +96,200 @@ export default function InfoCenterPage() {
 
     return (
         <DashboardLayout>
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-5xl mx-auto space-y-12">
                 {/* Header */}
-                <div className="flex justify-between items-center mb-8">
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-                            <Megaphone size={28} className="text-indigo-600" />
+                        <h1 className={clsx("text-4xl font-black text-slate-900 tracking-tight", displayFont.className)}>
                             Info Center
                         </h1>
-                        <p className="text-gray-500 mt-1">Publiez des informations visibles par tous vos employés</p>
+                        <p className="text-sm text-slate-500 font-bold uppercase tracking-widest mt-1">
+                            Communication interne & Annonces officielles
+                        </p>
                     </div>
-                    <button
-                        onClick={() => setShowForm(!showForm)}
-                        className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium shadow-sm shadow-indigo-200"
-                    >
-                        {showForm ? <X size={18} /> : <Plus size={18} />}
-                        {showForm ? 'Annuler' : 'Nouvelle Info'}
-                    </button>
+                    {!showForm && (
+                        <button
+                            onClick={() => setShowForm(true)}
+                            className="bg-slate-900 text-white px-8 py-4 rounded-[24px] flex items-center gap-2 hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 font-black text-xs uppercase tracking-[2px]"
+                        >
+                            <Plus size={18} />
+                            Nouvelle Annonce
+                        </button>
+                    )}
                 </div>
 
-                {/* Creation Form */}
+                {/* Form Section */}
                 {showForm && (
-                    <div className="bg-white border border-indigo-100 rounded-2xl p-6 mb-8 shadow-sm shadow-indigo-50">
-                        <h2 className="text-lg font-bold text-gray-900 mb-5">Publier une nouvelle information</h2>
-                        <form onSubmit={handleSubmit} className="space-y-5">
-                            <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Titre</label>
-                                <input
-                                    type="text"
-                                    value={title}
-                                    onChange={e => setTitle(e.target.value)}
-                                    maxLength={100}
-                                    placeholder="Ex: Réunion générale, Maintenance système..."
-                                    className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Contenu</label>
-                                <textarea
-                                    value={content}
-                                    onChange={e => setContent(e.target.value)}
-                                    rows={4}
-                                    placeholder="Détails de l'information..."
-                                    className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">Couleur de l'étiquette</label>
-                                <div className="flex flex-wrap gap-3">
-                                    {COLORS.map(c => (
-                                        <button
-                                            key={c.value}
-                                            type="button"
-                                            title={c.label}
-                                            onClick={() => setColor(c.value)}
-                                            className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
-                                            style={{
-                                                backgroundColor: c.value,
-                                                outline: color === c.value ? `3px solid ${c.value}` : 'none',
-                                                outlineOffset: '3px',
-                                                transform: color === c.value ? 'scale(1.15)' : 'scale(1)',
-                                            }}
-                                        >
-                                            {color === c.value && (
-                                                <span className="text-white font-bold text-lg leading-none">✓</span>
-                                            )}
-                                        </button>
-                                    ))}
+                    <div className="bg-white p-8 md:p-12 rounded-[48px] shadow-2xl shadow-slate-100 border border-slate-100 animate-in fade-in slide-in-from-top-4 duration-500 overflow-hidden relative">
+                        <div className="absolute top-0 right-0 p-12 opacity-5">
+                            <Sparkles size={120} />
+                        </div>
+                        
+                        <div className="flex justify-between items-center mb-10 relative z-10">
+                            <h2 className={clsx("text-2xl font-black text-slate-900", displayFont.className)}>Diffuser un message</h2>
+                            <button onClick={() => setShowForm(false)} className="p-3 bg-slate-50 text-slate-400 hover:text-slate-900 rounded-full transition-all">
+                                <X size={20} />
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleSubmit} className="space-y-10 relative z-10">
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                                <div className="lg:col-span-2 space-y-8">
+                                    <div className="space-y-4">
+                                        <label className="block text-[10px] font-black uppercase text-slate-400 tracking-[3px] ml-1">Titre de l'annonce</label>
+                                        <input
+                                            type="text"
+                                            value={title}
+                                            onChange={e => setTitle(e.target.value)}
+                                            maxLength={100}
+                                            placeholder="Ex: Réunion générale de fin d'année..."
+                                            className="w-full h-16 px-8 bg-slate-50/50 border-none rounded-[24px] text-lg font-black text-slate-900 outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="space-y-4">
+                                        <label className="block text-[10px] font-black uppercase text-slate-400 tracking-[3px] ml-1">Message complet</label>
+                                        <textarea
+                                            value={content}
+                                            onChange={e => setContent(e.target.value)}
+                                            rows={6}
+                                            placeholder="Détails importants à communiquer aux équipes..."
+                                            className="w-full p-8 bg-slate-50/50 border-none rounded-[32px] text-base font-bold text-slate-600 outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all resize-none leading-relaxed"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-8">
+                                    <div className="space-y-4">
+                                        <label className="block text-[10px] font-black uppercase text-slate-400 tracking-[3px] ml-1">Niveau d'Urgence</label>
+                                        <div className="grid grid-cols-3 gap-3">
+                                            {COLORS.map(c => (
+                                                <button
+                                                    key={c.value}
+                                                    type="button"
+                                                    onClick={() => setColor(c.value)}
+                                                    className={clsx(
+                                                        "h-12 rounded-2xl transition-all border-2",
+                                                        color === c.value ? "border-slate-900 shadow-lg scale-105" : "border-transparent"
+                                                    )}
+                                                    style={{ backgroundColor: c.value }}
+                                                    title={c.label}
+                                                >
+                                                    {color === c.value && <span className="text-white font-black text-xs">✓</span>}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-slate-50 p-6 rounded-[32px] space-y-4 border border-slate-100">
+                                        <h3 className="text-[10px] font-black uppercase text-slate-400 tracking-[2px]">Aperçu du Badge</h3>
+                                        <div className="flex items-center gap-3 p-4 bg-white rounded-2xl shadow-sm border border-slate-100">
+                                            <div className="h-3 w-3 rounded-full animate-pulse" style={{ backgroundColor: color }} />
+                                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-600">Flash Info</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            {/* Live Preview */}
-                            <div className="border-l-4 rounded-lg px-4 py-3 bg-gray-50" style={{ borderLeftColor: color }}>
-                                <p className="font-bold text-gray-900 text-sm">{title || "Titre de l'annonce"}</p>
-                                <p className="text-gray-500 text-sm mt-1">{content || "Le contenu apparaîtra ici."}</p>
-                            </div>
-
-                            <div className="flex justify-end gap-3 pt-2">
+                            <div className="pt-6 border-t border-slate-50 flex justify-end gap-4">
                                 <button
                                     type="button"
                                     onClick={() => setShowForm(false)}
-                                    className="px-4 py-2 text-gray-600 hover:text-gray-900 font-medium"
+                                    className="px-8 py-4 rounded-2xl text-slate-400 font-black text-xs uppercase tracking-widest hover:bg-slate-50 transition-all"
                                 >
                                     Annuler
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={submitting}
-                                    className="px-6 py-2 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 disabled:opacity-60 transition-colors"
+                                    className="bg-slate-900 text-white px-10 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-800 shadow-xl shadow-slate-900/20 flex items-center gap-2 disabled:opacity-60 transition-all"
                                 >
-                                    {submitting ? 'Publication...' : 'Publier'}
+                                    {submitting ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} />}
+                                    Publier l'Annonce
                                 </button>
                             </div>
                         </form>
                     </div>
                 )}
 
-                {/* List */}
+                {/* Feed Content */}
                 {loading ? (
-                    <div className="flex justify-center py-16">
-                        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600"></div>
+                    <div className="flex justify-center py-20">
+                        <Loader2 className="animate-spin text-slate-900" size={32} />
                     </div>
                 ) : informations.length === 0 ? (
-                    <div className="text-center py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
-                        <Megaphone size={48} className="mx-auto text-gray-300 mb-4" />
-                        <h3 className="text-lg font-semibold text-gray-700">Aucune information publiée</h3>
-                        <p className="text-gray-400 mt-1">Cliquez sur "Nouvelle Info" pour diffuser un message à vos employés.</p>
+                    <div className="text-center py-24 bg-slate-50 rounded-[48px] border border-dashed border-slate-200">
+                        <Megaphone size={64} className="mx-auto text-slate-200 mb-6" />
+                        <h3 className={clsx("text-2xl font-black text-slate-400", displayFont.className)}>Aucune communication</h3>
+                        <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px] mt-2">Le flux d'actualités est vide pour le moment</p>
                     </div>
                 ) : (
-                    <div className="space-y-4">
+                    <div className="space-y-8">
                         {informations.map(info => {
                             const date = new Date(info.created_at);
                             return (
                                 <div
                                     key={info.id}
-                                    className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow p-5 flex gap-4 items-start"
-                                    style={{ borderLeftWidth: '4px', borderLeftColor: info.color }}
+                                    className="group bg-white rounded-[40px] border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-100/50 transition-all overflow-hidden"
                                 >
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex items-center gap-3 mb-1">
-                                            <h3 className="font-bold text-gray-900 text-base truncate">{info.title}</h3>
-                                            <span
-                                                className="shrink-0 text-xs font-semibold text-white px-2.5 py-0.5 rounded-full"
-                                                style={{ backgroundColor: info.color }}
-                                            >
-                                                Info
-                                            </span>
+                                    <div className="p-8 md:p-10 flex flex-col md:flex-row gap-8 items-start">
+                                        <div className="flex-1 min-w-0 space-y-4">
+                                            <div className="flex items-center gap-4">
+                                                <div 
+                                                    className="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest text-white shadow-sm"
+                                                    style={{ backgroundColor: info.color }}
+                                                >
+                                                    OFFICIEL
+                                                </div>
+                                                <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                                    <Calendar size={14} className="text-slate-200" />
+                                                    {date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                                                </div>
+                                            </div>
+
+                                            <h3 className={clsx("text-3xl font-black text-slate-900 tracking-tight", displayFont.className)}>
+                                                {info.title}
+                                            </h3>
+                                            
+                                            <p className="text-slate-600 text-lg font-medium leading-relaxed max-w-3xl whitespace-pre-wrap">
+                                                {info.content}
+                                            </p>
+
+                                            <div className="flex items-center gap-4 pt-6 border-t border-slate-50">
+                                                <div className="h-10 w-10 rounded-full bg-slate-900 flex items-center justify-center text-white font-black text-xs">
+                                                    {info.created_by_name?.[0] || 'A'}
+                                                </div>
+                                                <div>
+                                                    <p className="text-xs font-black text-slate-900">{info.created_by_name || 'Administration'}</p>
+                                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Direction Générale</p>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <p className="text-gray-600 text-sm leading-relaxed mb-3">{info.content}</p>
-                                        <div className="flex items-center gap-2 text-xs text-gray-400">
-                                            <span>{date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
-                                            {info.created_by_name && (
-                                                <>
-                                                    <span>·</span>
-                                                    <span>Publié par <span className="font-medium text-gray-600">{info.created_by_name}</span></span>
-                                                </>
-                                            )}
+
+                                        <div className="flex flex-col gap-2">
+                                            <button
+                                                onClick={() => handleDelete(info.id)}
+                                                disabled={deleting === info.id}
+                                                className="p-4 bg-slate-50 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-2xl transition-all"
+                                                title="Supprimer l'annonce"
+                                            >
+                                                {deleting === info.id ? (
+                                                    <Loader2 size={20} className="animate-spin" />
+                                                ) : (
+                                                    <Trash2 size={20} />
+                                                )}
+                                            </button>
+                                            <button className="p-4 bg-slate-50 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-2xl transition-all">
+                                                <MoreHorizontal size={20} />
+                                            </button>
                                         </div>
                                     </div>
-                                    <button
-                                        onClick={() => handleDelete(info.id)}
-                                        disabled={deleting === info.id}
-                                        className="shrink-0 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
-                                        title="Supprimer"
-                                    >
-                                        {deleting === info.id ? (
-                                            <div className="w-4 h-4 border-2 border-red-400 border-t-transparent rounded-full animate-spin"></div>
-                                        ) : (
-                                            <Trash2 size={18} />
-                                        )}
-                                    </button>
+                                    
+                                    <div 
+                                        className="h-1.5 w-full opacity-50" 
+                                        style={{ backgroundColor: info.color }}
+                                    />
                                 </div>
                             );
                         })}

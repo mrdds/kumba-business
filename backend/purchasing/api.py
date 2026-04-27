@@ -60,6 +60,34 @@ class PurchaseOrderOutSchema(Schema):
     balance_due: Decimal
     has_accounting_entry: bool
     items: List[PurchaseItemOutSchema]
+    approval_id: Optional[int] = None
+    approval_status: Optional[str] = None
+    rejection_reason: Optional[str] = None
+    approval_level: Optional[int] = None
+    
+    @staticmethod
+    def resolve_approval_id(obj):
+        from approvals.service import ApprovalService
+        info = ApprovalService.get_approval_info(obj)
+        return info['id'] if info else None
+
+    @staticmethod
+    def resolve_approval_status(obj):
+        from approvals.service import ApprovalService
+        info = ApprovalService.get_approval_info(obj)
+        return info['status'] if info else obj.status
+
+    @staticmethod
+    def resolve_rejection_reason(obj):
+        from approvals.service import ApprovalService
+        info = ApprovalService.get_approval_info(obj)
+        return info['rejection_reason'] if info else None
+
+    @staticmethod
+    def resolve_approval_level(obj):
+        from approvals.service import ApprovalService
+        info = ApprovalService.get_approval_info(obj)
+        return info['current_step'] if info else 1
     
     @staticmethod
     def resolve_vendor_name(obj):

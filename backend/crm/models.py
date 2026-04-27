@@ -2,6 +2,9 @@ from django.db import models
 from django.conf import settings
 from companies.models import Company
 
+from core.security.registry import secure_resource
+
+@secure_resource('customer', 'CRM & Ventes', actions=['view', 'create', 'edit', 'delete'])
 class Customer(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='customers')
     name = models.CharField(max_length=255)
@@ -16,6 +19,7 @@ class Customer(models.Model):
     def __str__(self):
         return self.name
 
+@secure_resource('supplier', 'CRM & Ventes', actions=['view', 'create', 'edit', 'delete'])
 class Supplier(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='suppliers')
     name = models.CharField(max_length=255)

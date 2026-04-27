@@ -13,6 +13,9 @@ class AccountType(models.TextChoices):
     EXPENSE = 'EXPENSE', 'Expense (Charges)'
 
 
+from core.security.registry import secure_resource
+
+@secure_resource('account', 'Comptabilité', actions=['view', 'create', 'edit', 'delete'])
 class Account(models.Model):
     """
     Plan Comptable (Chart of Accounts)
@@ -99,6 +102,7 @@ class FiscalYear(models.Model):
             raise ValidationError("End date must be after start date")
 
 
+@secure_resource('journal_entry', 'Comptabilité', actions=['view', 'create', 'approve', 'post', 'delete'])
 class JournalEntry(models.Model):
     """
     Écriture Comptable (Journal Entry)
@@ -333,26 +337,50 @@ class TaxRate(models.Model):
         return f"{self.name} ({self.rate}%)"
 
 
-# Garder l'ancien modèle Transaction pour la migration
-class Transaction(models.Model):
-    """
-    DEPRECATED: Ancien modèle de transaction simple
-    À migrer vers JournalEntry
-    """
-    class TransactionType(models.TextChoices):
-        INCOME = 'IN', 'Income'
-        EXPENSE = 'OUT', 'Expense'
+class BankStatement(models.Model):
+    """Relevé Bancaire Importé"""
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='bank_statements')
+    bank_account = models.ForeignKey(BankAccount, on_delete=models.CASCADE, related_name='statements')
+    
+    file_name = models.CharField(max_length=255)
+    import_date = models.DateTimeField(auto_now_add=True)
+    
+    start_date = models.DateField()
+    end_date = models.DateField()
+    
+    opening_balance = models.DecimalField(max_digits=15, decimal_places=2, default=0)
+    closing_balance = models.DecimalField(max_digits=15, decimal_places=2, default=0)
+    
+    is_fully_reconciled = models.BooleanField(default=False)
 
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='transactions')
-    amount = models.DecimalField(max_digits=12, decimal_places=2)
-    type = models.CharField(max_length=3, choices=TransactionType.choices)
-    category = models.CharField(max_length=100)
-    description = models.TextField(blank=True, null=True)
-    date = models.DateField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    # Lien vers la nouvelle écriture (pour migration)
-    migrated_to_entry = models.ForeignKey(JournalEntry, null=True, blank=True, on_delete=models.SET_NULL)
+    class Meta:
+        ordering = ['-end_date']
 
     def __str__(self):
-        return f"{self.type} - {self.amount} - {self.date}"
+        return f"Statement {self.start_date} - {self.end_date} ({self.bank_account.name})"
+
+
+class BankStatementLine(models.Model):
+    """Ligne de relevé bancaire à rapprocher"""
+    statement = models.ForeignKey(BankStatement, on_delete=models.CASCADE, related_name='lines')
+    
+    date = models.DateField()
+    description = models.TextField()
+    reference = models.CharField(max_length=100, blank=True)
+    
+    amount = models.DecimalField(max_digits=15, decimal_places=2)
+    type = models.CharField(max_length=10, choices=[('IN', 'Income'), ('OUT', 'Expense')])
+    
+    # Rapprochement
+    is_reconciled = models.BooleanField(default=False)
+    reconciled_with = models.ForeignKey(JournalEntry, null=True, blank=True, on_delete=models.SET_NULL, related_name='reconciliation_lines')
+    
+    # Matching suggestions
+    suggested_entry = models.ForeignKey(JournalEntry, null=True, blank=True, on_delete=models.SET_NULL, related_name='suggested_matches')
+    confidence_score = models.FloatField(default=0)
+
+    class Meta:
+        ordering = ['date', 'id']
+
+    def __str__(self):
+        return f"{self.date} - {self.amount} - {self.description[:30]}"

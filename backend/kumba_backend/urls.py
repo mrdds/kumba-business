@@ -18,12 +18,15 @@ from debts.api import DebtController
 from tontines.api import TontineController
 from notifications.api import NotificationController
 from purchasing.api import PurchaseOrderController
+from inventory.api import ProductController, MovementController
 
 from kumba_connect.api import ConnectController # Kumba Connect
 from kumba_social.api import SocialController
 from documents.api import DocumentsController
 from kumba_id.api import KumbaIDController
 from kumba_auth.api import KumbaAuthController, PresenceController
+from core.security.api import router as security_router
+from finance.api import FinanceController
 
 from kumba_id.auth import KumbaJWTAuth
 from ninja.errors import ValidationError
@@ -56,11 +59,15 @@ api.register_controllers(
     DocumentsController,
     ConnectController,
     SocialController,
+    FinanceController,
+    ProductController,
+    MovementController,
 )
 
 # Add password reset endpoints (no auth required)
 api.add_router('/auth', password_reset_router, tags=['Authentication'])
 api.add_router('/approvals', approvals_router, tags=['Approvals'])
+api.add_router('/security', security_router, tags=['Security'])
 
 from django.conf import settings
 from django.conf.urls.static import static

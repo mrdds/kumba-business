@@ -51,12 +51,15 @@ def list_pending_approvals(request):
             status=ApprovalRequest.Status.PENDING
         )
         
-        # Filter: Designated approvers only (unless Super Admin/Admin? User said "seul les approuveurs designés")
-        # Let's stick to the designated role/user in current_step
-        qs = qs.filter(
-            Q(current_step__role_required=user.role) | 
-            Q(current_step__approver_user=user)
-        )
+        # Filter: Designated approvers only
+        # SUPER_ADMIN sees everything for their company
+        if user.role != 'SUPER_ADMIN':
+            user_groups = list(user.groups.values_list('name', flat=True))
+            qs = qs.filter(
+                Q(current_step__role_required=user.role) | 
+                Q(current_step__role_required__in=user_groups) |
+                Q(current_step__approver_user=user)
+            )
         
         # Manually serialize to catch errors
         results = []
@@ -116,6 +119,29 @@ def list_pending_approvals(request):
             traceback.print_exc(file=f)
         raise e
 
+@router.get("/count", response=dict)
+def get_pending_approvals_count(request):
+    """Returns the count of pending approvals for the current user"""
+    try:
+        user = request.user
+        qs = ApprovalRequest.objects.filter(
+            company=user.company,
+            status=ApprovalRequest.Status.PENDING
+        )
+        
+        if user.role != 'SUPER_ADMIN':
+            user_groups = list(user.groups.values_list('name', flat=True))
+            qs = qs.filter(
+                Q(current_step__role_required=user.role) | 
+                Q(current_step__role_required__in=user_groups) |
+                Q(current_step__approver_user=user)
+            )
+            
+        return {"count": qs.count()}
+    except Exception as e:
+        return {"count": 0}
+
+
 @router.post("/{id}/approve", response={200: dict, 403: dict})
 def approve_request(request, id: int, payload: ActionIn):
     try:
@@ -173,19 +199,29 @@ def get_approval_timeline(request, id: int):
         
     # 2. Get All Steps from Definition to show progress
     all_steps = req.definition.steps.order_by('order')
+    
+    # Identify which step rejected (if any)
+    rejecting_step_order = None
+    if req.status == ApprovalRequest.Status.REJECTED:
+        reject_log = logs.filter(action=ApprovalLog.Action.REJECT).last()
+        if reject_log and reject_log.step:
+            rejecting_step_order = reject_log.step.order
+
     steps_list = []
     for step in all_steps:
         status = 'PENDING'
         if req.status == ApprovalRequest.Status.APPROVED:
             status = 'COMPLETED'
         elif req.status == ApprovalRequest.Status.REJECTED:
-             # If rejected at this step or before
-             if req.current_step and step.order > req.current_step.order:
-                 status = 'FUTURE'
-             elif req.current_step and step.order == req.current_step.order:
-                 status = 'REJECTED'
-             else:
-                 status = 'COMPLETED'
+            if rejecting_step_order:
+                if step.order < rejecting_step_order:
+                    status = 'COMPLETED'
+                elif step.order == rejecting_step_order:
+                    status = 'REJECTED'
+                else:
+                    status = 'FUTURE'
+            else:
+                status = 'REJECTED' # Fallback
         elif req.current_step:
             if step.order < req.current_step.order:
                 status = 'COMPLETED'
@@ -194,7 +230,6 @@ def get_approval_timeline(request, id: int):
             else:
                 status = 'FUTURE'
         else:
-            # Should not happen for pending
             status = 'COMPLETED' if req.status == 'APPROVED' else 'PENDING'
                 
         steps_list.append({

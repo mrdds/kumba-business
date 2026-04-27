@@ -87,11 +87,15 @@ class CompanyController(ControllerBase):
 
     @route.post('', response=CompanySchema)
     def create_company(self, request, payload: CompanyUpdateSchema):
-        company = Company.objects.create(**payload.dict())
-        request.user.company = company
-        request.user.role = UserRole.SUPER_ADMIN
-        request.user.save()
-        return company
+        try:
+            company = Company.objects.create(**payload.dict())
+            request.user.company = company
+            request.user.role = UserRole.SUPER_ADMIN
+            request.user.save()
+            return company
+        except Exception as e:
+            print(f"ERROR creating company: {str(e)}")
+            return self.create_response(request, {"message": f"Could not create company: {str(e)}"}, status=400)
 
     @route.post('/subscription', response=CompanySchema)
     def update_subscription(self, request, payload: SubscriptionUpdateSchema):

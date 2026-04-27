@@ -1,12 +1,13 @@
 from ninja_extra import api_controller, route
-from ninja import Schema, File
+from ninja import Schema, File, Form
 from ninja.files import UploadedFile
 from typing import List, Optional
 from django.shortcuts import get_object_or_404
-from .models import Quote, Invoice, PurchaseOrder, DocumentItem, DocumentTemplate, CompanyBranding, CreditNote
+from .models import Quote, Invoice, PurchaseOrder, DocumentItem, DocumentTemplate, CompanyBranding, CreditNote, FileDocument
 from .services import PDFService
 from datetime import date
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
+from kumba_id.auth import KumbaJWTAuth
 
 # --- Schemas ---
 
@@ -36,6 +37,21 @@ class QuoteOutSchema(Schema):
     def resolve_client_name(obj):
         return obj.client.name
 
+class FileDocumentOutSchema(Schema):
+    id: int
+    name: str
+    title: str
+    category: str
+    doc_type: str
+    size: str
+    extension: str
+    created_at: date
+    file_url: str = None
+    
+    @staticmethod
+    def resolve_file_url(obj):
+        return obj.file.url if obj.file else None
+
 class PreviewSchema(Schema):
     template_id: Optional[int] = None
     document_type: str # 'QUOTE', 'INVOICE', 'PO'
@@ -45,9 +61,48 @@ class PreviewSchema(Schema):
 
 # --- Controller ---
 
-@api_controller('/documents', tags=['Commercial Documents'])
+@api_controller('/documents', tags=['Documents'], auth=KumbaJWTAuth())
 class DocumentsController:
     
+    # --- Files Management ---
+    
+    @route.get('/files', response=List[FileDocumentOutSchema])
+    def list_files(self, request, category: Optional[str] = None):
+        qs = FileDocument.objects.filter(company=request.user.company)
+        if category:
+            qs = qs.filter(category=category)
+        return qs
+
+    @route.post('/files/upload', response=FileDocumentOutSchema)
+    def upload_file(self, 
+                    request, 
+                    file: UploadedFile = File(...), 
+                    category: str = Form('General'),
+                    title: Optional[str] = Form(None),
+                    doc_type: Optional[str] = Form(None)):
+        doc = FileDocument.objects.create(
+            company=request.user.company,
+            name=file.name,
+            title=title or file.name,
+            file=file,
+            category=category,
+            doc_type=doc_type or '',
+            created_by=request.user
+        )
+        return doc
+
+    @route.delete('/files/{id}', response={204: None})
+    def delete_file(self, request, id: int):
+        doc = get_object_or_404(FileDocument, id=id, company=request.user.company)
+        doc.file.delete()
+        doc.delete()
+        return 204, None
+
+    @route.get('/files/{id}/download')
+    def download_file(self, request, id: int):
+        doc = get_object_or_404(FileDocument, id=id, company=request.user.company)
+        return FileResponse(doc.file.open(), as_attachment=True, filename=doc.name)
+
     # --- Quotes ---
     @route.get('/quotes', response=List[QuoteOutSchema])
     def list_quotes(self, request):

@@ -89,7 +89,7 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
                             <ArrowLeft size={20} className="text-gray-600" />
                         </Link>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-900">{customer.name}</h1>
+                            <h1 className="text-lg font-bold text-gray-900">{customer.name}</h1>
                             <p className="text-gray-500">Customer Profile</p>
                         </div>
                     </div>

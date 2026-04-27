@@ -2,33 +2,50 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import DashboardLayout from '../../app/dashboard-layout';
-import { getPurchases } from '../../services/api'; // getPurchases returns all, might need filtering filtering in frontend or backend
-import { Plus, Receipt, Search, Filter, Paperclip, Calendar, ArrowRight } from 'lucide-react';
+import { getPurchases } from '../../services/api';
+import { Plus, Receipt, Search, Paperclip, ArrowRight } from 'lucide-react';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { useAuth } from '@/context/AuthContext';
 import ApprovalStatus from '@/components/ApprovalStatus';
+import { useTranslation } from 'react-i18next';
+
+interface Bill {
+    id: number;
+    created_at?: string;
+    date?: string;
+    vendor_id: number;
+    vendor_name: string;
+    vendor_invoice_number?: string;
+    project_name: string;
+    total_amount: number;
+    status: string;
+    document_type: string;
+    attachment?: string;
+}
 
 export default function BillsPage() {
     const { user } = useAuth();
-    const [bills, setBills] = useState<any[]>([]);
+    const { t } = useTranslation();
+    const [bills, setBills] = useState<Bill[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
+        let isMounted = true;
         const fetchBills = async () => {
             try {
-                // Fetch all and filter client-side for now, ideally backend should support type filter
                 const data = await getPurchases();
-                const vendorBills = data.filter((p: any) => p.document_type === 'BILL');
-                setBills(vendorBills);
+                const vendorBills = data.filter((p: Bill) => p.document_type === 'BILL');
+                if (isMounted) setBills(vendorBills);
             } catch (error) {
-                console.error("Failed to fetch bills", error);
+                console.error(t('errors.fetch_failed'), error);
             } finally {
-                setLoading(false);
+                if (isMounted) setLoading(false);
             }
         };
         fetchBills();
-    }, []);
+        return () => { isMounted = false; };
+    }, [t]);
 
     const filteredBills = bills.filter(bill =>
         bill.vendor_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -40,12 +57,12 @@ export default function BillsPage() {
         <DashboardLayout>
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Vendor Bills</h1>
-                    <p className="text-gray-500">Manage invoices from subcontractors and suppliers</p>
+                    <h1 className="text-lg font-bold text-gray-900">{t('bills.title')}</h1>
+                    <p className="text-gray-500">{t('bills.subtitle')}</p>
                 </div>
                 <Link href="/bills/create" className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors">
                     <Plus size={20} />
-                    Record Bill
+                    {t('bills.record_bill')}
                 </Link>
             </div>
 
@@ -56,7 +73,7 @@ export default function BillsPage() {
                         <input
                             type="text"
                             className="w-full bg-gray-50 pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Search by vendor, invoice #, or project..."
+                            placeholder={t('bills.search')}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -70,31 +87,31 @@ export default function BillsPage() {
                 ) : filteredBills.length === 0 ? (
                     <div className="text-center py-12">
                         <Receipt size={48} className="mx-auto text-gray-400 mb-4" />
-                        <h3 className="text-lg font-medium text-gray-900">No bills recorded</h3>
-                        <p className="text-gray-500 mb-4">Record your first vendor bill or subcontractor invoice.</p>
+                        <h3 className="text-lg font-medium text-gray-900">{t('bills.no_records.title')}</h3>
+                        <p className="text-gray-500 mb-4">{t('bills.no_records.subtitle')}</p>
                         <Link href="/bills/create" className="text-blue-600 font-bold hover:underline">
-                            Record Bill
+                            {t('bills.record_bill')}
                         </Link>
                     </div>
                 ) : (
                     <table className="w-full text-left">
                         <thead className="bg-gray-50 border-b border-gray-200">
                             <tr>
-                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Input Date</th>
-                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Vendor</th>
-                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Invoice #</th>
-                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Project / Description</th>
-                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Amount</th>
-                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Status</th>
-                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Att.</th>
-                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase text-right">Action</th>
+                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">{t('bills.table.input_date')}</th>
+                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">{t('bills.table.vendor')}</th>
+                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">{t('bills.table.invoice_no')}</th>
+                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">{t('bills.table.project_desc')}</th>
+                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">{t('bills.table.amount')}</th>
+                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">{t('bills.table.status')}</th>
+                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">{t('bills.table.att')}</th>
+                                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase text-right">{t('bills.table.action')}</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
                             {filteredBills.map((bill) => (
                                 <tr key={bill.id} className="hover:bg-gray-50 transition-colors">
                                     <td className="px-6 py-4 text-sm text-gray-500">
-                                        {new Date(bill.created_at || bill.date).toLocaleDateString()}
+                                        {(bill.created_at || bill.date) ? new Date(bill.created_at || bill.date as string).toLocaleDateString() : '-'}
                                     </td>
                                     <td className="px-6 py-4 font-medium text-gray-900">
                                         <Link href={`/crm/suppliers/${bill.vendor_id}`} className="hover:text-blue-600 hover:underline">

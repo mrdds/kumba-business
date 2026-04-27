@@ -6,10 +6,12 @@ import { createCustomer } from '../../../../services/api';
 import { useNotification } from '@/context/NotificationContext';
 import { ArrowLeft, Loader2, Save } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 
 export default function CreateCustomerPage() {
     const router = useRouter();
     const { showToast } = useNotification();
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
@@ -24,11 +26,11 @@ export default function CreateCustomerPage() {
         setLoading(true);
         try {
             await createCustomer(formData);
-            showToast('Customer created successfully!', 'success');
+            showToast(t('crm.customers.toast.create_success'), 'success');
             router.push('/crm/customers');
         } catch (error) {
             console.error(error);
-            showToast('Failed to create customer', 'error');
+            showToast(t('crm.customers.toast.create_error'), 'error');
         } finally {
             setLoading(false);
         }
@@ -40,13 +42,13 @@ export default function CreateCustomerPage() {
                 <Link href="/crm/customers" className="p-2 hover:bg-gray-100 rounded-full text-gray-600">
                     <ArrowLeft size={20} />
                 </Link>
-                <h1 className="text-2xl font-bold text-gray-900">Add Customer</h1>
+                <h1 className="text-lg font-bold text-gray-900">{t('crm.customers.create.title')}</h1>
             </div>
 
             <form onSubmit={handleSubmit} className="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-sm border border-gray-100">
                 <div className="space-y-6">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Customer / Company Name</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">{t('crm.customers.create.label_name')}</label>
                         <input
                             type="text"
                             required
@@ -58,7 +60,7 @@ export default function CreateCustomerPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">{t('crm.customers.create.label_email')}</label>
                             <input
                                 type="email"
                                 className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
@@ -67,7 +69,7 @@ export default function CreateCustomerPage() {
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">{t('crm.customers.create.label_phone')}</label>
                             <input
                                 type="tel"
                                 className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
@@ -78,7 +80,7 @@ export default function CreateCustomerPage() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">{t('crm.customers.create.label_address')}</label>
                         <textarea
                             className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                             rows={3}
@@ -88,7 +90,7 @@ export default function CreateCustomerPage() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Tax ID / NINEA</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">{t('crm.customers.create.label_tax_id')}</label>
                         <input
                             type="text"
                             className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
@@ -100,7 +102,7 @@ export default function CreateCustomerPage() {
 
                 <div className="flex justify-end gap-4 mt-8 pt-6 border-t border-gray-100">
                     <Link href="/crm/customers" className="px-6 py-2 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50">
-                        Cancel
+                        {t('crm.customers.create.cancel')}
                     </Link>
                     <button
                         type="submit"
@@ -108,7 +110,7 @@ export default function CreateCustomerPage() {
                         className="px-6 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 flex items-center gap-2"
                     >
                         {loading ? <Loader2 className="animate-spin h-5 w-5" /> : <Save size={18} />}
-                        Save Customer
+                        {t('crm.customers.create.save')}
                     </button>
                 </div>
             </form>

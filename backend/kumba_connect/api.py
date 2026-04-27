@@ -123,13 +123,13 @@ class ConnectController(ControllerBase):
     
     
     @route.get('/conversations', response=List[ConversationSchema])
-    def list_conversations(self, request):
+    def list_conversations(self, request, archived: bool = False):
         user = request.user
         participants = ConversationParticipant.objects.filter(user=user).order_by('-is_pinned', '-conversation__updated_at')
         
         result = []
         for p in participants:
-            if p.is_archived:
+            if p.is_archived != archived:
                 continue
             result.append(self._format_conversation(p.conversation, user, p))
         return result
@@ -620,8 +620,29 @@ class ConnectController(ControllerBase):
                     )
         
         # Update conversation timestamp
-        conv.save() 
-        
+        # Broadcast via WebSocket
+        try:
+            from channels.layers import get_channel_layer
+            from asgiref.sync import async_to_sync
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                f'chat_{conv.id}',
+                {
+                    'type': 'chat_message_event',
+                    'id': str(msg.id),
+                    'message': msg.content,
+                    'content_type': msg.content_type,
+                    'media_url': msg.media_url,
+                    'user_id': user.id,
+                    'sender_name': f"{user.first_name} {user.last_name}".strip() or user.username,
+                    'timestamp': str(msg.created_at),
+                    'reply_to_id': str(msg.reply_to_id) if msg.reply_to_id else None,
+                    'is_forwarded': msg.is_forwarded
+                }
+            )
+        except Exception as e:
+            print(f"WS Broadcast Error: {e}")
+
         return msg
     
     @route.post('/messages/{message_id}/react', response={200: Dict[str, Any]})
@@ -658,7 +679,9 @@ class ConnectController(ControllerBase):
 
     @route.delete('/messages/{message_id}', response={200: Dict[str, Any]})
     def delete_message(self, request, message_id: uuid.UUID):
+        print(f"[ConnectAPI] Deleting message {message_id} requested by user {request.user.id}")
         msg = get_object_or_404(Message, id=message_id, sender=request.user)
+        print(f"[ConnectAPI] Message found, deleting...")
         msg.delete()
         return {"success": True}
 
@@ -709,20 +732,26 @@ class ConnectController(ControllerBase):
         from .models import UserPublicKey
         pub_keys = {pk.user_id: pk.public_key for pk in UserPublicKey.objects.filter(user__in=conv.participants.all())}
 
-        participants_details = [
-            {
+        from hr.models import Employee
+        participants_details = []
+        for cp in conv.conversationparticipant_set.select_related('user').all():
+            emp = Employee.objects.filter(email=cp.user.email).first()
+            participants_details.append({
                 'id': cp.user.id,
                 'username': cp.user.username,
                 'first_name': cp.user.first_name or "",
                 'last_name': cp.user.last_name or "",
+                'email': cp.user.email,
                 'role': cp.role,
                 'avatar_url': getattr(cp.user, 'avatar_url', None),
-                'phone': getattr(cp.user, 'phone', None),
+                'phone_number': getattr(cp.user, 'phone', None),
                 'kumba_id': getattr(cp.user, 'kumba_id', None),
                 'last_seen': presence_map.get(cp.user.id),
-                'public_key': pub_keys.get(cp.user.id)
-            } for cp in conv.conversationparticipant_set.select_related('user').all()
-        ]
+                'public_key': pub_keys.get(cp.user.id),
+                'department': emp.department if emp else 'Administration',
+                'job_title': cp.user.job_title or (emp.position if emp else 'Membre de l\'équipe'),
+                'supervisor_name': 'Non assigné' # Placeholder or fetch from somewhere if available
+            })
 
         icon_url = None
         try:

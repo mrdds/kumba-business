@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from companies.models import Company
 from django.utils.translation import gettext_lazy as _
 from decimal import Decimal
+from core.security.registry import secure_resource
 
 class DocumentTemplate(models.Model):
     """
@@ -77,6 +78,7 @@ class CommercialDocument(models.Model):
         """Override in subclasses or implement generic logic if items are standardized"""
         pass
 
+@secure_resource('doc_quote', 'Documents (v2)', actions=['view', 'create', 'edit', 'delete', 'approve', 'convert'])
 class Quote(CommercialDocument):
     class Status(models.TextChoices):
         DRAFT = 'DRAFT', _('Draft')
@@ -99,6 +101,7 @@ class Quote(CommercialDocument):
     def __str__(self):
         return f"Quote {self.number} - {self.client}"
 
+@secure_resource('doc_invoice', 'Documents (v2)', actions=['view', 'create', 'edit', 'delete', 'approve', 'cancel'])
 class Invoice(CommercialDocument):
     class Status(models.TextChoices):
         DRAFT = 'DRAFT', _('Draft')
@@ -121,6 +124,7 @@ class Invoice(CommercialDocument):
     def __str__(self):
         return f"Invoice {self.number} - {self.client}"
 
+@secure_resource('doc_purchase_order', 'Documents (v2)', actions=['view', 'create', 'edit', 'delete', 'approve', 'receive'])
 class PurchaseOrder(CommercialDocument):
     class Status(models.TextChoices):
         DRAFT = 'DRAFT', _('Draft')
@@ -140,6 +144,7 @@ class PurchaseOrder(CommercialDocument):
     def __str__(self):
         return f"PO {self.number} - {self.vendor}"
         
+@secure_resource('doc_credit_note', 'Documents (v2)', actions=['view', 'create', 'edit', 'delete', 'approve'])
 class CreditNote(CommercialDocument):
     class Status(models.TextChoices):
         DRAFT = 'DRAFT', _('Draft')
@@ -179,3 +184,37 @@ class DocumentItem(models.Model):
 
     def __str__(self):
         return f"{self.description} ({self.total})"
+
+
+class FileDocument(models.Model):
+    """
+    General file storage for company documents (PDFs, Images, Docs, etc.)
+    """
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='stored_documents')
+    name = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, blank=True)
+    file = models.FileField(upload_to='company_documents/%Y/%m/')
+    category = models.CharField(max_length=100, default='General')
+    doc_type = models.CharField(max_length=100, blank=True) # e.g. Facture, Contrat, etc.
+    size = models.CharField(max_length=50, blank=True) # Display size
+    extension = models.CharField(max_length=10, blank=True)
+    
+    created_by = models.ForeignKey('users.CustomUser', null=True, on_delete=models.SET_NULL)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if self.file and not self.size:
+            # Basic size estimate
+            try:
+                self.size = f"{self.file.size / (1024*1024):.2f} MB" if self.file.size > 1024*1024 else f"{self.file.size / 1024:.2f} KB"
+                self.extension = self.file.name.split('.')[-1].upper() if '.' in self.file.name else ''
+            except:
+                pass
+        super().save(*args, **kwargs)

@@ -5,9 +5,13 @@ from crm.models import Supplier
 from decimal import Decimal
 import datetime
 
+from core.security.registry import secure_resource
+
+@secure_resource('purchase_order', 'Achats', actions=['view', 'create', 'edit', 'delete', 'approve', 'receive', 'pay'])
 class PurchaseOrder(models.Model):
     class Status(models.TextChoices):
         DRAFT = 'DRAFT', 'Draft'
+        PENDING_APPROVAL = 'PENDING', 'Pending Approval'
         SENT = 'SENT', 'Sent'
         RECEIVED = 'RECEIVED', 'Received'
         PAID = 'PAID', 'Paid'

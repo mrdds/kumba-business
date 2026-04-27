@@ -60,14 +60,13 @@ export default function ForgotPasswordPage() {
                 <div className="text-center mb-8">
                     <Link href="/" className="inline-flex items-center space-x-2 mb-4">
                         <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">
-                            <span className="text-white font-bold text-2xl">K</span>
+                            <span className="text-white font-bold text-lg">O</span>
                         </div>
-                        <span className="text-3xl font-extrabold">
-                            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Kumba</span>
-                            <span className="text-slate-900 ml-1">Business</span>
+                        <span className="text-xl font-extrabold">
+                            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">OurSpace</span>
                         </span>
                     </Link>
-                    <h1 className="text-3xl font-bold text-slate-900 mb-2">Mot de passe oublié ?</h1>
+                    <h1 className="text-xl font-bold text-slate-900 mb-2">Mot de passe oublié ?</h1>
                     <p className="text-slate-600">Pas de soucis, on va vous aider</p>
                 </div>
 
@@ -140,7 +139,7 @@ export default function ForgotPasswordPage() {
                                 <CheckCircle className="text-green-600" size={32} />
                             </div>
 
-                            <h2 className="text-2xl font-bold text-slate-900 mb-3">Email envoyé !</h2>
+                            <h2 className="text-lg font-bold text-slate-900 mb-3">Email envoyé !</h2>
 
                             <p className="text-slate-600 mb-6">
                                 Nous avons envoyé un lien de réinitialisation à{' '}
@@ -183,7 +182,7 @@ export default function ForgotPasswordPage() {
                 <div className="text-center mt-6">
                     <p className="text-sm text-slate-600">
                         Besoin d&apos;aide ?{' '}
-                        <a href="mailto:support@kumbabusiness.com" className="text-blue-600 hover:text-blue-700 font-semibold">
+                        <a href="mailto:support@ourspace.app" className="text-blue-600 hover:text-blue-700 font-semibold">
                             Contactez le support
                         </a>
                     </p>

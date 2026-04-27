@@ -1,6 +1,9 @@
 from django.db import models
 from companies.models import Company
 
+from core.security.registry import secure_resource
+
+@secure_resource('tontine', 'Tontines', actions=['view', 'create', 'edit', 'delete', 'manage_members', 'process_payout'])
 class TontineGroup(models.Model):
     class Frequency(models.TextChoices):
         WEEKLY = 'WEEKLY', 'Weekly'

@@ -208,7 +208,7 @@ export default function ChatWidget() {
                                     <label className="block text-sm font-medium text-slate-700 mb-1">Participants (Emails)</label>
                                     <textarea
                                         className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm h-24"
-                                        placeholder="alice@kumba.com, bob@kumba.com"
+                                        placeholder="alice@ourspace.app, bob@ourspace.app"
                                         value={groupEmails}
                                         onChange={e => setGroupEmails(e.target.value)}
                                     />

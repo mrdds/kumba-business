@@ -7,7 +7,7 @@ class LiveKitService:
     def __init__(self):
         self.api_key = getattr(settings, 'LIVEKIT_API_KEY', 'devkey')
         self.api_secret = getattr(settings, 'LIVEKIT_API_SECRET', 'secret')
-        self.url = getattr(settings, 'LIVEKIT_URL', 'http://localhost:7800')
+        self.url = getattr(settings, 'LIVEKIT_URL', 'http://localhost:7880')
 
     def generate_token(self, room_name, participant_identity, participant_name=None):
         """

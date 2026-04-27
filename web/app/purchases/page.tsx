@@ -3,30 +3,27 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useNotification } from '@/context/NotificationContext';
 import { getPurchases, deletePurchase } from '@/services/api';
-import { Loader2, Plus, Trash2, FileText, Calendar, User } from 'lucide-react';
+import { Plus, Eye, Trash2, FileText, Calendar, User, Search, Filter, ChevronRight } from 'lucide-react';
 import DashboardLayout from '@/app/dashboard-layout';
 import Link from 'next/link';
 import ConfirmationModal from '@/components/ConfirmationModal';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { useTranslation } from 'react-i18next';
+import ApprovalStatus from '@/components/ApprovalStatus';
+import { Skeleton } from '@/components/ui/Skeleton';
 
 export default function PurchasesPage() {
     const { user } = useAuth();
     const { showToast } = useNotification();
+    const { t } = useTranslation();
     const [purchases, setPurchases] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [deletingId, setDeletingId] = useState<number | null>(null);
     const [confirmModal, setConfirmModal] = useState<{ isOpen: boolean, id: number | null }>({ isOpen: false, id: null });
 
-    useEffect(() => {
-        if (user) {
-            fetchPurchases();
-        }
-    }, [user]);
-
     const fetchPurchases = async () => {
         try {
             const data = await getPurchases();
-            // Filter out Vendor Bills, show only POs
             const pos = data.filter((p: any) => p.document_type !== 'BILL');
             setPurchases(pos);
         } catch (error) {
@@ -36,124 +33,135 @@ export default function PurchasesPage() {
         }
     };
 
-    const handleDeleteClick = (id: number) => {
-        setConfirmModal({ isOpen: true, id });
-    };
+    useEffect(() => {
+        if (user) {
+            fetchPurchases();
+        }
+    }, [user]);
 
     const handleConfirmDelete = async () => {
         if (!confirmModal.id) return;
         const id = confirmModal.id;
-
         setDeletingId(id);
-        // Ensure modal is closed
-        setConfirmModal({ ...confirmModal, isOpen: false });
-
         try {
             await deletePurchase(id);
-            setPurchases(purchases.filter(p => p.id !== id));
-            showToast('Purchase Order deleted successfully', 'success');
-        } catch (error) {
-            console.error('Failed to delete purchase', error);
-            showToast('Failed to delete purchase order', 'error');
+            setPurchases(prev => prev.filter(p => p.id !== id));
+            showToast('Achat supprimé', 'success');
+        } catch {
+            showToast('Erreur lors de la suppression', 'error');
         } finally {
             setDeletingId(null);
             setConfirmModal({ isOpen: false, id: null });
         }
     };
 
-    if (loading) {
-        return (
-            <DashboardLayout>
-                <div className="h-full flex items-center justify-center">
-                    <Loader2 className="animate-spin h-8 w-8 text-blue-600" />
-                </div>
-            </DashboardLayout>
-        );
-    }
-
     return (
         <DashboardLayout>
             <ConfirmationModal
                 isOpen={confirmModal.isOpen}
-                onClose={() => setConfirmModal({ ...confirmModal, isOpen: false })}
+                onClose={() => setConfirmModal({ isOpen: false, id: null })}
                 onConfirm={handleConfirmDelete}
-                title="Delete Purchase Order"
-                message="Are you sure you want to delete this purchase order? This action cannot be undone."
-                confirmText="Delete"
+                title="Supprimer la commande"
+                message="Cette action est irréversible. Voulez-vous continuer ?"
+                confirmText="Supprimer"
                 isDanger={true}
+                isLoading={deletingId === confirmModal.id}
             />
 
-            <div className="flex justify-between items-center mb-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Purchase Orders</h1>
-                    <p className="text-gray-500">Manage procurement and vendor orders</p>
+                    <h1 className="text-xl font-black text-gray-900 tracking-tight">{t('purchases.title')}</h1>
+                    <p className="text-sm text-gray-500 font-bold uppercase tracking-widest mt-1">Gestion des bons de commande</p>
                 </div>
-                <Link href="/purchases/create" className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium">
-                    <Plus size={20} className="mr-2" />
-                    New Order
+                <Link href="/purchases/create" className="bg-gray-900 text-white px-6 py-3 rounded-2xl flex items-center gap-2 hover:bg-indigo-600 transition-all shadow-xl shadow-gray-900/10 font-black text-sm">
+                    <Plus size={20} />
+                    {t('purchases.create')}
                 </Link>
             </div>
 
-            {purchases.length === 0 ? (
-                <div className="bg-white rounded-xl p-12 text-center border border-gray-100 shadow-sm">
-                    <div className="mx-auto w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mb-4">
-                        <FileText className="text-indigo-600" size={32} />
+            {/* Filters Bar */}
+            <div className="flex items-center gap-2 mb-6">
+                <div className="relative flex-1 max-w-md">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                    <input 
+                        type="text" 
+                        placeholder="Rechercher par projet, fournisseur..." 
+                        className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-100 rounded-xl focus:ring-2 focus:ring-indigo-500/10 outline-none transition-all text-sm font-medium"
+                    />
+                </div>
+                <button className="p-2.5 bg-white border border-gray-100 rounded-xl text-gray-400 hover:text-gray-600 transition-colors shadow-sm">
+                    <Filter size={20} />
+                </button>
+            </div>
+
+            {loading ? (
+                <div className="space-y-4">
+                    {[1, 2, 3, 4].map(i => <Skeleton.Box key={i} className="h-24 w-full rounded-2xl" />)}
+                </div>
+            ) : purchases.length === 0 ? (
+                <div className="bg-white rounded-[32px] p-20 text-center border border-gray-100 shadow-sm">
+                    <div className="mx-auto w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-6">
+                        <FileText className="text-gray-200" size={32} />
                     </div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">No Purchase Orders Yet</h3>
-                    <p className="text-gray-500 mb-6">Create your first purchase order to track expenses and vendor requests.</p>
-                    <Link href="/purchases/create" className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium">
-                        <Plus size={20} className="mr-2" />
-                        Create Order
-                    </Link>
+                    <h3 className="text-xl font-black text-gray-900 tracking-tight">{t('purchases.no_records.title')}</h3>
+                    <p className="text-gray-500 text-sm mt-2">{t('purchases.no_records.subtitle')}</p>
                 </div>
             ) : (
-                <div className="grid gap-4">
+                <div className="grid gap-4 mt-8">
                     {purchases.map((po) => (
-                        <div key={po.id} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div key={po.id} className="group bg-white p-6 rounded-[32px] shadow-sm border border-gray-100 hover:shadow-md transition-all flex flex-col md:flex-row md:items-center justify-between gap-6 overflow-hidden relative">
+                            <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            
                             <Link href={`/purchases/${po.id}`} className="flex-grow flex items-start gap-4">
-                                <div className="p-3 bg-indigo-50 rounded-lg hidden md:block">
-                                    <FileText className="text-indigo-600" size={24} />
+                                <div className="p-4 bg-gray-50 rounded-2xl text-gray-400 group-hover:text-indigo-600 group-hover:bg-indigo-50 transition-colors">
+                                    <FileText size={24} />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-gray-900 text-lg flex items-center gap-2">
+                                    <h3 className="font-black text-gray-900 text-lg tracking-tight flex items-center gap-2">
                                         {po.project_name}
-                                        <span className="text-xs font-normal text-gray-400">#{po.id}</span>
+                                        <span className="text-[10px] font-black text-gray-300 uppercase tracking-widest">#{po.id}</span>
                                     </h3>
-                                    <div className="flex flex-wrap gap-x-4 gap-y-2 mt-1 text-sm text-gray-500">
-                                        <div className="flex items-center gap-1">
-                                            <User size={14} />
+                                    <div className="flex flex-wrap items-center gap-4 mt-2">
+                                        <div className="flex items-center gap-1.5 text-xs font-bold text-gray-400 uppercase tracking-tighter">
+                                            <User size={14} className="opacity-40" />
                                             {po.vendor_name}
                                         </div>
-                                        <div className="flex items-center gap-1">
-                                            <Calendar size={14} />
+                                        <div className="flex items-center gap-1.5 text-xs font-bold text-gray-400 uppercase tracking-tighter">
+                                            <Calendar size={14} className="opacity-40" />
                                             {po.date}
                                         </div>
-                                        {po.status === 'SENT' && (
-                                            <span className="px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-bold">SENT</span>
-                                        )}
-                                        {po.status === 'CANCELLED' && (
-                                            <span className="px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-xs font-bold">CANCELLED</span>
-                                        )}
-                                        {po.status === 'DRAFT' && (
-                                            <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 text-xs font-bold">DRAFT</span>
-                                        )}
+                                        <ApprovalStatus 
+                                            status={po.approval_status || po.status || 'DRAFT'} 
+                                            reason={po.rejection_reason}
+                                        />
                                     </div>
                                 </div>
                             </Link>
 
-                            <div className="flex items-center justify-between md:justify-end gap-6 w-full md:w-auto mt-4 md:mt-0 pt-4 md:pt-0 border-t md:border-0 border-gray-100">
+                            <div className="flex items-center justify-between md:justify-end gap-10 w-full md:w-auto">
                                 <div className="text-right">
-                                    <p className="text-xs text-gray-400 uppercase font-bold">Total Amount</p>
-                                    <p className="text-xl font-bold text-gray-900">{formatCurrency(Number(po.total_amount || 0), user?.company?.currency)}</p>
+                                    <p className="text-[10px] text-gray-300 font-black uppercase tracking-widest mb-1">Montant Total</p>
+                                    <p className="text-lg font-black text-gray-900 tracking-tighter">
+                                        {formatCurrency(Number(po.total_amount || 0), user?.company?.currency)}
+                                    </p>
                                 </div>
-                                <button
-                                    onClick={() => handleDeleteClick(po.id)}
-                                    disabled={deletingId === po.id}
-                                    className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition disabled:opacity-50"
-                                    title="Delete Order"
-                                >
-                                    {deletingId === po.id ? <Loader2 className="animate-spin" size={20} /> : <Trash2 size={20} />}
-                                </button>
+                                <div className="flex items-center gap-2">
+                                    <Link 
+                                        href={`/purchases/${po.id}`}
+                                        className="p-3 bg-gray-50 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all"
+                                    >
+                                        <Eye size={20} />
+                                    </Link>
+                                    <button
+                                        onClick={(e) => { e.preventDefault(); setConfirmModal({ isOpen: true, id: po.id }); }}
+                                        className="p-3 bg-gray-50 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                                    >
+                                        <Trash2 size={20} />
+                                    </button>
+                                    <Link href={`/purchases/${po.id}`} className="p-2 ml-2 text-gray-300 group-hover:text-gray-900 transition-colors">
+                                        <ChevronRight size={20} />
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     ))}

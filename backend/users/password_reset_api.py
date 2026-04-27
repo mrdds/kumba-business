@@ -71,13 +71,13 @@ def request_password_reset(request, payload: PasswordResetRequestSchema):
             # Web link
             reset_url = f"{settings.FRONTEND_URL}/auth/reset-password?token={reset_token.token}"
         
-        subject = "Réinitialisation de votre mot de passe Kumba Business"
+        subject = "Réinitialisation de votre mot de passe OurSpace"
         
         # Plain text version
         text_content = f"""
 Bonjour {user.first_name or user.username},
 
-Vous avez demandé la réinitialisation de votre mot de passe sur Kumba Business.
+Vous avez demandé la réinitialisation de votre mot de passe sur OurSpace.
 
 Cliquez sur le lien ci-dessous pour créer un nouveau mot de passe :
 
@@ -88,7 +88,7 @@ Ce lien est valable pendant 1 heure.
 Si vous n'avez pas demandé cette réinitialisation, ignorez cet email.
 
 Cordialement,
-L'équipe Kumba Business
+L'équipe OurSpace
         """
         
         # HTML version using template

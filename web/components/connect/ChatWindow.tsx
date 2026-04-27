@@ -5,12 +5,14 @@ import { useConnect } from '../../context/ConnectProvider';
 import { useAuth } from '../../context/AuthContext';
 import { Send, Phone, Video, MoreVertical } from 'lucide-react';
 import { fetchMessages, sendMessage as apiSendMessage } from '../../services/api';
+import { useTranslation } from 'react-i18next';
 
 interface ChatWindowProps {
     conversation: any;
 }
 
 export function ChatWindow({ conversation }: ChatWindowProps) {
+    const { t } = useTranslation();
     const { messages: liveMessages } = useConnect();
     const { user } = useAuth();
     const [input, setInput] = useState('');
@@ -58,7 +60,7 @@ export function ChatWindow({ conversation }: ChatWindowProps) {
                 <div className="h-16 w-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                     <Send className="h-8 w-8 text-gray-300" />
                 </div>
-                <p>Select a conversation to start chatting</p>
+                <p>{t('connect.select_to_start')}</p>
             </div>
         );
     }
@@ -74,7 +76,7 @@ export function ChatWindow({ conversation }: ChatWindowProps) {
                         </span>
                     </div>
                     <div>
-                        <h3 className="font-semibold text-gray-900">{conversation.title || 'Chat'}</h3>
+                        <h3 className="font-semibold text-gray-900">{conversation.title || t('connect.chat')}</h3>
                         <p className="text-xs text-gray-500 uppercase">{conversation.type}</p>
                     </div>
                 </div>
@@ -116,7 +118,7 @@ export function ChatWindow({ conversation }: ChatWindowProps) {
                         className="flex-1 px-4 py-2 bg-gray-100 border-none rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
-                        placeholder="Type a message..."
+                        placeholder={t('connect.type_message')}
                     />
                     <button
                         type="submit"

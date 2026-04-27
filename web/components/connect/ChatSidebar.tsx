@@ -3,6 +3,7 @@
 import React from 'react';
 import { useConnect } from '../../context/ConnectProvider';
 import { Plus, Hash, Users } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface ChatSidebarProps {
     onSelectConversation: (id: number) => void;
@@ -10,12 +11,13 @@ interface ChatSidebarProps {
 }
 
 export function ChatSidebar({ onSelectConversation, conversations }: ChatSidebarProps) {
+    const { t } = useTranslation();
     const { activeConversationId } = useConnect();
 
     return (
         <div className="w-80 border-r h-full flex flex-col bg-gray-50/50">
             <div className="p-4 border-b flex justify-between items-center bg-white">
-                <h2 className="font-semibold text-lg">Messages</h2>
+                <h2 className="font-semibold text-lg">{t('connect.messages')}</h2>
                 <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                     <Plus className="h-5 w-5 text-gray-600" />
                 </button>
@@ -25,7 +27,7 @@ export function ChatSidebar({ onSelectConversation, conversations }: ChatSidebar
                 <div className="p-2 space-y-2">
                     {conversations.length === 0 && (
                         <div className="text-center p-4 text-gray-500 text-sm">
-                            No conversations yet.
+                            {t('connect.no_conversations')}
                         </div>
                     )}
 
@@ -50,7 +52,7 @@ export function ChatSidebar({ onSelectConversation, conversations }: ChatSidebar
                                 <div className="flex justify-between items-center mb-1">
                                     <span className="font-medium truncate">
                                         {convo.type === 'DIRECT'
-                                            ? convo.title || 'Direct Message'
+                                            ? convo.title || t('connect.direct_message')
                                             : convo.title}
                                     </span>
                                     {convo.unread_count > 0 && (
@@ -60,7 +62,7 @@ export function ChatSidebar({ onSelectConversation, conversations }: ChatSidebar
                                     )}
                                 </div>
                                 <p className="text-xs text-gray-500 truncate">
-                                    {convo.last_message?.content || 'No messages yet'}
+                                    {convo.last_message?.content || t('connect.no_messages')}
                                 </p>
                             </div>
                         </button>

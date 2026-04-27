@@ -80,7 +80,7 @@ export default function EditCustomerPage({ params }: { params: Promise<{ id: str
                     <button onClick={() => router.back()} className="p-2 bg-white rounded-full border border-gray-200 hover:bg-gray-50 transition">
                         <ArrowLeft size={20} className="text-gray-600" />
                     </button>
-                    <h1 className="text-2xl font-bold text-gray-900">Edit Customer</h1>
+                    <h1 className="text-lg font-bold text-gray-900">Edit Customer</h1>
                 </div>
 
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">

@@ -12,7 +12,7 @@ from companies.models import Company
 # Models
 from purchasing.models import PurchaseOrder
 from invoicing.models import Invoice, Quote
-from accounting.models import JournalEntry, Transaction
+from accounting.models import JournalEntry
 from hr.models import Employee, SalaryAdvance, PayrollRun
 from budgets.models import Budget
 

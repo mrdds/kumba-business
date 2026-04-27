@@ -17,6 +17,10 @@ api.interceptors.request.use(async (config) => {
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
+        const lang = localStorage.getItem('app_language');
+        if (lang) {
+            config.headers['Accept-Language'] = lang;
+        }
     }
     return config;
 });
@@ -30,9 +34,8 @@ api.interceptors.response.use(
                 localStorage.removeItem('refresh_token');
                 // Only redirect if not already on auth pages
                 if (!window.location.pathname.startsWith('/auth')) {
-                    // [SSO] Redirect to Core Platform
-                    const currentUrl = window.location.href;
-                    window.location.href = `https://kumba-auth.trocplus.ci/login?redirect_url=${encodeURIComponent(currentUrl)}`;
+                    // Redirect to local login
+                    window.location.href = '/auth/login';
                 }
             }
         }
@@ -64,6 +67,16 @@ export const getTransactions = async () => {
 
 export const getJournalEntry = async (id: number) => {
     const response = await api.get(`/accounting/journal-entries/${id}`);
+    return response.data;
+};
+
+export async function getJournalEntries(status?: string) {
+    const response = await api.get('/accounting/journal-entries', { params: { status } });
+    return response.data;
+}
+
+export const createJournalEntry = async (data: any) => {
+    const response = await api.post('/accounting/journal-entries', data);
     return response.data;
 };
 
@@ -145,7 +158,7 @@ export const getEmployees = async () => {
 };
 
 export const getMyEmployeeProfile = async () => {
-    const response = await api.get('/hr/employees/me');
+    const response = await api.get('/hr/me');
     return response.data;
 };
 
@@ -161,6 +174,11 @@ export const createEmployee = async (data: any) => {
 
 export const updateEmployee = async (id: number, data: any) => {
     const response = await api.patch(`/hr/employees/${id}`, data);
+    return response.data;
+};
+
+export const getFieldResources = async () => {
+    const response = await api.get('/hr/field-resources');
     return response.data;
 };
 
@@ -226,8 +244,49 @@ export const updateEmployeeStatus = async (id: number, status: string) => {
     return response.data;
 };
 
+export const uploadEmployeeDocument = async (employeeId: number, name: string, type: string, file: File) => {
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('document_type', type);
+    formData.append('file', file);
+    const response = await api.post(`/hr/employees/${employeeId}/documents`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    });
+    return response.data;
+};
+
+export const deleteEmployeeDocument = async (docId: number) => {
+    const response = await api.delete(`/hr/documents/${docId}`);
+    return response.data;
+};
+
 export const createSystemEmployee = async (data: any) => {
-    const response = await api.post('/auth/employees', data);
+    const response = await api.post('/hr/employees', data);
+    return response.data;
+};
+
+
+
+// --- HR Advances / Requests ---
+export const getHRRequests = async () => {
+    const response = await api.get('/hr/advances');
+    return response.data;
+};
+
+export const createHRRequest = async (data: any) => {
+    const response = await api.post('/hr/advances', data);
+    return response.data;
+};
+
+export const updateHRRequestStatus = async (id: number, status: string) => {
+    if (status === 'APPROVED') {
+        const response = await api.patch(`/hr/advances/${id}/approve`);
+        return response.data;
+    } else if (status === 'REJECTED') {
+        const response = await api.patch(`/hr/advances/${id}/reject`);
+        return response.data;
+    }
+    const response = await api.patch(`/hr/advances/${id}/status`, { status });
     return response.data;
 };
 
@@ -264,9 +323,27 @@ export const payPayroll = async (id: number, paymentAccountId: number) => {
     return response.data;
 };
 
+// --- HR Leaves / Congés ---
+export const getMyLeaves = async () => {
+    const response = await api.get('/hr/leaves/me');
+    return response.data;
+};
+
+export const createLeaveRequest = async (data: { start_date: string; end_date: string; leave_type: string; reason?: string }) => {
+    const response = await api.post('/hr/leaves', data);
+    return response.data;
+};
+
 // --- Accounting ---
-export const getAccounts = async (type?: string) => {
-    const response = await api.get('/accounting/accounts', { params: { type } });
+export async function getAccounts(type?: string, activeOnly: boolean = false) {
+    const response = await api.get('/accounting/accounts', { 
+        params: { type, active_only: activeOnly } 
+    });
+    return response.data;
+}
+
+export const getBankAccounts = async () => {
+    const response = await api.get('/accounting/bank-accounts');
     return response.data;
 };
 
@@ -470,7 +547,36 @@ export const uploadPurchaseAttachment = async (id: number, file: File) => {
 };
 
 
-// --- Approvals ---
+// --- Inventory ---
+export const getProducts = async () => {
+    const response = await api.get('/inventory/products');
+    return response.data;
+};
+
+export const createProduct = async (data: any) => {
+    const response = await api.post('/inventory/products', data);
+    return response.data;
+};
+
+export const updateProduct = async (id: number, data: any) => {
+    const response = await api.patch(`/inventory/products/${id}`, data);
+    return response.data;
+};
+
+export const deleteProduct = async (id: number) => {
+    const response = await api.delete(`/inventory/products/${id}`);
+    return response.data;
+};
+
+export const getInventoryMovements = async () => {
+    const response = await api.get('/inventory/movements');
+    return response.data;
+};
+
+export const recordMovement = async (data: any) => {
+    const response = await api.post('/inventory/movements', data);
+    return response.data;
+};
 export const getPendingApprovals = async () => {
     const response = await api.get('/approvals/pending');
     return response.data;
@@ -490,4 +596,63 @@ export const getApprovalTimeline = async (id: number) => {
     const response = await api.get(`/approvals/${id}/timeline`);
     return response.data;
 };
+
+// --- Documents ---
+export const getDocuments = async (category?: string) => {
+    const response = await api.get('/documents/files', { params: { category } });
+    return response.data;
+};
+
+export const uploadDocument = async (file: File, category: string = 'General', title?: string, docType?: string) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('category', category);
+    if (title) formData.append('title', title);
+    if (docType) formData.append('doc_type', docType);
+    const response = await api.post('/documents/files/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    });
+    return response.data;
+};
+
+export const deleteDocument = async (id: number) => {
+    const response = await api.delete(`/documents/files/${id}`);
+    return response.data;
+};
+
+export const getDocumentDownloadUrl = (id: number) => {
+    return `/api/documents/files/${id}/download`;
+};
+// --- Reconciliation ---
+export const getBankStatements = async () => {
+    const response = await api.get('/accounting/reconciliation/statements');
+    return response.data;
+};
+
+export const getReconciliationLines = async (bankAccountId?: number) => {
+    const response = await api.get('/accounting/reconciliation/lines', { 
+        params: { bank_account_id: bankAccountId } 
+    });
+    return response.data;
+};
+
+export const matchTransaction = async (lineId: number, journalEntryId: number) => {
+    const response = await api.post('/accounting/reconciliation/match', null, {
+        params: { line_id: lineId, journal_entry_id: journalEntryId }
+    });
+    return response.data;
+};
+
+export const getSmartMatches = async (lineId: number) => {
+    const response = await api.get('/accounting/reconciliation/smart-match', {
+        params: { line_id: lineId }
+    });
+    return response.data;
+};
+
+export const importBankStatement = async (data: any) => {
+    const response = await api.post('/accounting/reconciliation/import', data);
+    return response.data;
+};
+
 // Connect services moved to @/modules/connect/services/api.ts

@@ -8,7 +8,7 @@ from decimal import Decimal
 from django.db.models import Sum, Q
 from django.http import HttpResponse
 import csv
-from accounting.models import Transaction, Account, AccountType, JournalEntryLine
+from accounting.models import Account, AccountType, JournalEntry, JournalEntryLine
 
 # ============ SCHEMAS ============
 
@@ -129,26 +129,45 @@ class ReportsController:
     
     @route.get('/pnl', response=List[PnLItemSchema])
     def get_pnl_report(self, request, year: int = None):
-        """Old P&L report using simple transactions"""
+        """Old P&L report refactored to use JournalEntries"""
         if not year:
             year = date.today().year
         
         company = self.get_user_company(request)
-        transactions = Transaction.objects.filter(company=company, date__year=year)
         
         report = []
         months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
         
         for i, month_name in enumerate(months):
             month_num = i + 1
-            income = transactions.filter(date__month=month_num, type='IN').aggregate(Sum('amount'))['amount__sum'] or 0
-            expenses = transactions.filter(date__month=month_num, type='OUT').aggregate(Sum('amount'))['amount__sum'] or 0
+            
+            # Income = Revenue accounts (Credit - Debit)
+            income_entries = JournalEntryLine.objects.filter(
+                account__company=company,
+                account__type=AccountType.REVENUE,
+                journal_entry__status='POSTED',
+                journal_entry__date__year=year,
+                journal_entry__date__month=month_num
+            )
+            income_total = (income_entries.aggregate(Sum('credit'))['credit__sum'] or Decimal('0')) - \
+                           (income_entries.aggregate(Sum('debit'))['debit__sum'] or Decimal('0'))
+            
+            # Expenses = Expense accounts (Debit - Credit)
+            expense_entries = JournalEntryLine.objects.filter(
+                account__company=company,
+                account__type=AccountType.EXPENSE,
+                journal_entry__status='POSTED',
+                journal_entry__date__year=year,
+                journal_entry__date__month=month_num
+            )
+            expense_total = (expense_entries.aggregate(Sum('debit'))['debit__sum'] or Decimal('0')) - \
+                            (expense_entries.aggregate(Sum('credit'))['credit__sum'] or Decimal('0'))
             
             report.append({
                 "month": month_name,
-                "income": float(income),
-                "expenses": float(expenses),
-                "profit": float(income - expenses)
+                "income": float(income_total),
+                "expenses": float(expense_total),
+                "profit": float(income_total - expense_total)
             })
             
         return report

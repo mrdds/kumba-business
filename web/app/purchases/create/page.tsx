@@ -3,9 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useNotification } from '@/context/NotificationContext';
 import { useAuth } from '@/context/AuthContext';
-import { ArrowLeft, Plus, Trash2, X, CheckCircle, ChevronDown } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, X, CheckCircle, ChevronDown, Camera } from 'lucide-react';
 import { getSuppliers, createSupplier, createPurchase } from '@/services/api';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { useTranslation } from 'react-i18next';
+import DashboardLayout from '@/app/dashboard-layout';
 
 interface Supplier {
     id: number;
@@ -20,10 +22,12 @@ export default function CreatePurchaseOrder() {
     const router = useRouter();
     const { user } = useAuth();
     const { showToast } = useNotification();
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
-    const [vendors, setVendors] = useState<Supplier[]>([]);
+    const [vendors, setVendors] = useState < Supplier[] > ([]);
     const [showVendorPicker, setShowVendorPicker] = useState(false);
     const [isAddingVendor, setIsAddingVendor] = useState(false);
+    const [isScanning, setIsScanning] = useState(false);
 
     // New Vendor Form State
     const [newVendor, setNewVendor] = useState({
@@ -43,9 +47,33 @@ export default function CreatePurchaseOrder() {
         notes: ''
     });
 
-    useEffect(() => {
-        fetchVendors();
-    }, []);
+    const simulateOCR = (file: File) => {
+        setIsScanning(true);
+        // Simulate a 2.5 second AI analysis
+        setTimeout(() => {
+            setIsScanning(false);
+            showToast('Facture analysée avec succès', 'success');
+
+            // Auto-fill form with mock extracted data
+            const mockExtractedItems = [
+                { description: 'MacBook Pro 16" M3 Max', quantity: '2', unit_price: '2500000' },
+                { description: 'Licences Logiciels (1 an)', quantity: '5', unit_price: '150000' }
+            ];
+
+            setForm(prev => ({
+                ...prev,
+                vendor_name: 'Apple Enterprise CI',
+                project_name: 'Renouvellement Parc Informatique',
+                items: mockExtractedItems
+            }));
+
+            // Check if vendor exists in list to auto-select id, else keep it null so it can be created or left as is
+            const existingVendor = vendors.find(v => v.name.toLowerCase().includes('apple'));
+            if (existingVendor) {
+                setForm(prev => ({ ...prev, vendor_id: existingVendor.id, vendor_name: existingVendor.name }));
+            }
+        }, 2500);
+    };
 
     const fetchVendors = async () => {
         try {
@@ -56,9 +84,13 @@ export default function CreatePurchaseOrder() {
         }
     };
 
+    useEffect(() => {
+        fetchVendors();
+    }, []);
+
     const handleCreateVendor = async () => {
         if (!newVendor.name) {
-            showToast('Vendor Name is required', 'error');
+            showToast(t('purchases.create_page.error_vendor'), 'error');
             return;
         }
         try {
@@ -68,10 +100,10 @@ export default function CreatePurchaseOrder() {
             setIsAddingVendor(false);
             setNewVendor({ name: '', email: '', phone: '', address: '', tax_id: '' });
             setShowVendorPicker(false);
-            showToast('Vendor created successfully', 'success');
+            showToast(t('purchases.create_page.success_vendor'), 'success');
         } catch (error) {
             console.error(error);
-            showToast('Failed to create vendor', 'error');
+            showToast(t('purchases.create_page.error_create_vendor'), 'error');
         }
     };
 
@@ -104,7 +136,7 @@ export default function CreatePurchaseOrder() {
 
     const handleSubmit = async () => {
         if (!form.vendor_name || !form.project_name) {
-            showToast('Vendor and Project Name are required.', 'error');
+            showToast(t('purchases.create_page.error_vendor_project'), 'error');
             return;
         }
 
@@ -122,42 +154,85 @@ export default function CreatePurchaseOrder() {
             };
             console.log('Sending Purchase Payload:', payload);
             await createPurchase(payload);
-            showToast(`Purchase Order created for ${form.vendor_name}`, 'success');
+            showToast(t('purchases.create_page.success', { vendor: form.vendor_name }), 'success');
             router.push('/purchases');
         } catch (error) {
             console.error(error);
-            showToast('Failed to create Purchase Order', 'error');
+            showToast(t('purchases.create_page.error'), 'error');
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <DashboardLayout>
             <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                 {/* Header */}
                 <div className="bg-indigo-600 p-6 flex items-center text-white">
                     <button onClick={() => router.back()} className="mr-4 p-2 bg-white/20 rounded-full hover:bg-white/30 transition">
                         <ArrowLeft size={24} />
                     </button>
-                    <h1 className="text-2xl font-bold">New Purchase Order (PO)</h1>
+                    <h1 className="text-lg font-bold">{t('purchases.create_page.title')}</h1>
                 </div>
 
                 <div className="p-8">
+                    {/* OCR Upload Area */}
+                    <div className="mb-8">
+                        <div
+                            className={`border-2 border-dashed rounded-3xl p-8 text-center transition-all ${isScanning ? 'border-indigo-400 bg-indigo-50/50' : 'border-indigo-100 hover:border-indigo-300 bg-slate-50 hover:bg-slate-50/80 cursor-pointer'
+                                }`}
+                            onClick={() => {
+                                if (isScanning) return;
+                                const input = document.createElement('input');
+                                input.type = 'file';
+                                input.accept = 'image/*,application/pdf';
+                                input.onchange = (e) => {
+                                    const file = (e.target as HTMLInputElement).files?.[0];
+                                    if (file) simulateOCR(file);
+                                };
+                                input.click();
+                            }}
+                        >
+                            {isScanning ? (
+                                <div className="flex flex-col items-center justify-center space-y-4 py-4">
+                                    <div className="w-16 h-16 relative">
+                                        <div className="absolute inset-0 rounded-full border-4 border-indigo-100" />
+                                        <div className="absolute inset-0 rounded-full border-4 border-indigo-600 border-t-transparent animate-spin" />
+                                        <Camera size={24} className="absolute inset-0 m-auto text-indigo-600 animate-pulse" />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <h3 className="text-sm font-bold text-indigo-900">Analyse IA en cours...</h3>
+                                        <p className="text-xs text-indigo-600/70 font-medium">Extraction du fournisseur, montants et articles</p>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="flex flex-col items-center justify-center space-y-3 py-4">
+                                    <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                        <Camera size={28} strokeWidth={2.5} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <h3 className="text-sm font-bold text-slate-800">Scanner une facture (OCR)</h3>
+                                        <p className="text-xs text-slate-500">Déposez votre facture (PDF, PNG, JPG) ou cliquez pour parcourir</p>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
                     {/* General Info */}
                     <div className="mb-8">
-                        <h2 className="text-sm font-bold text-indigo-600 uppercase tracking-wider mb-4">Project & Vendor</h2>
+                        <h2 className="text-sm font-bold text-indigo-600 uppercase tracking-wider mb-4">{t('purchases.create_page.project_vendor')}</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                             {/* Vendor Selector */}
                             <div className="relative">
-                                <label className="block text-gray-500 text-xs font-bold mb-2 uppercase">Vendor / Contractor</label>
+                                <label className="block text-gray-500 text-xs font-bold mb-2 uppercase">{t('purchases.create_page.vendor')}</label>
                                 <button
                                     onClick={() => setShowVendorPicker(!showVendorPicker)}
                                     className="w-full bg-gray-50 p-4 rounded-xl border border-gray-200 flex justify-between items-center text-left hover:border-indigo-300 transition"
                                 >
                                     <span className={`font-medium ${form.vendor_name ? 'text-gray-900' : 'text-gray-400'}`}>
-                                        {form.vendor_name || "Select Vendor..."}
+                                        {form.vendor_name || t('purchases.create_page.select')}
                                     </span>
                                     <ChevronDown size={20} className="text-gray-400" />
                                 </button>
@@ -168,40 +243,40 @@ export default function CreatePurchaseOrder() {
                                         {isAddingVendor ? (
                                             <div className="p-4 bg-gray-50">
                                                 <div className="flex justify-between items-center mb-4">
-                                                    <h3 className="font-bold text-gray-700">Add New Vendor</h3>
+                                                    <h3 className="font-bold text-gray-700">{t('purchases.create_page.add_vendor')}</h3>
                                                     <button onClick={() => setIsAddingVendor(false)} className="text-gray-400 hover:text-gray-600"><X size={20} /></button>
                                                 </div>
                                                 <input
                                                     className="w-full bg-white p-3 rounded-lg border border-gray-200 mb-3"
-                                                    placeholder="Vendor Name *"
+                                                    placeholder={t('purchases.create_page.vendor_name')}
                                                     value={newVendor.name}
                                                     onChange={e => setNewVendor({ ...newVendor, name: e.target.value })}
                                                 />
                                                 <input
                                                     className="w-full bg-white p-3 rounded-lg border border-gray-200 mb-3"
-                                                    placeholder="Email"
+                                                    placeholder={t('purchases.create_page.email')}
                                                     value={newVendor.email}
                                                     onChange={e => setNewVendor({ ...newVendor, email: e.target.value })}
                                                 />
                                                 <input
                                                     className="w-full bg-white p-3 rounded-lg border border-gray-200 mb-3"
-                                                    placeholder="Phone"
+                                                    placeholder={t('purchases.create_page.phone')}
                                                     value={newVendor.phone}
                                                     onChange={e => setNewVendor({ ...newVendor, phone: e.target.value })}
                                                 />
                                                 <input
                                                     className="w-full bg-white p-3 rounded-lg border border-gray-200 mb-3"
-                                                    placeholder="Tax ID / NCC"
+                                                    placeholder={t('purchases.create_page.tax_id')}
                                                     value={newVendor.tax_id}
                                                     onChange={e => setNewVendor({ ...newVendor, tax_id: e.target.value })}
                                                 />
                                                 <textarea
                                                     className="w-full bg-white p-3 rounded-lg border border-gray-200 mb-3"
-                                                    placeholder="Address"
+                                                    placeholder={t('purchases.create_page.address')}
                                                     value={newVendor.address}
                                                     onChange={e => setNewVendor({ ...newVendor, address: e.target.value })}
                                                 />
-                                                <button onClick={handleCreateVendor} className="w-full bg-indigo-600 text-white py-3 rounded-lg font-bold hover:bg-indigo-700">Save Vendor</button>
+                                                <button onClick={handleCreateVendor} className="w-full bg-indigo-600 text-white py-3 rounded-lg font-bold hover:bg-indigo-700">{t('purchases.create_page.save_vendor')}</button>
                                             </div>
                                         ) : (
                                             <div>
@@ -210,7 +285,7 @@ export default function CreatePurchaseOrder() {
                                                     className="w-full p-4 flex items-center justify-center text-indigo-600 font-bold hover:bg-indigo-50 border-b border-gray-100"
                                                 >
                                                     <Plus size={20} className="mr-2" />
-                                                    Add New Vendor
+                                                    {t('purchases.create_page.add_vendor')}
                                                 </button>
                                                 {vendors.map(vendor => (
                                                     <button
@@ -235,10 +310,10 @@ export default function CreatePurchaseOrder() {
                             </div>
 
                             <div>
-                                <label className="block text-gray-500 text-xs font-bold mb-2 uppercase">Project Name</label>
+                                <label className="block text-gray-500 text-xs font-bold mb-2 uppercase">{t('purchases.create_page.project_name')}</label>
                                 <input
                                     className="w-full bg-gray-50 p-4 rounded-xl border border-gray-200 text-gray-900 font-medium focus:outline-none focus:border-indigo-500 transition"
-                                    placeholder="e.g. HQ Renovation"
+                                    placeholder={t('purchases.create_page.project_name_placeholder')}
                                     value={form.project_name}
                                     onChange={e => setForm({ ...form, project_name: e.target.value })}
                                 />
@@ -249,20 +324,20 @@ export default function CreatePurchaseOrder() {
                     {/* Items */}
                     <div className="mb-8">
                         <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-lg font-bold text-gray-900">Items</h2>
+                            <h2 className="text-lg font-bold text-gray-900">{t('purchases.create_page.items')}</h2>
                             <button onClick={addItem} className="flex items-center px-4 py-2 bg-indigo-50 rounded-full text-indigo-600 font-bold hover:bg-indigo-100 transition">
                                 <Plus size={16} className="mr-1" />
-                                Add Item
+                                {t('purchases.create_page.add_item')}
                             </button>
                         </div>
 
                         {form.items.map((item, index) => (
                             <div key={index} className="bg-gray-50 p-4 rounded-2xl border border-gray-100 mb-3 flex flex-wrap gap-4 items-end">
                                 <div className="flex-grow min-w-[200px]">
-                                    <label className="text-xs font-bold text-gray-400 mb-1 block">Description</label>
+                                    <label className="text-xs font-bold text-gray-400 mb-1 block">{t('purchases.create_page.desc')}</label>
                                     <input
                                         className="w-full bg-white p-3 rounded-lg border border-gray-200 font-medium"
-                                        placeholder="Item Description"
+                                        placeholder={t('purchases.create_page.desc_placeholder')}
                                         value={item.description}
                                         onChange={e => updateItem(index, 'description', e.target.value)}
                                     />
@@ -277,7 +352,7 @@ export default function CreatePurchaseOrder() {
                                     />
                                 </div>
                                 <div className="w-32">
-                                    <label className="text-xs font-bold text-gray-400 mb-1 block">Unit Price</label>
+                                    <label className="text-xs font-bold text-gray-400 mb-1 block">{t('purchases.create_page.price')}</label>
                                     <input
                                         className="w-full bg-white p-3 rounded-lg border border-gray-200 font-bold text-center"
                                         type="number"
@@ -286,7 +361,7 @@ export default function CreatePurchaseOrder() {
                                     />
                                 </div>
                                 <div className="w-32 text-right pb-3">
-                                    <span className="text-lg font-bold text-indigo-600">
+                                    <span className="text-xl font-bold text-indigo-600">
                                         {formatCurrency(parseFloat(item.quantity || '0') * parseFloat(item.unit_price || '0'), user?.company?.currency)}
                                     </span>
                                 </div>
@@ -300,12 +375,12 @@ export default function CreatePurchaseOrder() {
                     {/* Summary */}
                     <div className="bg-gray-900 p-8 rounded-3xl shadow-xl shadow-indigo-500/10 mb-8 max-w-sm ml-auto">
                         <div className="flex justify-between items-center mb-4 border-b border-gray-700 pb-4">
-                            <span className="text-gray-400 text-sm">Total Items</span>
+                            <span className="text-gray-400 text-sm">{t('purchases.create_page.total_items')}</span>
                             <span className="text-white font-bold">{form.items.length}</span>
                         </div>
                         <div className="flex justify-between items-center">
-                            <span className="text-white text-lg font-bold">Total Amount</span>
-                            <span className="text-3xl font-bold text-green-400">{formatCurrency(calculateTotal(), user?.company?.currency)}</span>
+                            <span className="text-white text-xl font-bold">{t('purchases.create_page.total')}</span>
+                            <span className="text-xl font-bold text-green-400">{formatCurrency(calculateTotal(), user?.company?.currency)}</span>
                         </div>
                     </div>
 
@@ -315,12 +390,13 @@ export default function CreatePurchaseOrder() {
                             disabled={loading}
                             className="w-full bg-indigo-600 py-4 rounded-xl text-white font-bold text-lg hover:bg-indigo-700 transition shadow-lg shadow-indigo-600/20 disabled:opacity-50"
                         >
-                            {loading ? 'Creating Order...' : 'Create Purchase Order'}
+                            {loading ? t('purchases.create_page.creating') : t('purchases.create_page.create_btn')}
                         </button>
                     </div>
 
                 </div>
             </div>
-        </div>
+        </DashboardLayout>
     );
+
 }

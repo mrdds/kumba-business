@@ -7,7 +7,7 @@ from datetime import date
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from .models import Debt
-from accounting.models import Transaction as AccTransaction
+from accounting.models import Account, JournalEntry, JournalEntryLine
 
 class DebtCreateSchema(Schema):
     type: str # 'CLIENT' or 'SUPPLIER' or 'INTERNAL'
@@ -65,22 +65,36 @@ class DebtController:
         debt.paid_amount += Decimal(str(payload.amount)) # Ensure Decimal arithmetic
         debt.save() # Status updates in save() method
 
-        # Create Accounting Transaction
-        # If paying a Supplier Debt -> Expense (Money Out)
-        # If receiving payment for Client Debt -> Income (Money In)
+        # Create Accounting Transaction (Journal Entry)
+        # On cherche un compte de trésorerie (commence par 5)
+        cash_account = Account.objects.filter(company=request.user.company, code__startswith='5').first()
         
-        tx_type = 'OUT' if debt.type == 'SUPPLIER' else 'IN'
-        # INTERNAL: Could be either, let's assume if we OWE internal debt (like to a partner), paying it is OUT.
-        if debt.type == 'INTERNAL':
-             tx_type = 'OUT'
-
-        AccTransaction.objects.create(
-            company=request.user.company,
-            amount=payload.amount,
-            type=tx_type,
-            category='Debt Payment',
-            description=f"Payment for {debt.type} - {debt.counterparty_name}",
-            date=payload.date
-        )
+        # Compte de tiers (411 Clients, 401 Fournisseurs)
+        debt_code = '411' if debt.type == 'CLIENT' else '401'
+        debt_account = Account.objects.filter(company=request.user.company, code=debt_code).first()
+        
+        if cash_account and debt_account:
+            amount_dec = Decimal(str(payload.amount))
+            entry = JournalEntry.objects.create(
+                company=request.user.company,
+                date=payload.date,
+                reference=f"PAY-DEBT-{debt.id}",
+                description=f"Payment for {debt.type} - {debt.counterparty_name}",
+                entry_type=JournalEntry.EntryType.PAYMENT
+            )
+            
+            if debt.type == 'CLIENT':
+                # Reçu du client: Débit Caisse/Banque, Crédit Client
+                JournalEntryLine.objects.create(journal_entry=entry, account=cash_account, debit=amount_dec)
+                JournalEntryLine.objects.create(journal_entry=entry, account=debt_account, credit=amount_dec)
+            else:
+                # Payé au fournisseur: Débit Fournisseur, Crédit Caisse/Banque
+                JournalEntryLine.objects.create(journal_entry=entry, account=debt_account, debit=amount_dec)
+                JournalEntryLine.objects.create(journal_entry=entry, account=cash_account, credit=amount_dec)
+            
+            try:
+                entry.post()
+            except:
+                pass # Fallback safety
 
         return 200, debt

@@ -1,6 +1,7 @@
 
 from ninja_extra import api_controller, http_get, http_post
 from ninja import Schema, File, Form
+from ninja.errors import HttpError
 from ninja.files import UploadedFile
 import json
 from pydantic import field_validator
@@ -29,10 +30,11 @@ class CompanyOutSchema(Schema):
 User = get_user_model()
 
 class UserSchema(Schema):
+    id: int
     kumba_uid: UUID
     kumba_id: Optional[str] = None
     username: str
-    email: EmailStr
+    email: str
     first_name: Optional[str] = None
     last_name: Optional[str] = None
     type: str
@@ -41,11 +43,15 @@ class UserSchema(Schema):
     company_id: Optional[int] = None
     company: Optional[CompanyOutSchema] = None
     role: Optional[str] = None
+    groups: List[str] = []
     phone: Optional[str] = None
     phone_numbers: List[dict] = []
     job_title: Optional[str] = None
     employee_id: Optional[str] = None
     bio: Optional[str] = None
+    language: Optional[str] = 'fr'
+    timezone: Optional[str] = 'Africa/Abidjan'
+    cover_image_url: Optional[str] = None
 
     @field_validator('phone_numbers', mode='before')
     @classmethod
@@ -72,13 +78,19 @@ class ProfileUpdateSchema(Schema):
     phone_numbers: Optional[str] = None
     job_title: Optional[str] = None
     bio: Optional[str] = None
+    language: Optional[str] = None
+    timezone: Optional[str] = None
 
 @api_controller('/id', tags=['Kumba ID'])
 class KumbaIDController:
     @http_get('/me', response=UserSchema)
     def ms_me(self, request):
         user = request.user
+        if not user or not user.is_authenticated:
+            raise HttpError(401, "Not authenticated")
+        
         return {
+            "id": user.id,
             "kumba_uid": user.kumba_uid,
             "kumba_id": user.kumba_id,
             "username": user.username,
@@ -104,12 +116,15 @@ class KumbaIDController:
                 "website": user.company.website,
                 "logo": request.build_absolute_uri(user.company.logo.url) if user.company and user.company.logo else None
             } if user.company else None,
-            "role": user.role,
+            "role": user.role, "groups": [g.name for g in user.groups.all()],
             "phone": user.phone,
             "phone_numbers": user.phone_numbers,
             "job_title": user.job_title,
             "employee_id": user.employee_id,
-            "bio": user.bio
+            "bio": user.bio,
+            "language": user.language,
+            "timezone": user.timezone,
+            "cover_image_url": user.cover_image_url
         }
 
     @http_post('/me', response=UserSchema)
@@ -135,11 +150,15 @@ class KumbaIDController:
                 except:
                     pass
             user.phone_numbers = val
+        
+        if 'language' in data: user.language = data['language']
+        if 'timezone' in data: user.timezone = data['timezone']
             
         user.save()
         user.refresh_from_db()
         
         return {
+            "id": user.id,
             "kumba_uid": user.kumba_uid,
             "kumba_id": user.kumba_id,
             "username": user.username,
@@ -170,7 +189,10 @@ class KumbaIDController:
             "phone_numbers": user.phone_numbers,
             "job_title": user.job_title,
             "employee_id": user.employee_id,
-            "bio": user.bio
+            "bio": user.bio,
+            "language": user.language,
+            "timezone": user.timezone,
+            "cover_image_url": user.cover_image_url
         }
 
     @http_post('/register', response=UserSchema, auth=None)

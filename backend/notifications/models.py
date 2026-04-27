@@ -5,7 +5,7 @@ class Notification(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     body = models.TextField()
-    type = models.CharField(max_length=50, choices=[('EMAIL', 'Email'), ('PUSH', 'Push')], default='EMAIL')
+    type = models.CharField(max_length=50, choices=[('EMAIL', 'Email'), ('PUSH', 'Push'), ('SYSTEM', 'System')], default='SYSTEM')
     status = models.CharField(max_length=20, default='PENDING') # PENDING, SENT, FAILED
     is_read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

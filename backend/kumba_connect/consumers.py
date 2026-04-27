@@ -94,21 +94,27 @@ class GlobalConsumer(AsyncWebsocketConsumer):
             meeting_id = data.get('meeting_id')
             conversation_id = data.get('conversation_id')
 
-            if target_user_id:
-                # Relay to target user's global socket
-                await self.channel_layer.group_send(
-                    f'user_updates_{target_user_id}',
-                    {
-                        'type': 'global_call_signal',
-                        'user_id': user_id,
-                        'action': action,
-                        'meeting_id': meeting_id,
-                        'is_audio_only': data.get('is_audio_only', False),
-                        'caller_first_name': data.get('caller_first_name', ''),
-                        'conversation_id': conversation_id
-                    }
-                )
-            elif meeting_id:
+            if action in ['call_offer', 'call_rejected', 'call_canceled', 'call_ended']:
+                if target_user_id:
+                    print(f"[GlobalConsumer] Relaying call signal {action} from {user_id} to {target_user_id}")
+                    await self.channel_layer.group_send(
+                        f'user_updates_{target_user_id}',
+                        {
+                            'type': 'global_call_signal',
+                            'user_id': user_id,
+                            'action': action,
+                            'meeting_id': meeting_id,
+                            'is_audio_only': data.get('is_audio_only', False),
+                            'caller_first_name': data.get('caller_first_name', ''),
+                            'conversation_id': conversation_id
+                        }
+                    )
+            
+            # Create system message for termination (once per call signal)
+            if action == 'call_ended' and conversation_id:
+                 await self.create_system_message(conversation_id, "Appel terminé")
+                 
+            if meeting_id and not target_user_id:
                 # Broadcast to all participants of the meeting
                 participants = await self.get_meeting_participants(meeting_id)
                 for p_id in participants:
@@ -133,6 +139,7 @@ class GlobalConsumer(AsyncWebsocketConsumer):
                     await self.log_meeting_event(meeting_id, log_type, user_id, data)
 
     async def global_call_signal(self, event):
+        print(f"[GlobalConsumer] Sending signal to client {self.scope.get('user').id}: {event['action']}")
         await self.send(text_data=json.dumps({
             'type': 'call_signal',
             'action': event['action'],
@@ -168,6 +175,21 @@ class GlobalConsumer(AsyncWebsocketConsumer):
             )
         except Exception:
             pass
+
+    @database_sync_to_async
+    def create_system_message(self, conversation_id, content):
+        try:
+            conv = Conversation.objects.get(id=conversation_id)
+            msg = Message.objects.create(
+                conversation=conv,
+                content=content,
+                content_type='system'
+            )
+            # Broadcast update to all participants
+            return msg
+        except Exception as e:
+            print(f"Error creating system message: {e}")
+            return None
 
     @database_sync_to_async
     def update_user_presence(self, user, status):

@@ -1,5 +1,6 @@
 from ninja_jwt.authentication import JWTAuth
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from ninja.errors import HttpError
 
 User = get_user_model()
@@ -33,21 +34,45 @@ class KumbaJWTAuth(JWTAuth):
             print(f"DEBUG: user_id_claim ({user_id_claim}) => {user_id}")
             
             if user_id:
+                email_from_token = payload.get('email', user_id if '@' in str(user_id) else None)
+                
                 # 1. Auto-provision if user doesn't exist
                 if not user:
-                    user = User.objects.filter(email=user_id).first()
-                    print(f"DEBUG: Manual lookup by email found: {user}")
+                    # Priority 1: Match by Kumba ID
+                    user = User.objects.filter(Q(kumba_id=user_id) | Q(employee_id=user_id)).first()
+                    
+                    # Priority 2: Match by Email if present in token
+                    if not user and email_from_token:
+                        user = User.objects.filter(email=email_from_token).first()
+                        
+                    print(f"DEBUG: Manual lookup result: {user}")
                 
                 if not user:
-                    print(f"DEBUG: Auto-provisioning user from SSO token: {user_id}")
+                    final_email = email_from_token or ""
+                    print(f"DEBUG: Auto-provisioning user from SSO token: {user_id} with email {final_email}")
                     user = User.objects.create(
-                        email=user_id,
+                        email=final_email,
                         username=user_id,
+                        kumba_id=user_id if not '@' in str(user_id) else None,
                         first_name=payload.get('first_name', ''),
                         last_name=payload.get('last_name', ''),
                         # Default role for new SSO users who aren't pre-registered as employees
                         role='SUPER_ADMIN' if not User.objects.exists() else 'STANDARD_USER' 
                     )
+                    
+                    # 1.1 Auto-link to Company if Employee record exists
+                    try:
+                        from hr.models import Employee
+                        matching_employee = Employee.objects.filter(
+                            Q(kumba_id=user.kumba_id) | 
+                            (Q(email=user.email) if user.email else Q(id=-1))
+                        ).first()
+                        if matching_employee:
+                            user.company = matching_employee.company
+                            user.save(update_fields=['company'])
+                            print(f"DEBUG: Auto-linked user {user.username} to company {user.company.name}")
+                    except Exception as e:
+                        print(f"DEBUG: Error during auto-linking: {e}")
                 
                 # 2. Synchronize fields from token payload
                 needs_save = False
@@ -74,8 +99,23 @@ class KumbaJWTAuth(JWTAuth):
                     user.last_name = ln_claim
                     needs_save = True
                 
+                # 3. Final fallback: If user still has no company, try to find an employee record again
+                if not user.company:
+                    try:
+                        from hr.models import Employee
+                        matching_employee = Employee.objects.filter(
+                            Q(kumba_id=user.kumba_id) | 
+                            (Q(email=user.email) if user.email else Q(id=-1))
+                        ).first()
+                        if matching_employee:
+                            user.company = matching_employee.company
+                            needs_save = True
+                            print(f"DEBUG: Auto-linked existing user {user.username} to company {user.company.name}")
+                    except:
+                        pass
+                
                 if needs_save:
-                    user.save(update_fields=['kumba_id', 'employee_id', 'first_name', 'last_name'])
+                    user.save(update_fields=['kumba_id', 'employee_id', 'first_name', 'last_name', 'company'])
                     print(f"DEBUG: User synced and saved.")
                     
                 if request:

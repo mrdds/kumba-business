@@ -131,7 +131,6 @@ class LedgerEntrySchema(Schema):
     credit: Decimal
     balance: Decimal
 
-
 class TrialBalanceLineSchema(Schema):
     """Ligne de la balance"""
     account_code: str
@@ -140,6 +139,31 @@ class TrialBalanceLineSchema(Schema):
     debit: Decimal
     credit: Decimal
     balance: Decimal
+
+# ============ RECONCILIATION ============
+
+class BankStatementLineSchema(Schema):
+    id: int
+    date: date
+    description: str
+    reference: str
+    amount: Decimal
+    type: str
+    is_reconciled: bool
+    confidence_score: float
+    suggested_entry_id: Optional[int] = None
+
+class BankStatementSchema(Schema):
+    id: int
+    file_name: str
+    import_date: datetime
+    start_date: date
+    end_date: date
+    opening_balance: Decimal
+    closing_balance: Decimal
+    is_fully_reconciled: bool
+    bank_account_id: int
+    bank_account_name: str
 
 
 
@@ -157,9 +181,11 @@ class TransactionCreateSchema(Schema):
 @api_controller('/accounting', tags=['Accounting'], permissions=[])
 class AccountingController:
     
-    def get_user_company(self, request) -> Company:
+    def get_user_company(self, request) -> Optional[Company]:
         """Helper pour récupérer la company de l'utilisateur"""
-        return request.user.company
+        if not request.user.is_authenticated:
+            return None
+        return getattr(request.user, 'company', None)
     
     # ========== DASHBOARD ==========
     
@@ -170,10 +196,20 @@ class AccountingController:
         from hr.models import Employee
         company = self.get_user_company(request)
         
+        if not company:
+            return {
+                'balance': 0, 'revenue': 0, 'expenses': 0,
+                'unpaid_invoices_count': 0, 'unpaid_invoices_amount': 0,
+                'pending_salaries_amount': 0, 'recent_transactions': [],
+                'currency': 'XOF'
+            }
+        
         # Calcul du solde total (somme des comptes de banque et caisse)
+        # On cherche les comptes de type ASSET dont le code commence par '5' (Comptes de trésorerie)
         cash_accounts = Account.objects.filter(
             company=company,
-            type__in=['BANK', 'CASH'],
+            type=AccountType.ASSET,
+            code__startswith='5',
             is_active=True
         )
         total_balance = sum(acc.balance for acc in cash_accounts)
@@ -275,6 +311,37 @@ class AccountingController:
             description=data.description
         )
         return account
+
+    @route.post("/accounts/bulk", response={200: List[AccountSchema], 400: dict})
+    def bulk_create_accounts(self, request, data: List[AccountCreateSchema]):
+        """Création en masse de comptes"""
+        company = self.get_user_company(request)
+        created_accounts = []
+        
+        from django.db import transaction
+        try:
+            with transaction.atomic():
+                for account_data in data:
+                    parent = None
+                    if account_data.parent_id:
+                        parent = Account.objects.filter(id=account_data.parent_id, company=company).first()
+                    
+                    # Check if code already exists for this company
+                    if Account.objects.filter(company=company, code=account_data.code).exists():
+                        continue
+                        
+                    account = Account.objects.create(
+                        company=company,
+                        code=account_data.code,
+                        name=account_data.name,
+                        type=account_data.type,
+                        parent=parent,
+                        description=account_data.description
+                    )
+                    created_accounts.append(account)
+            return created_accounts
+        except Exception as e:
+            return 400, {"message": str(e)}
     
     @route.get("/accounts/{account_id}", response=AccountSchema)
     def get_account(self, request, account_id: int):
@@ -453,6 +520,60 @@ class AccountingController:
         
         return self.get_journal_entry(request, entry.id)
     
+    @route.post("/journal-entries/bulk", response={200: dict, 400: dict})
+    def bulk_import_journal_entries(self, request, data: List[dict]):
+        """Importation en masse d'écritures (format simplifié)"""
+        company = self.get_user_company(request)
+        
+        from django.db import transaction
+        try:
+            with transaction.atomic():
+                for entry_data in data:
+                    lines_to_create = []
+                    for line in entry_data.get('lines', []):
+                        acc_code = str(line.get('account_code'))
+                        account = Account.objects.filter(company=company, code=acc_code).first()
+                        if not account:
+                            raise Exception(f"Compte {acc_code} introuvable")
+                        lines_to_create.append({
+                            'account': account,
+                            'debit': Decimal(str(line.get('debit', 0))),
+                            'credit': Decimal(str(line.get('credit', 0))),
+                            'description': line.get('description', '')
+                        })
+                    
+                    # Resolve date if it's a string
+                    entry_date = entry_data.get('date')
+                    if isinstance(entry_date, str):
+                        entry_date = datetime.strptime(entry_date, '%Y-%m-%d').date()
+                    elif not entry_date:
+                        entry_date = date.today()
+
+                    entry = JournalEntry.objects.create(
+                        company=company,
+                        date=entry_date,
+                        reference=entry_data.get('reference', ''),
+                        description=entry_data.get('description', ''),
+                        entry_type=entry_data.get('entry_type', 'MANUAL'),
+                        created_by=request.user
+                    )
+                    
+                    for l in lines_to_create:
+                        JournalEntryLine.objects.create(
+                            journal_entry=entry,
+                            account=l['account'],
+                            debit=l['debit'],
+                            credit=l['credit'],
+                            description=l['description']
+                        )
+                    
+                    if entry_data.get('post_immediately', False):
+                        entry.post()
+                        
+            return {"success": True, "count": len(data)}
+        except Exception as e:
+            return 400, {"message": str(e)}
+    
     @route.get("/journal-entries/{entry_id}", response=JournalEntrySchema)
     def get_journal_entry(self, request, entry_id: int):
         """Détails d'une écriture"""
@@ -612,7 +733,163 @@ class AccountingController:
             current_balance=data.opening_balance,
             linked_account=linked_account
         )
+        bank_account.update_balance()
         return bank_account
+
+    @route.post("/reconciliation/import", response={200: BankStatementSchema, 400: dict})
+    def import_bank_statement(self, request, data: dict):
+        """Importation d'un relevé bancaire et de ses lignes"""
+        from .models import BankStatement, BankStatementLine
+        company = self.get_user_company(request)
+        bank_account_id = data.get('bank_account_id')
+        bank_account = get_object_or_404(BankAccount, id=bank_account_id, company=company)
+        
+        from django.db import transaction
+        try:
+            with transaction.atomic():
+                statement = BankStatement.objects.create(
+                    company=company,
+                    bank_account=bank_account,
+                    file_name=data.get('file_name', 'Imported Statement'),
+                    start_date=data.get('start_date', date.today()),
+                    end_date=data.get('end_date', date.today()),
+                    opening_balance=Decimal(str(data.get('opening_balance', 0))),
+                    closing_balance=Decimal(str(data.get('closing_balance', 0)))
+                )
+                
+                for line in data.get('lines', []):
+                    BankStatementLine.objects.create(
+                        statement=statement,
+                        date=line.get('date', date.today()),
+                        description=line.get('description', ''),
+                        reference=line.get('reference', ''),
+                        amount=Decimal(str(line.get('amount', 0))),
+                        type=line.get('type', 'IN' if Decimal(str(line.get('amount', 0))) > 0 else 'OUT')
+                    )
+                
+            # Manually construct response to avoid circular issues or complex schema matching in this quick edit
+            return {
+                "id": statement.id,
+                "file_name": statement.file_name,
+                "import_date": statement.import_date,
+                "start_date": statement.start_date,
+                "end_date": statement.end_date,
+                "opening_balance": statement.opening_balance,
+                "closing_balance": statement.closing_balance,
+                "is_fully_reconciled": statement.is_fully_reconciled,
+                "bank_account_id": statement.bank_account.id,
+                "bank_account_name": statement.bank_account.name
+            }
+        except Exception as e:
+            return 400, {"message": str(e)}
+
+    # ========== RECONCILIATION ==========
+
+    @route.get("/reconciliation/statements", response=List[BankStatementSchema])
+    def list_bank_statements(self, request):
+        """Liste des relevés bancaires importés"""
+        from .models import BankStatement
+        company = self.get_user_company(request)
+        statements = BankStatement.objects.filter(company=company).select_related('bank_account')
+        
+        return [
+            BankStatementSchema(
+                id=s.id,
+                file_name=s.file_name,
+                import_date=s.import_date,
+                start_date=s.start_date,
+                end_date=s.end_date,
+                opening_balance=s.opening_balance,
+                closing_balance=s.closing_balance,
+                is_fully_reconciled=s.is_fully_reconciled,
+                bank_account_id=s.bank_account.id,
+                bank_account_name=s.bank_account.name
+            ) for s in statements
+        ]
+
+    @route.get("/reconciliation/lines", response=List[BankStatementLineSchema])
+    def list_reconciliation_lines(self, request, bank_account_id: Optional[int] = None):
+        """Liste des lignes à rapprocher"""
+        from .models import BankStatementLine
+        company = self.get_user_company(request)
+        lines = BankStatementLine.objects.filter(
+            statement__company=company,
+            is_reconciled=False
+        ).select_related('statement', 'statement__bank_account')
+        
+        if bank_account_id:
+            lines = lines.filter(statement__bank_account_id=bank_account_id)
+            
+        return lines
+
+    @route.post("/reconciliation/match")
+    def match_transaction(self, request, line_id: int, journal_entry_id: int):
+        """Effectuer un rapprochement manuel (Lettrage)"""
+        from .models import BankStatementLine
+        company = self.get_user_company(request)
+        line = get_object_or_404(BankStatementLine, id=line_id, statement__company=company)
+        entry = get_object_or_404(JournalEntry, id=journal_entry_id, company=company)
+        
+        line.is_reconciled = True
+        line.reconciled_with = entry
+        line.save()
+        
+        # Vérifier si tout le relevé est rapproché
+        statement = line.statement
+        if not statement.lines.filter(is_reconciled=False).exists():
+            statement.is_fully_reconciled = True
+            statement.save()
+            
+        return {"success": True, "message": "Transaction reconciled"}
+
+    @route.get("/reconciliation/smart-match")
+    def smart_match_suggestions(self, request, line_id: int):
+        """Moteur de matching intelligent (Phase 7)"""
+        from .models import BankStatementLine
+        company = self.get_user_company(request)
+        line = get_object_or_404(BankStatementLine, id=line_id, statement__company=company)
+        
+        # Rechercher des JEs qui pourraient correspondre (même montant, date proche)
+        # 1. Même montant exact
+        amount = abs(line.amount)
+        potential_entries = JournalEntry.objects.filter(
+            company=company,
+            status='POSTED'
+        ).prefetch_related('lines')
+        
+        matches = []
+        for entry in potential_entries:
+            score = 0
+            # Montant correspond ?
+            if entry.total_debit() == amount:
+                score += 50
+                
+            # Date proche ? (dans les 7 jours)
+            date_diff = abs((entry.date - line.date).days)
+            if date_diff <= 3:
+                score += 30
+            elif date_diff <= 7:
+                score += 15
+                
+            # Description contient des mots clés ?
+            line_desc = line.description.lower()
+            entry_desc = entry.description.lower()
+            if any(word in entry_desc for word in line_desc.split() if len(word) > 3):
+                score += 20
+                
+            if score >= 50:
+                matches.append({
+                    'entry_id': entry.id,
+                    'reference': entry.reference,
+                    'description': entry.description,
+                    'date': entry.date.strftime('%Y-%m-%d'),
+                    'amount': float(entry.total_debit()),
+                    'confidence': score
+                })
+        
+        # Trier par score de confiance
+        matches.sort(key=lambda x: x['confidence'], reverse=True)
+        return matches[:5]
     
     # ========== TAX RATES ==========
     

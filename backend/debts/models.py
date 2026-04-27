@@ -3,6 +3,9 @@ from django.db import transaction as db_transaction
 from companies.models import Company
 from decimal import Decimal
 
+from core.security.registry import secure_resource
+
+@secure_resource('debt', 'Dettes & Créances', actions=['view', 'create', 'edit', 'delete', 'settle'])
 class Debt(models.Model):
     class Type(models.TextChoices):
         CLIENT = 'CLIENT', 'Client Debt (Money we lent)'

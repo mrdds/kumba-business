@@ -3,6 +3,7 @@ import { X, Loader2, Calendar, FileText, ArrowRightLeft } from 'lucide-react';
 import { getJournalEntry } from '@/services/api';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { useAuth } from '@/context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 interface TransactionDetailsModalProps {
     isOpen: boolean;
@@ -16,6 +17,7 @@ export default function TransactionDetailsModal({
     transactionId
 }: TransactionDetailsModalProps) {
     const { user } = useAuth();
+    const { t } = useTranslation();
     const [entry, setEntry] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -36,7 +38,7 @@ export default function TransactionDetailsModal({
             setEntry(data);
         } catch (err) {
             console.error('Failed to fetch Journal Entry details', err);
-            setError('Failed to load transaction details.');
+            setError(t('transactions.modal.error'));
         } finally {
             setLoading(false);
         }
@@ -53,9 +55,9 @@ export default function TransactionDetailsModal({
                     <div>
                         <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                             <ArrowRightLeft className="text-blue-600" size={24} />
-                            Transaction Details
+                            {t('transactions.modal.title')}
                         </h2>
-                        {entry && <p className="text-gray-500 text-sm mt-1">Ref: {entry.reference || 'N/A'}</p>}
+                        {entry && <p className="text-gray-500 text-sm mt-1">{t('transactions.modal.ref')}: {entry.reference || 'N/A'}</p>}
                     </div>
                     <button
                         onClick={onClose}
@@ -70,25 +72,25 @@ export default function TransactionDetailsModal({
                     {loading ? (
                         <div className="flex flex-col items-center justify-center h-64 text-gray-500">
                             <Loader2 className="animate-spin mb-3" size={32} />
-                            <p>Loading details...</p>
+                            <p>{t('transactions.modal.loading')}</p>
                         </div>
                     ) : error ? (
                         <div className="text-center text-gray-500 py-12">
                             <p className="text-red-500 mb-2">{error}</p>
-                            <button onClick={fetchEntry} className="text-blue-600 hover:underline">Try Again</button>
+                            <button onClick={fetchEntry} className="text-blue-600 hover:underline">{t('transactions.modal.try_again')}</button>
                         </div>
                     ) : entry ? (
                         <div className="space-y-6">
                             {/* Meta Info */}
                             <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 grid grid-cols-2 gap-4">
                                 <div>
-                                    <p className="text-xs font-bold text-gray-400 uppercase mb-1">Date</p>
+                                    <p className="text-xs font-bold text-gray-400 uppercase mb-1">{t('transactions.table.date')}</p>
                                     <p className="font-medium text-gray-900 flex items-center gap-2">
                                         <Calendar size={14} /> {new Date(entry.date).toLocaleDateString()}
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="text-xs font-bold text-gray-400 uppercase mb-1">Description</p>
+                                    <p className="text-xs font-bold text-gray-400 uppercase mb-1">{t('transactions.table.description')}</p>
                                     <p className="font-medium text-gray-900">{entry.description}</p>
                                 </div>
                             </div>
@@ -96,16 +98,16 @@ export default function TransactionDetailsModal({
                             {/* Lines Table */}
                             <div>
                                 <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                                    <FileText size={18} /> Accounting Entries
+                                    <FileText size={18} /> {t('transactions.modal.accounting_entries')}
                                 </h3>
                                 <div className="border border-gray-100 rounded-xl overflow-hidden">
                                     <table className="w-full text-left bg-white">
                                         <thead className="bg-gray-50 text-gray-500 text-xs uppercase font-bold">
                                             <tr>
-                                                <th className="p-3">Account</th>
-                                                <th className="p-3">Description</th>
-                                                <th className="p-3 text-right">Debit</th>
-                                                <th className="p-3 text-right">Credit</th>
+                                                <th className="p-3">{t('transactions.modal.table.account')}</th>
+                                                <th className="p-3">{t('transactions.modal.table.description')}</th>
+                                                <th className="p-3 text-right">{t('transactions.modal.table.debit')}</th>
+                                                <th className="p-3 text-right">{t('transactions.modal.table.credit')}</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-100 text-sm">
@@ -126,7 +128,7 @@ export default function TransactionDetailsModal({
                                         </tbody>
                                         <tfoot className="bg-gray-50">
                                             <tr>
-                                                <td colSpan={2} className="p-3 text-right font-bold text-gray-900 uppercase text-xs">Total</td>
+                                                <td colSpan={2} className="p-3 text-right font-bold text-gray-900 uppercase text-xs">{t('transactions.modal.table.total')}</td>
                                                 <td className="p-3 text-right font-bold text-gray-900">{formatCurrency(entry.total_debit, user?.company?.currency)}</td>
                                                 <td className="p-3 text-right font-bold text-gray-900">{formatCurrency(entry.total_credit, user?.company?.currency)}</td>
                                             </tr>
@@ -144,7 +146,7 @@ export default function TransactionDetailsModal({
                         onClick={onClose}
                         className="px-6 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-xl hover:bg-gray-100 font-medium transition shadow-sm"
                     >
-                        Close
+                        {t('transactions.modal.close')}
                     </button>
                 </div>
             </div>
