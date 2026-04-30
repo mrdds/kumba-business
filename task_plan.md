@@ -32,3 +32,15 @@
     - [ ] Integrate with `reconciliation` API.
     - [ ] Build the validation workflow (Match / Skip / Create New).
 
+## Phase 8: Executive Approvals Redesign
+
+- [x] **Component Creation (Task 1, 2, 3)**
+    - [x] Create `ExecutiveCard` with Framer Motion.
+    - [x] Create `BentoStats` for workflow metrics.
+    - [x] Create `FilterSidebar` with sticky layout.
+
+- [x] **Main Page Assembly (Task 4)**
+    - [x] Refactor `approvals/page.tsx` to use new components.
+    - [x] Implement staggered entrance animations.
+    - [x] Verify responsive design and "Live" status indicators.
+
